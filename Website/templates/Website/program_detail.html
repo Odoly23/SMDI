@@ -1,0 +1,75 @@
+{% extends "Website/base.html" %}
+{% load i18n i18n_extras %}
+{% block title %}{{ program.title }}{% endblock %}
+{% block content %}
+{% include "Website/_page_header.html" with eyebrow="Program" title_json=program|i18n_json:"title" page_title=program.title crumb=program.title %}
+<section class="section-pad">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-8">
+        {% if program.parent %}
+        <p class="small mb-2">
+          <a href="{{ program.parent.get_absolute_url }}"><i class="bi bi-arrow-left-short"></i>
+          <span data-i18n-multi="{{ program.parent|i18n_json:'title' }}">{{ program.parent.title }}</span></a>
+        </p>
+        {% endif %}
+        <h2 class="mb-3" data-i18n-multi="{{ program|i18n_json:'heading' }}">{{ program.heading }}</h2>
+        <p style="color:var(--mdi-ink-soft)" data-i18n-multi="{{ program|i18n_json:'description' }}">{{ program.description }}</p>
+
+        {% if program.indicators.tet %}
+        <h3 class="h5 mt-4 mb-3">{% trans "Expected Indicators" %}</h3>
+        <ul class="indicator-list list-unstyled" data-i18n-list="{{ program.indicators|to_json }}">
+          {% for item in program.indicators.tet %}
+          <li class="indicator-item">{{ item }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% if children %}
+        <h3 class="h5 mt-5 mb-3">{% trans "Sub-Outcomes" %}</h3>
+        <div class="row g-3">
+          {% for child in children %}
+          <div class="col-md-6">
+            <a href="{{ child.get_absolute_url }}" class="mdi-card d-block h-100">
+              <i class="bi {{ child.icon }} fs-4 text-mdi-red mb-2 d-block"></i>
+              <span class="fw-semibold" data-i18n-multi="{{ child|i18n_json:'title' }}">{{ child.title }}</span>
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <p style="color:var(--mdi-ink-soft)" class="mt-4">
+          {% blocktrans %}Detailed content and relevant documents for this program area can be found in the{% endblocktrans %}
+          <a href="{% url 'Website:documents_by_category' 'doc-pnds' %}">{% trans "Documents" %}</a> {% trans "section." %}
+        </p>
+      </div>
+      <div class="col-lg-4">
+        <div class="mdi-card">
+          <h3><i class="bi bi-diagram-3 text-mdi-red me-2"></i><span>{% trans "Program Structure" %}</span></h3>
+          <ul class="list-unstyled small">
+            {% for pillar in all_pillars %}
+            <li class="mb-2">
+              <a href="{{ pillar.get_absolute_url }}" class="{% if pillar.slug == program.slug %}fw-bold text-mdi-red{% endif %}">
+                <span data-i18n-multi="{{ pillar|i18n_json:'title' }}">{{ pillar.title }}</span>
+              </a>
+              {% if pillar.children.all %}
+              <ul class="list-unstyled small ms-3 mt-1">
+                {% for child in pillar.children.all %}
+                <li class="mb-1">
+                  <a href="{{ child.get_absolute_url }}" class="{% if child.slug == program.slug %}fw-bold text-mdi-red{% endif %}">
+                    <i class="bi bi-chevron-right me-1"></i><span data-i18n-multi="{{ child|i18n_json:'title' }}">{{ child.title }}</span>
+                  </a>
+                </li>
+                {% endfor %}
+              </ul>
+              {% endif %}
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

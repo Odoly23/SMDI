@@ -1,0 +1,27 @@
+{% extends "Website/base.html" %}
+{% load i18n %}
+{% block title %}{{ category.name }}{% endblock %}
+{% block content %}
+{% include "Website/_page_header.html" with eyebrow="Documents" page_title=category.name crumb=category.name %}
+<section class="section-pad">
+  <div class="container">
+    <p class="section-sub mb-4">{% blocktrans with name=category.name %}List of public documents related to the {{ name }} category.{% endblocktrans %}</p>
+    <div class="row g-3">
+      {% for doc in documents %}
+      <div class="col-md-6">
+        <div class="d-flex align-items-center gap-3 p-3 bg-mdi-cream-dark rounded-3">
+          <i class="bi bi-file-earmark-pdf-fill text-mdi-red fs-3"></i>
+          <div class="flex-grow-1">
+            <div class="fw-semibold small">{{ doc.title }}</div>
+            <div class="text-muted" style="font-size:.75rem;">{{ doc.published_date }}</div>
+          </div>
+          <a href="{{ doc.file.url }}" target="_blank" class="btn btn-sm btn-mdi-primary">{% trans "Download" %}</a>
+        </div>
+      </div>
+      {% empty %}
+      <p class="text-muted">{% trans "No documents yet in this category." %}</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

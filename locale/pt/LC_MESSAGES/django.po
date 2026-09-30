@@ -1,0 +1,328 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Language: pt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Home"
+msgstr "Início"
+
+msgid "Who We Are"
+msgstr "Quem Somos"
+
+msgid "Program"
+msgstr "Programa"
+
+msgid "Documents"
+msgstr "Documentos"
+
+msgid "Doc PNDS"
+msgstr "Doc PNDS"
+
+msgid "Doc OGE"
+msgstr "Doc OGE"
+
+msgid "Petroleum Fund Doc"
+msgstr "Doc Fundo Petrolífero"
+
+msgid "Statistics"
+msgstr "Estatísticas"
+
+msgid "Other Documents"
+msgstr "Outros Documentos"
+
+msgid "Vision and Mission"
+msgstr "Visão e Missão"
+
+msgid "What We Do"
+msgstr "O Que Fazemos"
+
+msgid "Partners"
+msgstr "Parceiros"
+
+msgid "Donors"
+msgstr "Doadores"
+
+msgid "Contact"
+msgstr "Contacto"
+
+msgid "Dashboard"
+msgstr "Painel"
+
+msgid "Logout"
+msgstr "Sair"
+
+msgid "Login"
+msgstr "Entrar"
+
+msgid "Quick Links"
+msgstr "Ligações Rápidas"
+
+msgid "Partners and Networks"
+msgstr "Parceiros e Redes"
+
+msgid "Current Donors"
+msgstr "Doadores Atuais"
+
+msgid "All rights reserved."
+msgstr "Todos os direitos reservados."
+
+msgid "Vision"
+msgstr "Visão"
+
+msgid "Mission"
+msgstr "Missão"
+
+msgid "Profile"
+msgstr "Perfil"
+
+msgid "Read more"
+msgstr "Ler mais"
+
+msgid "What We Do (heading small)"
+msgstr "O Que Fazemos"
+
+msgid "MDI's Core Activities"
+msgstr "Atividades Principais do MDI"
+
+msgid "Regular activities."
+msgstr "Atividades regulares."
+
+msgid "View All Activities"
+msgstr "Ver Todas as Atividades"
+
+msgid "Updates"
+msgstr "Atualizações"
+
+msgid "Latest News"
+msgstr "Últimas Notícias"
+
+msgid "Follow our news."
+msgstr "Acompanhe as nossas notícias."
+
+msgid "Read more »"
+msgstr "Ler mais »"
+
+msgid "Blog & Analysis"
+msgstr "Blog e Análise"
+
+msgid "Articles from the MDI Team"
+msgstr "Artigos da Equipa do MDI"
+
+msgid "Reflections from our team."
+msgstr "Reflexões da nossa equipa."
+
+msgid "Structure"
+msgstr "Estrutura"
+
+msgid "Mata Dalan Institute (MDI) Organizational Chart"
+msgstr "Organograma do Mata Dalan Institute (MDI)"
+
+msgid "MDI's internal management and coordination structure."
+msgstr "Estrutura de gestão e coordenação interna do MDI."
+
+msgid ""
+"No org chart data yet. Add it via Django Admin → Website → Org Chart Member."
+msgstr ""
+"Ainda não há dados do organograma. Adicione através do Django Admin → "
+"Website → Org Chart Member."
+
+msgid "Visit Us"
+msgstr "Visite-nos"
+
+msgid "Our Location"
+msgstr "A Nossa Localização"
+
+msgid "Coordinates"
+msgstr "Coordenadas"
+
+msgid "Get Route From My Location"
+msgstr "Obter Rota a partir da Minha Localização"
+
+msgid "Open in Google Maps"
+msgstr "Abrir no Google Maps"
+
+msgid "Click \"Get Route\" to draw driving directions from your current location."
+msgstr ""
+"Clique em \"Obter Rota\" para traçar o trajeto a partir da sua localização "
+"atual."
+
+msgid "Collaboration"
+msgstr "Colaboração"
+
+msgid "Partners and Donors"
+msgstr "Parceiros e Doadores"
+
+msgid "Thanks to our partners."
+msgstr "Obrigado aos nossos parceiros."
+
+msgid "By"
+msgstr "Por"
+
+msgid "min read"
+msgstr "min de leitura"
+
+msgid "Back to Articles"
+msgstr "Voltar aos Artigos"
+
+msgid "Articles"
+msgstr "Artigos"
+
+msgid "No articles yet."
+msgstr "Ainda não há artigos."
+
+msgid "Name"
+msgstr "Nome"
+
+msgid "Message"
+msgstr "Mensagem"
+
+msgid "Send Message"
+msgstr "Enviar Mensagem"
+
+msgid "Contact Us"
+msgstr "Contacte-nos"
+
+msgid ""
+"Have a question or want to collaborate with MDI? Send us a message using the"
+" form below or reach us via the details listed here."
+msgstr ""
+"Tem alguma questão ou deseja colaborar com o MDI? Envie-nos uma mensagem "
+"através do formulário abaixo ou contacte-nos através dos detalhes aqui "
+"indicados."
+
+msgid "No donor data yet. Add it via Django Admin."
+msgstr "Ainda não há dados de doadores. Adicione através do Django Admin."
+
+msgid "Download"
+msgstr "Transferir"
+
+msgid "No documents yet in this category."
+msgstr "Ainda não há documentos nesta categoria."
+
+msgid "Photo Gallery"
+msgstr "Galeria de Fotos"
+
+msgid "Back to News"
+msgstr "Voltar às Notícias"
+
+msgid "Detail Data"
+msgstr "Detalhes dos Dados"
+
+msgid "Published Date"
+msgstr "Data de Publicação"
+
+msgid "Category"
+msgstr "Categoria"
+
+msgid "Location"
+msgstr "Localização"
+
+msgid "Location Detail"
+msgstr "Detalhe da Localização"
+
+msgid "Related Program"
+msgstr "Programa Relacionado"
+
+msgid "Source"
+msgstr "Fonte"
+
+msgid "photos in this story"
+msgstr "fotos nesta notícia"
+
+msgid "No news yet."
+msgstr "Ainda não há notícias."
+
+msgid ""
+"MDI collaborates with civil society networks, international agencies, and "
+"government institutions:"
+msgstr ""
+"O MDI colabora com redes da sociedade civil, agências internacionais e "
+"instituições governamentais:"
+
+msgid "No partner data yet. Add it via Django Admin."
+msgstr "Ainda não há dados de parceiros. Adicione através do Django Admin."
+
+msgid "Program Areas"
+msgstr "Áreas de Programa"
+
+msgid "Expected Indicators"
+msgstr "Indicadores Esperados"
+
+msgid "Sub-Outcomes"
+msgstr "Sub-Resultados"
+
+msgid "Program Structure"
+msgstr "Estrutura do Programa"
+
+msgid "section."
+msgstr "secção."
+
+msgid "Our Foundation"
+msgstr "A Nossa Fundação"
+
+msgid "Quick Facts"
+msgstr "Factos Rápidos"
+
+msgid "Full Name:"
+msgstr "Nome Completo:"
+
+msgid "Established:"
+msgstr "Fundado em:"
+
+msgid "Location:"
+msgstr "Localização:"
+
+msgid "Focus:"
+msgstr "Foco:"
+
+msgid "Email:"
+msgstr "Email:"
+
+msgid "Phone:"
+msgstr "Telefone:"
+
+msgid "Approach"
+msgstr "Abordagem"
+
+msgid "Coverage"
+msgstr "Cobertura"
+
+msgid "Founders"
+msgstr "Fundadores"
+
+msgid "Founders of Mata Dalan Institute (MDI)"
+msgstr "Fundadores do Mata Dalan Institute (MDI)"
+
+msgid "The founding members of MDI."
+msgstr "Os membros fundadores do MDI."
+
+msgid "No founder data yet. Add it via Django Admin → Website → Founder."
+msgstr ""
+"Ainda não há dados de fundadores. Adicione através do Django Admin → Website"
+" → Founder."
+
+msgid "Get to Know Us"
+msgstr "Conheça-nos"
+
+msgid "Bem-vindu ba %(name)s"
+msgstr "Bem-vindo ao %(name)s"
+
+msgid "List of public documents related to the %(name)s category."
+msgstr "Lista de documentos públicos relacionados com a categoria %(name)s."
+
+msgid "Active since %(year)s"
+msgstr "Ativo desde %(year)s"
+
+msgid "Based in %(place)s"
+msgstr "Sediado em %(place)s"
+
+msgid ""
+"Detailed content and relevant documents for this program area can be found "
+"in the"
+msgstr ""
+"Conteúdo detalhado e documentos relevantes para esta área de programa podem "
+"ser encontrados na secção"

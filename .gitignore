@@ -1,0 +1,19 @@
+__pycache__/
+*.pyc
+venv/
+env/
+staticfiles/
+.env
+*.log
+
+# Dadus lokál / seed demo - la nesesáriu iha git (haree README ba oinsa migrate+seed)
+db.sqlite3
+media/
+
+# Locale compilados bele re-kompila husi .po (haree compile_locale.py) - maibé
+# ami mantein .mo iha git atu deploy sedu la presiza kompila fali.
+# locale/*/LC_MESSAGES/*.mo
+
+.DS_Store
+*.sqlite3-journal
+

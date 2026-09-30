@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tet">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Dashboard{% endblock %} | Painel {{ site_config.short_name }}</title>
+<link rel="icon" type="image/png" href="{% static 'Website/img/logo-mdi.png' %}">
+<link rel="stylesheet" href="{% static 'Website/vendor/bootstrap/css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'Website/vendor/bootstrap-icons/bootstrap-icons.min.css' %}">
+<link rel="stylesheet" href="{% static 'Main/css/dashboard.css' %}">
+{% block head_extra %}{% endblock %}
+</head>
+<body>
+<div class="d-flex" id="mainWrapper">
+  {% include "Layout/sidebar.html" %}
+  <div class="flex-grow-1 dashboard-content">
+    {% include "Layout/navbar.html" %}
+    <main class="p-4">
+      {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %}
+      {% endif %}
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+</div>
+<script src="{% static 'Website/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+{% block script_extra %}{% endblock %}
+</body>
+</html>

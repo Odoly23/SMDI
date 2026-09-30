@@ -1,0 +1,396 @@
+{% extends "Website/base.html" %}
+{% load static i18n i18n_extras %}
+{% block title %}{% trans "Home" %}{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{% static 'Website/vendor/leaflet/css/leaflet.css' %}">
+<link rel="stylesheet" href="{% static 'Website/vendor/leaflet-routing/css/leaflet-routing-machine.css' %}">
+<style>
+  #mdiLeafletMap{ width:100%; height:400px; background:#eee; }
+  .leaflet-routing-container{ font-size:.78rem; max-height:260px; overflow-y:auto; }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- =============== HERO SLIDER =============== -->
+<section class="hero-carousel">
+  <div id="mdiHero" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="6000">
+    <div class="carousel-indicators">
+      {% for slide in slides %}
+      <button type="button" data-bs-target="#mdiHero" data-bs-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}"></button>
+      {% endfor %}
+    </div>
+    <div class="carousel-inner">
+      {% for slide in slides %}
+      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+        <div class="hero-slide" style="background-image:linear-gradient(120deg, rgba(36,20,16,.55), rgba(20,15,8,.55)), url('{{ slide.image.url }}');">
+          <div class="container">
+            <span class="hero-kicker" data-i18n-multi="{{ slide|i18n_json:'kicker' }}">{{ slide.kicker }}</span>
+            <h1 data-i18n-multi="{{ slide|i18n_json:'title' }}">{{ slide.title }}</h1>
+            <p data-i18n-multi="{{ slide|i18n_json:'text' }}">{{ slide.text }}</p>
+            <div class="d-flex gap-2 mt-4">
+              <a href="{% url 'Website:who_we_are' %}" class="btn-mdi-gold">{% trans "Get to Know Us" %}</a>
+              <a href="{% url 'Website:contact' %}" class="btn-mdi-outline">{% trans "Contact Us" %}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div class="carousel-item active">
+        <div class="hero-slide" style="background:linear-gradient(120deg,#241E14,#7C141C);">
+          <div class="container">
+            <span class="hero-kicker">Institute For Monitoring, Advocacy and Community Strengthening</span>
+            <h1>{{ site_config.site_name }}</h1>
+            <p>{{ site_config.about_text }}</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#mdiHero" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#mdiHero" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button>
+  </div>
+</section>
+
+<!-- =============== 4 OVERLAPPING CARDS =============== -->
+<section class="container overlap-cards">
+  <div class="row g-4">
+    <div class="col-lg-3 col-sm-6">
+      <div class="mdi-card">
+        <div class="mdi-card-icon"><i class="bi bi-eye"></i></div>
+        <h3>{% trans "Vision" %}</h3>
+        <p data-i18n-multi="{{ vision_mission|i18n_json_words:'vision_text:20' }}">{{ vision_mission.vision_text|truncatewords:20 }}</p>
+        <a href="{% url 'Website:vision_mission' %}" class="d-inline-block mt-3 small fw-semibold">{% trans "Read more" %}</a>
+      </div>
+    </div>
+    <div class="col-lg-3 col-sm-6">
+      <div class="mdi-card">
+        <div class="mdi-card-icon"><i class="bi bi-compass"></i></div>
+        <h3>{% trans "Mission" %}</h3>
+        <p data-i18n-multi="{{ vision_mission|i18n_json_words:'mission_text:20' }}">{{ vision_mission.mission_text|truncatewords:20 }}</p>
+        <a href="{% url 'Website:vision_mission' %}" class="d-inline-block mt-3 small fw-semibold">{% trans "Read more" %}</a>
+      </div>
+    </div>
+    <div class="col-lg-3 col-sm-6">
+      <div class="mdi-card">
+        <div class="mdi-card-icon"><i class="bi bi-building"></i></div>
+        <h3>{% trans "Profile" %}</h3>
+        <p data-i18n-multi="{{ who_we_are|i18n_json_words:'profile_text:20' }}">{{ who_we_are.profile_text|truncatewords:20 }}</p>
+        <a href="{% url 'Website:who_we_are' %}" class="d-inline-block mt-3 small fw-semibold">{% trans "Read more" %}</a>
+      </div>
+    </div>
+    <div class="col-lg-3 col-sm-6">
+      <div class="mdi-card">
+        <div class="mdi-card-icon"><i class="bi bi-people"></i></div>
+        <h3>{% trans "Who We Are" %}</h3>
+        <p data-i18n-multi="{{ who_we_are|i18n_json_words:'who_we_are_text:20' }}">{{ who_we_are.who_we_are_text|truncatewords:20 }}</p>
+        <a href="{% url 'Website:who_we_are' %}" class="d-inline-block mt-3 small fw-semibold">{% trans "Read more" %}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============== ACTIVITIES =============== -->
+<section class="section-pad bg-mdi-cream-dark">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-4">
+      <div>
+        <p class="section-eyebrow">{% trans "What We Do" %}</p>
+        <h2 class="section-title mb-1">{% trans "MDI's Core Activities" %}</h2>
+        <p class="section-sub">{% trans "Regular activities." %}</p>
+      </div>
+      <a href="{% url 'Website:what_we_do' %}" class="btn-mdi-primary">{% trans "View All Activities" %}</a>
+    </div>
+    <div class="row g-4">
+      {% for activity in activities %}
+      <div class="col-lg-3 col-md-6">
+        <div class="activity-card">
+          <div class="img-wrap">
+            {% if activity.image %}<img src="{{ activity.image.url }}" alt="{{ activity.title }}">
+            {% else %}<img src="{% static 'Website/img/news/activity1.svg' %}" alt="{{ activity.title }}">{% endif %}
+          </div>
+          <div class="body">
+            <span class="badge-tag">{{ activity.tag }}</span>
+            <h3>{{ activity.title }}</h3>
+            <p>{{ activity.description|truncatewords:18 }}</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- =============== NEWS + ARTICLES =============== -->
+<section class="section-pad">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-7">
+        <p class="section-eyebrow">{% trans "Updates" %}</p>
+        <h2 class="section-title mb-1">{% trans "Latest News" %}</h2>
+        <p class="section-sub mb-4">{% trans "Follow our news." %}</p>
+        {% for post in news_list %}
+        <div class="news-row">
+          <div class="news-date">
+            <span class="d">{{ post.published_date|date:"d" }}</span>
+            <span class="m">{{ post.published_date|date:"M Y" }}</span>
+          </div>
+          <div>
+            <h3><a href="{% url 'Website:news_detail' post.slug %}">{{ post.title }}</a></h3>
+            <p>{{ post.excerpt }}</p>
+            <a href="{% url 'Website:news_detail' post.slug %}" class="small fw-semibold">{% trans "Read more »" %}</a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="col-lg-5">
+        <p class="section-eyebrow">{% trans "Blog & Analysis" %}</p>
+        <h2 class="section-title mb-1">{% trans "Articles from the MDI Team" %}</h2>
+        <p class="section-sub mb-4">{% trans "Reflections from our team." %}</p>
+        <div class="d-flex flex-column gap-3">
+          {% for article in articles %}
+          <div class="article-card">
+            <div class="author">
+              {% if article.author.profile.photo %}
+              <img src="{{ article.author.profile.photo.url }}" alt="{{ article.author.get_full_name }}">
+              {% else %}
+              <img src="{% static 'Website/img/team/staff1.svg' %}" alt="{{ article.author.get_full_name }}">
+              {% endif %}
+              <span><span class="name">{{ article.author.get_full_name|default:article.author.username }}</span><span class="role">{{ article.author.profile.position }}</span></span>
+            </div>
+            <h3>{{ article.title }}</h3>
+            <p>{{ article.excerpt }}</p>
+            <a href="{% url 'Website:article_detail' article.slug %}" class="small fw-semibold">{% trans "Read more" %}</a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============== ORGANIGRAMA (Struktura Hierárkiku) =============== -->
+<section class="section-pad bg-mdi-cream-dark">
+  <div class="container org-chart">
+    <p class="section-eyebrow">{% trans "Structure" %}</p>
+    <h2 class="section-title mb-1">{% trans "Mata Dalan Institute (MDI) Organizational Chart" %}</h2>
+    <p class="section-sub mx-auto mb-5">{% trans "MDI's internal management and coordination structure." %}</p>
+
+    {% for top in org_top %}
+    <div class="org-level org-level-0">
+      <div class="org-node">
+        <div class="org-photo">
+          {% if top.photo %}<img src="{{ top.photo.url }}" alt="{{ top.name }}">
+          {% else %}<div class="fallback-icon"><i class="bi bi-person-fill"></i></div>{% endif %}
+        </div>
+        <span class="oname">{{ top.name }}</span>
+        <span class="orole">{{ top.position }}</span>
+      </div>
+    </div>
+    {% if top.children.all %}
+    <div class="org-connector"></div>
+    <div class="org-level org-level-1 row g-3 justify-content-center">
+      {% for mid in top.children.all %}
+      <div class="col-6 col-md-3">
+        <div class="org-node">
+          <div class="org-photo">
+            {% if mid.photo %}<img src="{{ mid.photo.url }}" alt="{{ mid.name }}">
+            {% else %}<div class="fallback-icon"><i class="bi bi-person-fill"></i></div>{% endif %}
+          </div>
+          <span class="oname">{{ mid.name }}</span>
+          <span class="orole">{{ mid.position }}</span>
+        </div>
+        {% if mid.children.all %}
+        <div class="org-level org-level-2 row g-2 justify-content-center mt-1">
+          {% for leaf in mid.children.all %}
+          <div class="col-12">
+            <div class="org-node org-node-sm">
+              <div class="org-photo sm">
+                {% if leaf.photo %}<img src="{{ leaf.photo.url }}" alt="{{ leaf.name }}">
+                {% else %}<div class="fallback-icon"><i class="bi bi-person-fill"></i></div>{% endif %}
+              </div>
+              <span class="oname">{{ leaf.name }}</span>
+              <span class="orole">{{ leaf.position }}</span>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% empty %}
+    <p class="text-muted">{% trans "No org chart data yet. Add it via Django Admin → Website → Org Chart Member." %}</p>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- =============== LOCATION / MAP (Leaflet) =============== -->
+<section class="section-pad">
+  <div class="container">
+    <div class="row g-5 align-items-start">
+      <div class="col-lg-5">
+        <p class="section-eyebrow">{% trans "Visit Us" %}</p>
+        <h2 class="section-title mb-3">{% trans "Our Location" %}</h2>
+        <ul class="list-unstyled mt-4">
+          <li class="mb-2"><i class="bi bi-geo-alt-fill text-mdi-red me-2"></i>{{ site_config.activity_location_name }}</li>
+          <li class="mb-2"><i class="bi bi-pin-map-fill text-mdi-red me-2"></i>{% trans "Coordinates" %}: {{ site_config.latitude }}, {{ site_config.longitude }}</li>
+          <li class="mb-2"><i class="bi bi-envelope-fill text-mdi-red me-2"></i>{{ site_config.email }}</li>
+          <li class="mb-2"><i class="bi bi-telephone-fill text-mdi-red me-2"></i>{{ site_config.phone }}</li>
+        </ul>
+        <div class="d-flex flex-wrap gap-2 mt-3">
+          <button type="button" id="mdiRouteBtn" class="btn-mdi-primary">
+            <i class="bi bi-signpost-2 me-1"></i><span>{% trans "Get Route From My Location" %}</span>
+          </button>
+          <a class="btn-mdi-outline" style="color:var(--mdi-red);border-color:var(--mdi-red);" target="_blank" rel="noopener"
+             href="https://www.google.com/maps/dir/?api=1&destination={{ site_config.latitude }},{{ site_config.longitude }}">{% trans "Open in Google Maps" %}</a>
+        </div>
+        <p id="mdiRouteStatus" class="small text-muted mt-2 mb-0" style="display:none;"></p>
+      </div>
+      <div class="col-lg-7">
+        <div class="map-frame">
+          <div id="mdiLeafletMap"
+               data-lat="{{ site_config.latitude }}"
+               data-lng="{{ site_config.longitude }}"
+               data-name="{{ site_config.site_name }}"
+               data-address="{{ site_config.activity_location_name }}"></div>
+        </div>
+        <p class="small text-muted mt-2 mb-0">
+          <i class="bi bi-info-circle me-1"></i>
+          <span>{% trans 'Click "Get Route" to draw driving directions from your current location.' %}</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============== SPONSORS =============== -->
+<section class="section-pad bg-mdi-cream-dark">
+  <div class="container text-center">
+    <p class="section-eyebrow">{% trans "Collaboration" %}</p>
+    <h2 class="section-title mb-1">{% trans "Partners and Donors" %}</h2>
+    <p class="section-sub mx-auto mb-4">{% trans "Thanks to our partners." %}</p>
+    <div class="row g-3 justify-content-center">
+      {% for p in partners %}
+      <div class="col-6 col-md-3">
+        <div class="sponsor-strip">
+          {% if p.logo %}<img src="{{ p.logo.url }}" alt="{{ p.name }}" style="max-height:60px;max-width:100%;">
+          {% else %}<span>{{ p.name }}</span>{% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block script_extra %}
+<script>document.querySelector('[data-year]').textContent = new Date().getFullYear();</script>
+<script src="{% static 'Website/vendor/leaflet/js/leaflet.js' %}"></script>
+<script src="{% static 'Website/vendor/leaflet-routing/js/leaflet-routing-machine.js' %}"></script>
+<script>
+(function(){
+  var mapEl = document.getElementById('mdiLeafletMap');
+  if (!mapEl || typeof L === 'undefined') return;
+
+  var lat = parseFloat(mapEl.getAttribute('data-lat'));
+  var lng = parseFloat(mapEl.getAttribute('data-lng'));
+  var placeName = mapEl.getAttribute('data-name') || 'Mata Dalan Institute';
+  var placeAddress = mapEl.getAttribute('data-address') || '';
+
+  var map = L.map('mdiLeafletMap', { scrollWheelZoom: false }).setView([lat, lng], 15);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  L.control.scale({ imperial: false }).addTo(map);
+
+  var mdiIcon = L.divIcon({
+    className: 'mdi-map-pin',
+    html: '<i class="bi bi-geo-alt-fill"></i>',
+    iconSize: [34, 34],
+    iconAnchor: [17, 32],
+    popupAnchor: [0, -30]
+  });
+
+  var destMarker = L.marker([lat, lng], { icon: mdiIcon }).addTo(map);
+  destMarker.bindPopup('<strong>' + placeName + '</strong><br>' + placeAddress).openPopup();
+
+  // Klik di peta manapun bebas re-enable scroll zoom, atu UX diak liu iha desktop
+  map.on('focus', function(){ map.scrollWheelZoom.enable(); });
+  map.on('blur', function(){ map.scrollWheelZoom.disable(); });
+
+  var routeBtn = document.getElementById('mdiRouteBtn');
+  var statusEl = document.getElementById('mdiRouteStatus');
+  var routingControl = null;
+
+  function showStatus(msg){
+    if (!statusEl) return;
+    statusEl.style.display = 'block';
+    statusEl.textContent = msg;
+  }
+
+  if (routeBtn) {
+    routeBtn.addEventListener('click', function(){
+      if (!navigator.geolocation) {
+        showStatus('Jeolokalizasaun la suporta iha navegador ida-ne\'e.');
+        return;
+      }
+      routeBtn.disabled = true;
+      var originalHtml = routeBtn.innerHTML;
+      routeBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Buka lokalizasaun...';
+
+      navigator.geolocation.getCurrentPosition(function(pos){
+        var userLat = pos.coords.latitude;
+        var userLng = pos.coords.longitude;
+
+        if (routingControl) { map.removeControl(routingControl); }
+
+        routingControl = L.Routing.control({
+          waypoints: [
+            L.latLng(userLat, userLng),
+            L.latLng(lat, lng)
+          ],
+          routeWhileDragging: false,
+          addWaypoints: false,
+          draggableWaypoints: false,
+          fitSelectedRoutes: true,
+          show: true,
+          lineOptions: {
+            styles: [{ color: '#A11D26', weight: 5, opacity: 0.85 }]
+          },
+          createMarker: function(i, wp) {
+            if (i === 0) {
+              return L.marker(wp.latLng, {
+                icon: L.divIcon({
+                  className: 'mdi-map-pin mdi-map-pin-user',
+                  html: '<i class="bi bi-person-fill"></i>',
+                  iconSize: [30, 30], iconAnchor: [15, 28]
+                })
+              }).bindPopup('Ita nia lokalizasaun');
+            }
+            return destMarker;
+          }
+        }).addTo(map);
+
+        routeBtn.innerHTML = originalHtml;
+        routeBtn.disabled = false;
+        showStatus('');
+        statusEl.style.display = 'none';
+      }, function(err){
+        routeBtn.innerHTML = originalHtml;
+        routeBtn.disabled = false;
+        showStatus('La bele hetan ita nia lokalizasaun. Favor lisensa asesu jeolokalizasaun iha browser.');
+      }, { enableHighAccuracy: true, timeout: 10000 });
+    });
+  }
+})();
+</script>
+{% endblock %}

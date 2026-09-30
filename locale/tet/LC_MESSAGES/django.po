@@ -1,0 +1,327 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Language: tet\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Home"
+msgstr "Uma Pájina"
+
+msgid "Who We Are"
+msgstr "Ita Sé"
+
+msgid "Program"
+msgstr "Programa"
+
+msgid "Documents"
+msgstr "Dokumentus"
+
+msgid "Doc PNDS"
+msgstr "Doc PNDS"
+
+msgid "Doc OGE"
+msgstr "Doc OJE"
+
+msgid "Petroleum Fund Doc"
+msgstr "Doc Fundu Petroleum"
+
+msgid "Statistics"
+msgstr "Estatístika"
+
+msgid "Other Documents"
+msgstr "Dokumentu Seluk"
+
+msgid "Vision and Mission"
+msgstr "Vizaun no Misaun"
+
+msgid "What We Do"
+msgstr "Saida ne'ebé Ami Halo"
+
+msgid "Partners"
+msgstr "Parseiru"
+
+msgid "Donors"
+msgstr "Doadór"
+
+msgid "Contact"
+msgstr "Kontaktu"
+
+msgid "Dashboard"
+msgstr "Painel"
+
+msgid "Logout"
+msgstr "Sai"
+
+msgid "Login"
+msgstr "Tama"
+
+msgid "Quick Links"
+msgstr "Ligasaun Lalais"
+
+msgid "Partners and Networks"
+msgstr "Parseiru no Rede"
+
+msgid "Current Donors"
+msgstr "Doadór Atuál"
+
+msgid "All rights reserved."
+msgstr "Hotu-hotu rezervadu."
+
+msgid "Vision"
+msgstr "Vizaun"
+
+msgid "Mission"
+msgstr "Misaun"
+
+msgid "Profile"
+msgstr "Profile"
+
+msgid "Read more"
+msgstr "Lee tan"
+
+msgid "What We Do (heading small)"
+msgstr "Saida ne'ebé Ami Halo"
+
+msgid "MDI's Core Activities"
+msgstr "Atividade Xave MDI"
+
+msgid "Regular activities."
+msgstr "Atividade regulár."
+
+msgid "View All Activities"
+msgstr "Haree Atividade Hotu"
+
+msgid "Updates"
+msgstr "Atualizasaun"
+
+msgid "Latest News"
+msgstr "Notísia Foun"
+
+msgid "Follow our news."
+msgstr "Akompaña ami nia notísia."
+
+msgid "Read more »"
+msgstr "Lee tan »"
+
+msgid "Blog & Analysis"
+msgstr "Blog & Análize"
+
+msgid "Articles from the MDI Team"
+msgstr "Artigu husi Ekipa MDI"
+
+msgid "Reflections from our team."
+msgstr "Refleksaun husi ami nia ekipa."
+
+msgid "Structure"
+msgstr "Estrutura"
+
+msgid "Mata Dalan Institute (MDI) Organizational Chart"
+msgstr "Organigrama Mata Dalan Institute (MDI)"
+
+msgid "MDI's internal management and coordination structure."
+msgstr "Estrutura jestaun no koordenasaun internu MDI nian."
+
+msgid ""
+"No org chart data yet. Add it via Django Admin → Website → Org Chart Member."
+msgstr ""
+"Seidauk iha dadus organigrama. Aumenta liu husi Django Admin → Website → "
+"Membru Organigrama."
+
+msgid "Visit Us"
+msgstr "Vizita Ami"
+
+msgid "Our Location"
+msgstr "Ami nia Lokalizasaun"
+
+msgid "Coordinates"
+msgstr "Koordenada"
+
+msgid "Get Route From My Location"
+msgstr "Buka Rota husi Ami nia Lokalizasaun"
+
+msgid "Open in Google Maps"
+msgstr "Loke iha Google Maps"
+
+msgid "Click \"Get Route\" to draw driving directions from your current location."
+msgstr ""
+"Klik \"Buka Rota\" atu dezeña dalan kondusaun husi ita nia lokalizasaun "
+"atuál."
+
+msgid "Collaboration"
+msgstr "Kolaborasaun"
+
+msgid "Partners and Donors"
+msgstr "Parseiru no Doadór"
+
+msgid "Thanks to our partners."
+msgstr "Obrigadu ba ami nia parseiru sira."
+
+msgid "By"
+msgstr "Husi"
+
+msgid "min read"
+msgstr "minutu lee"
+
+msgid "Back to Articles"
+msgstr "Fila ba Artigu"
+
+msgid "Articles"
+msgstr "Artigu"
+
+msgid "No articles yet."
+msgstr "Seidauk iha artigu."
+
+msgid "Name"
+msgstr "Naran"
+
+msgid "Message"
+msgstr "Mensajen"
+
+msgid "Send Message"
+msgstr "Haruka Mensajen"
+
+msgid "Contact Us"
+msgstr "Kontaktu Ami"
+
+msgid ""
+"Have a question or want to collaborate with MDI? Send us a message using the"
+" form below or reach us via the details listed here."
+msgstr ""
+"Iha pergunta ka hakarak kolabora ho MDI? Haruka mensajen ba ami liu husi "
+"formuláriu iha kraik ka liu husi detalhe ne'ebé lista iha ne'e."
+
+msgid "No donor data yet. Add it via Django Admin."
+msgstr "Seidauk iha dadus doadór. Aumenta liu husi Django Admin."
+
+msgid "Download"
+msgstr "Download"
+
+msgid "No documents yet in this category."
+msgstr "Seidauk iha dokumentu ba kategoria ne'e."
+
+msgid "Photo Gallery"
+msgstr "Galeria Foto"
+
+msgid "Back to News"
+msgstr "Fila ba Notísia"
+
+msgid "Detail Data"
+msgstr "Detalha Dadus"
+
+msgid "Published Date"
+msgstr "Data Publikadu"
+
+msgid "Category"
+msgstr "Kategoria"
+
+msgid "Location"
+msgstr "Lokalizasaun"
+
+msgid "Location Detail"
+msgstr "Detalha Lokalizasaun"
+
+msgid "Related Program"
+msgstr "Programa Relasionadu"
+
+msgid "Source"
+msgstr "Fonte"
+
+msgid "photos in this story"
+msgstr "foto iha istória ida-ne'e"
+
+msgid "No news yet."
+msgstr "Seidauk iha notísia."
+
+msgid ""
+"MDI collaborates with civil society networks, international agencies, and "
+"government institutions:"
+msgstr ""
+"MDI kolabora hamutuk ho rede sosiedade sivíl, ajénsia internasionál no "
+"instituisaun governu:"
+
+msgid "No partner data yet. Add it via Django Admin."
+msgstr "Seidauk iha dadus parseiru. Aumenta liu husi Django Admin."
+
+msgid "Program Areas"
+msgstr "Área Programa"
+
+msgid "Expected Indicators"
+msgstr "Indikadór Esperadu"
+
+msgid "Sub-Outcomes"
+msgstr "Sub-Rezultadu"
+
+msgid "Program Structure"
+msgstr "Estrutura Programa"
+
+msgid "section."
+msgstr "seksaun."
+
+msgid "Our Foundation"
+msgstr "Ami nia Fundasaun"
+
+msgid "Quick Facts"
+msgstr "Dadus Rápidu"
+
+msgid "Full Name:"
+msgstr "Naran Kompletu:"
+
+msgid "Established:"
+msgstr "Estabelesidu:"
+
+msgid "Location:"
+msgstr "Fatin:"
+
+msgid "Focus:"
+msgstr "Fokus:"
+
+msgid "Email:"
+msgstr "Email:"
+
+msgid "Phone:"
+msgstr "Telefone:"
+
+msgid "Approach"
+msgstr "Abordajen"
+
+msgid "Coverage"
+msgstr "Kobertura"
+
+msgid "Founders"
+msgstr "Fundadór"
+
+msgid "Founders of Mata Dalan Institute (MDI)"
+msgstr "Fundadór Mata Dalan Institute (MDI)"
+
+msgid "The founding members of MDI."
+msgstr "Membru fundadór MDI nian."
+
+msgid "No founder data yet. Add it via Django Admin → Website → Founder."
+msgstr ""
+"Seidauk iha dadus fundadór. Aumenta liu husi Django Admin → Website → "
+"Fundadór."
+
+msgid "Get to Know Us"
+msgstr "Koñese Ami"
+
+msgid "Bem-vindu ba %(name)s"
+msgstr "Bem-vindu ba %(name)s"
+
+msgid "List of public documents related to the %(name)s category."
+msgstr "Lista dokumentu públiku relasiona ho kategoria %(name)s."
+
+msgid "Active since %(year)s"
+msgstr "Ativu dezde %(year)s"
+
+msgid "Based in %(place)s"
+msgstr "Baze iha %(place)s"
+
+msgid ""
+"Detailed content and relevant documents for this program area can be found "
+"in the"
+msgstr ""
+"Konteúdu detalhadu no dokumentu relevante ba área programa ne'e bele haree "
+"iha seksaun"

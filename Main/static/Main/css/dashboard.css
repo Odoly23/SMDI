@@ -1,0 +1,82 @@
+:root{
+  --mdi-red: #A11D26;
+  --mdi-red-dark: #7C141C;
+  --mdi-gold: #C79A3D;
+  --mdi-ink: #241E14;
+  --sidebar-w: 250px;
+}
+body{ background:#F2EFE7; font-family:"Segoe UI",Poppins,sans-serif; }
+
+#mainWrapper{ min-height:100vh; }
+
+.dashboard-sidebar{
+  width: var(--sidebar-w);
+  background: var(--mdi-ink);
+  color:#DCD6C6;
+  min-height:100vh;
+  padding: 1.2rem 0;
+  flex-shrink:0;
+}
+.sidebar-brand{
+  display:flex; align-items:center; gap:.7rem;
+  padding: 0 1.2rem 1.2rem;
+  border-bottom: 1px solid #3a3324;
+  margin-bottom: .8rem;
+  color:#fff;
+}
+.sidebar-brand img{ height:38px; width:38px; object-fit:contain; }
+.sidebar-nav{ display:flex; flex-direction:column; }
+.sidebar-nav a{
+  color:#C9C2AE; text-decoration:none;
+  padding: .55rem 1.2rem;
+  font-size:.88rem;
+  display:flex; align-items:center; gap:.6rem;
+  border-left: 3px solid transparent;
+}
+.sidebar-nav a:hover, .sidebar-nav a.active{
+  background: rgba(255,255,255,.06);
+  color:#fff;
+  border-left-color: var(--mdi-gold);
+}
+.sidebar-section-title{
+  font-size:.7rem; text-transform:uppercase; letter-spacing:.5px;
+  color:#8b8571; padding: 1rem 1.2rem .3rem;
+}
+
+.dashboard-navbar{
+  background:#fff; height:60px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.05);
+}
+.dashboard-content{ min-height:100vh; }
+
+.stat-card{
+  background:#fff; border-radius:12px; padding:1.1rem;
+  box-shadow: 0 4px 14px rgba(0,0,0,.05);
+  text-align:center;
+}
+.stat-card i{ font-size:1.4rem; color:var(--mdi-red); }
+.stat-card .num{ font-size:1.6rem; font-weight:800; color:var(--mdi-ink); }
+.stat-card .label{ font-size:.78rem; color:#77715c; }
+.stat-card-alert{ border:1.5px solid var(--mdi-red); }
+
+.panel{
+  background:#fff; border-radius:12px; padding:1.2rem;
+  box-shadow: 0 4px 14px rgba(0,0,0,.05);
+}
+.panel-title{ font-weight:700; margin-bottom: .8rem; font-size:.92rem; }
+
+.login-body{
+  background: linear-gradient(135deg, var(--mdi-ink), var(--mdi-red-dark));
+  min-height:100vh;
+  display:flex; align-items:center; justify-content:center;
+}
+.login-wrap{ width:100%; max-width:400px; padding:1rem; }
+.login-card{
+  background:#fff; border-radius:14px; padding:2.2rem 1.8rem;
+  box-shadow: 0 20px 50px rgba(0,0,0,.35);
+}
+
+@media (max-width: 991.98px){
+  .dashboard-sidebar{ position:fixed; left:-260px; z-index:1050; transition:left .25s ease; }
+  .dashboard-sidebar.show{ left:0; }
+}

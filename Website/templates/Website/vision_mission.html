@@ -1,0 +1,35 @@
+{% extends "Website/base.html" %}
+{% load i18n i18n_extras %}
+{% block title %}{% trans "Vision and Mission" %}{% endblock %}
+{% block content %}
+{% include "Website/_page_header.html" with eyebrow="Our Foundation" page_title="Vision and Mission" crumb="Vision and Mission" %}
+<section class="section-pad">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="mdi-card h-100">
+          <div class="mdi-card-icon"><i class="bi bi-eye"></i></div>
+          <h3>{% trans "Vision" %}</h3>
+          <p style="font-size:1rem;" data-i18n-multi="{{ vision_mission|i18n_json:'vision_text' }}">{{ vision_mission.vision_text }}</p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="mdi-card h-100">
+          <div class="mdi-card-icon"><i class="bi bi-compass"></i></div>
+          <h3>{% trans "Mission" %}</h3>
+          {% if vision_mission.mission_points.tet %}
+          <ol class="mb-0" style="font-size:1rem;color:var(--mdi-ink-soft);padding-left:1.1rem;"
+              data-i18n-list="{{ vision_mission.mission_points|to_json }}">
+            {% for point in vision_mission.mission_points.tet %}
+            <li class="mb-2">{{ point }}</li>
+            {% endfor %}
+          </ol>
+          {% else %}
+          <p style="font-size:1rem;" data-i18n-multi="{{ vision_mission|i18n_json:'mission_text' }}">{{ vision_mission.mission_text }}</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "Website/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Contact" %}{% endblock %}
+{% block content %}
+{% include "Website/_page_header.html" with eyebrow="Contact" page_title="Contact" crumb="Contact" %}
+<section class="section-pad">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-6">
+        <p class="section-eyebrow">{% trans "Contact" %}</p>
+        <h2 class="section-title mb-3">{% trans "Contact Us" %}</h2>
+        <p style="color:var(--mdi-ink-soft)">{% trans "Have a question or want to collaborate with MDI? Send us a message using the form below or reach us via the details listed here." %}</p>
+        <ul class="list-unstyled mt-4">
+          <li class="mb-3"><i class="bi bi-geo-alt-fill text-mdi-red me-2"></i>{{ site_config.address }}</li>
+          <li class="mb-3"><i class="bi bi-envelope-fill text-mdi-red me-2"></i>{{ site_config.email }}</li>
+          <li class="mb-3"><i class="bi bi-telephone-fill text-mdi-red me-2"></i>{{ site_config.phone }}</li>
+        </ul>
+      </div>
+      <div class="col-lg-6">
+        <div class="mdi-card">
+          <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">{% trans "Name" %}</label>
+              {{ form.name }}
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Email</label>
+              {{ form.email }}
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">{% trans "Message" %}</label>
+              {{ form.message }}
+            </div>
+            <button type="submit" class="btn-mdi-primary w-100">{% trans "Send Message" %}</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends "Website/base.html" %}
+{% load i18n %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block content %}
+{% include "Website/_page_header.html" with eyebrow="News" page_title=post.title crumb=post.title %}
+<section class="section-pad">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-8">
+        {% if post.image %}<img src="{{ post.image.url }}" alt="{{ post.title }}" class="img-fluid rounded-3 mb-4 news-cover">{% endif %}
+        <p class="text-muted small mb-1">{{ post.published_date|date:"d F Y" }} {% if post.category %}&middot; {{ post.category.name }}{% endif %}</p>
+        <p class="lead">{{ post.excerpt }}</p>
+        <div style="color:var(--mdi-ink-soft); white-space:pre-line;">{{ post.body }}</div>
+
+        {% if post.gallery_images.all %}
+        <div class="mt-5">
+          <h3 class="h5 mb-3" >{% trans "Photo Gallery" %}</h3>
+          <div class="news-gallery-grid">
+            {% for img in post.gallery_images.all %}
+            <a href="{{ img.image.url }}" target="_blank" class="news-gallery-item" title="{{ img.caption }}">
+              <img src="{{ img.image.url }}" alt="{{ img.caption|default:post.title }}" loading="lazy">
+            </a>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+
+        <a href="{% url 'Website:news_list' %}" class="btn-mdi-outline mt-4" style="color:var(--mdi-red);border-color:var(--mdi-red);">
+          &laquo; <span>{% trans "Back to News" %}</span>
+        </a>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="mdi-card news-detail-box">
+          <h3><i class="bi bi-info-circle text-mdi-red me-2"></i><span >{% trans "Detail Data" %}</span></h3>
+          <ul class="list-unstyled small mb-0">
+            <li class="mb-3">
+              <span class="detail-label" >{% trans "Published Date" %}</span>
+              <span class="detail-value"><i class="bi bi-calendar3 me-1"></i>{{ post.published_date|date:"d F Y" }}</span>
+            </li>
+            {% if post.category %}
+            <li class="mb-3">
+              <span class="detail-label" >{% trans "Category" %}</span>
+              <span class="detail-value"><i class="bi bi-tag me-1"></i>{{ post.category.name }}</span>
+            </li>
+            {% endif %}
+            {% if post.municipality %}
+            <li class="mb-3">
+              <span class="detail-label" >{% trans "Location" %}</span>
+              <span class="detail-value"><i class="bi bi-geo-alt me-1"></i>{{ post.municipality.name }}</span>
+            </li>
+            {% endif %}
+            {% if post.location_detail %}
+            <li class="mb-3">
+              <span class="detail-label" >{% trans "Location Detail" %}</span>
+              <span class="detail-value"><i class="bi bi-pin-map me-1"></i>{{ post.location_detail }}</span>
+            </li>
+            {% endif %}
+            {% if post.related_program %}
+            <li class="mb-3">
+              <span class="detail-label" >{% trans "Related Program" %}</span>
+              <span class="detail-value">
+                <i class="bi bi-diagram-3 me-1"></i>
+                <a href="{% url 'Website:program_detail' post.related_program.slug %}">{{ post.related_program.title }}</a>
+              </span>
+            </li>
+            {% endif %}
+            {% if post.source_reference %}
+            <li class="mb-0">
+              <span class="detail-label" >{% trans "Source" %}</span>
+              <span class="detail-value"><i class="bi bi-link-45deg me-1"></i>{{ post.source_reference }}</span>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+
+        {% if post.gallery_images.all %}
+        <div class="mdi-card mt-4 text-center">
+          <i class="bi bi-images text-mdi-gold" style="font-size:1.6rem;"></i>
+          <p class="small mb-0 mt-2">{{ post.gallery_images.count }} <span >{% trans "photos in this story" %}</span></p>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

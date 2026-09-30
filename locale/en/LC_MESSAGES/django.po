@@ -1,0 +1,323 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Home"
+msgstr "Home"
+
+msgid "Who We Are"
+msgstr "Who We Are"
+
+msgid "Program"
+msgstr "Program"
+
+msgid "Documents"
+msgstr "Documents"
+
+msgid "Doc PNDS"
+msgstr "PNDS Doc"
+
+msgid "Doc OGE"
+msgstr "OGE Doc"
+
+msgid "Petroleum Fund Doc"
+msgstr "Petroleum Fund Doc"
+
+msgid "Statistics"
+msgstr "Statistics"
+
+msgid "Other Documents"
+msgstr "Other Documents"
+
+msgid "Vision and Mission"
+msgstr "Vision and Mission"
+
+msgid "What We Do"
+msgstr "What We Do"
+
+msgid "Partners"
+msgstr "Partners"
+
+msgid "Donors"
+msgstr "Donors"
+
+msgid "Contact"
+msgstr "Contact"
+
+msgid "Dashboard"
+msgstr "Dashboard"
+
+msgid "Logout"
+msgstr "Logout"
+
+msgid "Login"
+msgstr "Login"
+
+msgid "Quick Links"
+msgstr "Quick Links"
+
+msgid "Partners and Networks"
+msgstr "Partners and Networks"
+
+msgid "Current Donors"
+msgstr "Current Donors"
+
+msgid "All rights reserved."
+msgstr "All rights reserved."
+
+msgid "Vision"
+msgstr "Vision"
+
+msgid "Mission"
+msgstr "Mission"
+
+msgid "Profile"
+msgstr "Profile"
+
+msgid "Read more"
+msgstr "Read more"
+
+msgid "What We Do (heading small)"
+msgstr "What We Do"
+
+msgid "MDI's Core Activities"
+msgstr "MDI's Core Activities"
+
+msgid "Regular activities."
+msgstr "Regular activities."
+
+msgid "View All Activities"
+msgstr "View All Activities"
+
+msgid "Updates"
+msgstr "Updates"
+
+msgid "Latest News"
+msgstr "Latest News"
+
+msgid "Follow our news."
+msgstr "Follow our news."
+
+msgid "Read more »"
+msgstr "Read more »"
+
+msgid "Blog & Analysis"
+msgstr "Blog & Analysis"
+
+msgid "Articles from the MDI Team"
+msgstr "Articles from the MDI Team"
+
+msgid "Reflections from our team."
+msgstr "Reflections from our team."
+
+msgid "Structure"
+msgstr "Structure"
+
+msgid "Mata Dalan Institute (MDI) Organizational Chart"
+msgstr "Mata Dalan Institute (MDI) Organizational Chart"
+
+msgid "MDI's internal management and coordination structure."
+msgstr "MDI's internal management and coordination structure."
+
+msgid ""
+"No org chart data yet. Add it via Django Admin → Website → Org Chart Member."
+msgstr ""
+"No org chart data yet. Add it via Django Admin → Website → Org Chart Member."
+
+msgid "Visit Us"
+msgstr "Visit Us"
+
+msgid "Our Location"
+msgstr "Our Location"
+
+msgid "Coordinates"
+msgstr "Coordinates"
+
+msgid "Get Route From My Location"
+msgstr "Get Route From My Location"
+
+msgid "Open in Google Maps"
+msgstr "Open in Google Maps"
+
+msgid "Click \"Get Route\" to draw driving directions from your current location."
+msgstr ""
+"Click \"Get Route\" to draw driving directions from your current location."
+
+msgid "Collaboration"
+msgstr "Collaboration"
+
+msgid "Partners and Donors"
+msgstr "Partners and Donors"
+
+msgid "Thanks to our partners."
+msgstr "Thanks to our partners."
+
+msgid "By"
+msgstr "By"
+
+msgid "min read"
+msgstr "min read"
+
+msgid "Back to Articles"
+msgstr "Back to Articles"
+
+msgid "Articles"
+msgstr "Articles"
+
+msgid "No articles yet."
+msgstr "No articles yet."
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Message"
+msgstr "Message"
+
+msgid "Send Message"
+msgstr "Send Message"
+
+msgid "Contact Us"
+msgstr "Contact Us"
+
+msgid ""
+"Have a question or want to collaborate with MDI? Send us a message using the"
+" form below or reach us via the details listed here."
+msgstr ""
+"Have a question or want to collaborate with MDI? Send us a message using the"
+" form below or reach us via the details listed here."
+
+msgid "No donor data yet. Add it via Django Admin."
+msgstr "No donor data yet. Add it via Django Admin."
+
+msgid "Download"
+msgstr "Download"
+
+msgid "No documents yet in this category."
+msgstr "No documents yet in this category."
+
+msgid "Photo Gallery"
+msgstr "Photo Gallery"
+
+msgid "Back to News"
+msgstr "Back to News"
+
+msgid "Detail Data"
+msgstr "Detail Data"
+
+msgid "Published Date"
+msgstr "Published Date"
+
+msgid "Category"
+msgstr "Category"
+
+msgid "Location"
+msgstr "Location"
+
+msgid "Location Detail"
+msgstr "Location Detail"
+
+msgid "Related Program"
+msgstr "Related Program"
+
+msgid "Source"
+msgstr "Source"
+
+msgid "photos in this story"
+msgstr "photos in this story"
+
+msgid "No news yet."
+msgstr "No news yet."
+
+msgid ""
+"MDI collaborates with civil society networks, international agencies, and "
+"government institutions:"
+msgstr ""
+"MDI collaborates with civil society networks, international agencies, and "
+"government institutions:"
+
+msgid "No partner data yet. Add it via Django Admin."
+msgstr "No partner data yet. Add it via Django Admin."
+
+msgid "Program Areas"
+msgstr "Program Areas"
+
+msgid "Expected Indicators"
+msgstr "Expected Indicators"
+
+msgid "Sub-Outcomes"
+msgstr "Sub-Outcomes"
+
+msgid "Program Structure"
+msgstr "Program Structure"
+
+msgid "section."
+msgstr "section."
+
+msgid "Our Foundation"
+msgstr "Our Foundation"
+
+msgid "Quick Facts"
+msgstr "Quick Facts"
+
+msgid "Full Name:"
+msgstr "Full Name:"
+
+msgid "Established:"
+msgstr "Established:"
+
+msgid "Location:"
+msgstr "Location:"
+
+msgid "Focus:"
+msgstr "Focus:"
+
+msgid "Email:"
+msgstr "Email:"
+
+msgid "Phone:"
+msgstr "Phone:"
+
+msgid "Approach"
+msgstr "Approach"
+
+msgid "Coverage"
+msgstr "Coverage"
+
+msgid "Founders"
+msgstr "Founders"
+
+msgid "Founders of Mata Dalan Institute (MDI)"
+msgstr "Founders of Mata Dalan Institute (MDI)"
+
+msgid "The founding members of MDI."
+msgstr "The founding members of MDI."
+
+msgid "No founder data yet. Add it via Django Admin → Website → Founder."
+msgstr "No founder data yet. Add it via Django Admin → Website → Founder."
+
+msgid "Get to Know Us"
+msgstr "Get to Know Us"
+
+msgid "Bem-vindu ba %(name)s"
+msgstr "Welcome to %(name)s"
+
+msgid "List of public documents related to the %(name)s category."
+msgstr "List of public documents related to the %(name)s category."
+
+msgid "Active since %(year)s"
+msgstr "Active since %(year)s"
+
+msgid "Based in %(place)s"
+msgstr "Based in %(place)s"
+
+msgid ""
+"Detailed content and relevant documents for this program area can be found "
+"in the"
+msgstr ""
+"Detailed content and relevant documents for this program area can be found "
+"in the"

@@ -1,0 +1,229 @@
+{% load static i18n i18n_extras %}
+{% get_current_language as LANGUAGE_CODE %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{% block title %}{% trans "Home" %}{% endblock %} | {{ site_config.site_name }}</title>
+<meta name="description" content="{% block description %}{{ site_config.about_text }}{% endblock %}">
+<meta name="keywords" content="Mata Dalan Institute, MDI, Timor-Leste, NGO, monitoring, advocacy, social audit, PNDS, community strengthening, civil society">
+<meta name="author" content="{{ site_config.site_name }}">
+<meta name="robots" content="index, follow">
+<meta name="geo.region" content="TL">
+<meta name="geo.placename" content="Dili, Timor-Leste">
+<meta name="theme-color" content="#A11D26">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{{ site_config.site_name }}">
+<meta property="og:title" content="{% block og_title %}{{ site_config.site_name }}{% endblock %}">
+<meta property="og:description" content="{{ site_config.about_text }}">
+<meta property="og:locale" content="{{ LANGUAGE_CODE }}">
+
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" type="image/png" href="{% static 'Website/img/logo-mdi.png' %}">
+<link rel="apple-touch-icon" href="{% static 'Website/img/logo-mdi.png' %}">
+
+<link rel="stylesheet" href="{% static 'Website/vendor/bootstrap/css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'Website/vendor/bootstrap-icons/bootstrap-icons.min.css' %}">
+<link rel="stylesheet" href="{% static 'Website/css/theme.css' %}">
+{% block head_extra %}{% endblock %}
+</head>
+<body>
+<!-- =============== TOPBAR =============== -->
+<div class="topbar">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
+    <div class="topbar-contact d-none d-md-flex">
+      <a href="mailto:{{ site_config.email }}"><i class="bi bi-envelope me-1"></i>{{ site_config.email }}</a>
+      <a href="tel:{{ site_config.phone }}"><i class="bi bi-telephone me-1"></i>{{ site_config.phone }}</a>
+      <a href="{% url 'Website:contact' %}"><i class="bi bi-geo-alt me-1"></i>{{ site_config.activity_location_name }}</a>
+    </div>
+    <div class="d-flex d-md-none">
+      <span class="small">{% blocktrans with name=site_config.site_name %}Bem-vindu ba {{ name }}{% endblocktrans %}</span>
+    </div>
+    <div class="d-flex align-items-center gap-3">
+      <form action="{% url 'set_language' %}" method="post" class="lang-switch d-flex" role="group" aria-label="Language switcher">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+        <button type="submit" name="language" value="tet" class="lang-flag-btn {% if LANGUAGE_CODE == 'tet' %}active{% endif %}" title="Tetum" aria-label="Tetum">
+          <img src="{% static 'Website/img/flags/tl.svg' %}" alt="Tetum / Timor-Leste">
+        </button>
+        <button type="submit" name="language" value="id" class="lang-flag-btn {% if LANGUAGE_CODE == 'id' %}active{% endif %}" title="Bahasa Indonesia" aria-label="Bahasa Indonesia">
+          <img src="{% static 'Website/img/flags/id.svg' %}" alt="Bahasa Indonesia">
+        </button>
+        <button type="submit" name="language" value="pt" class="lang-flag-btn {% if LANGUAGE_CODE == 'pt' %}active{% endif %}" title="Português" aria-label="Português">
+          <img src="{% static 'Website/img/flags/pt.svg' %}" alt="Português">
+        </button>
+        <button type="submit" name="language" value="en" class="lang-flag-btn {% if LANGUAGE_CODE == 'en' %}active{% endif %}" title="English" aria-label="English">
+          <img src="{% static 'Website/img/flags/gb.svg' %}" alt="English">
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- =============== NAVBAR =============== -->
+<nav class="navbar navbar-expand-lg navbar-mdi sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'Website:home' %}">
+      <img src="{% static 'Website/img/logo-mdi.png' %}" alt="Logo {{ site_config.site_name }}">
+      <span class="brand-text">
+        <span class="brand-name">{{ site_config.site_name }}</span>
+        <span class="brand-tag">{{ site_config.tagline }}</span>
+      </span>
+    </a>
+    <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#mdiNavbar" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mdiNavbar">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="{% url 'Website:home' %}">{% trans "Home" %}</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'Website:who_we_are' %}">{% trans "Who We Are" %}</a></li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="{% url 'Website:what_we_do' %}" role="button" data-bs-toggle="dropdown">{% trans "Program" %}</a>
+          <ul class="dropdown-menu dropdown-menu-programs">
+            {% for pillar in nav_programs %}
+            <li class="{% if pillar.children.all %}dropdown-submenu{% endif %}">
+              {% if pillar.children.all %}
+              <a class="dropdown-item dropdown-submenu-toggle" href="{{ pillar.get_absolute_url }}">
+                <span data-i18n-multi="{{ pillar|i18n_json:'title' }}">{{ pillar.title }}</span>
+                <i class="bi bi-chevron-right submenu-caret"></i>
+              </a>
+              <ul class="dropdown-menu dropdown-submenu-menu">
+                {% for child in pillar.children.all %}
+                <li><a class="dropdown-item" href="{{ child.get_absolute_url }}">
+                  <span data-i18n-multi="{{ child|i18n_json:'title' }}">{{ child.title }}</span>
+                </a></li>
+                {% endfor %}
+              </ul>
+              {% else %}
+              <a class="dropdown-item" href="{{ pillar.get_absolute_url }}">
+                <span data-i18n-multi="{{ pillar|i18n_json:'title' }}">{{ pillar.title }}</span>
+              </a>
+              {% endif %}
+            </li>
+            {% endfor %}
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">{% trans "Documents" %}</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'Website:documents_by_category' 'doc-pnds' %}">{% trans "Doc PNDS" %}</a></li>
+            <li><a class="dropdown-item" href="{% url 'Website:documents_by_category' 'doc-oge' %}">{% trans "Doc OGE" %}</a></li>
+            <li><a class="dropdown-item" href="{% url 'Website:documents_by_category' 'doc-petroleum' %}">{% trans "Petroleum Fund Doc" %}</a></li>
+            <li><a class="dropdown-item" href="{% url 'Website:documents_by_category' 'doc-statistika' %}">{% trans "Statistics" %}</a></li>
+            <li><a class="dropdown-item" href="{% url 'Website:documents_by_category' 'doc-outros' %}">{% trans "Other Documents" %}</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item"><a class="nav-link" href="{% url 'Website:vision_mission' %}">{% trans "Vision and Mission" %}</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'Website:what_we_do' %}">{% trans "What We Do" %}</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'Website:partners_networks' %}">{% trans "Partners" %}</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'Website:current_donors' %}">{% trans "Donors" %}</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'Website:contact' %}">{% trans "Contact" %}</a></li>
+        <li class="nav-item ms-lg-2">
+          {% if request.user.is_authenticated %}
+          <div class="dropdown">
+            <button class="btn nav-auth-link dropdown-toggle" type="button" data-bs-toggle="dropdown">
+              <i class="bi bi-person-circle me-1"></i>{{ request.user.get_full_name|default:request.user.username }}
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              {% if request.user.profile.is_backend_staff %}
+              <li><a class="dropdown-item" href="{% url 'Main:home' %}">{% trans "Dashboard" %}</a></li>
+              <li><hr class="dropdown-divider"></li>
+              {% endif %}
+              <li><a class="dropdown-item" href="{% url 'Main:logout' %}">{% trans "Logout" %}</a></li>
+            </ul>
+          </div>
+          {% else %}
+          <a class="nav-auth-link btn" href="{% url 'Main:login' %}">
+            <i class="bi bi-box-arrow-in-right me-1"></i><span>{% trans "Login" %}</span>
+          </a>
+          {% endif %}
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+{% if messages %}
+<div class="container mt-3">
+  {% for message in messages %}
+  <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% block content %}{% endblock %}
+
+<!-- =============== FOOTER =============== -->
+<footer class="footer-mdi">
+  <div class="container pb-4">
+    <div class="row g-4">
+      <div class="col-lg-4 col-md-6">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <img src="{% static 'Website/img/logo-mdi.png' %}" alt="Logo MDI" style="height:46px;width:46px;object-fit:contain;">
+          <span class="fw-bold text-white" style="font-family:var(--font-display);font-size:1.05rem;">{{ site_config.site_name }}</span>
+        </div>
+        <p class="small">{{ site_config.about_text }}</p>
+        <div class="footer-social mt-3">
+          <a href="{{ site_config.facebook_url }}" target="_blank" rel="noopener" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+          <a href="{{ site_config.blog_url }}" target="_blank" rel="noopener" aria-label="Blog"><i class="bi bi-globe"></i></a>
+          <a href="mailto:{{ site_config.email }}" aria-label="Email"><i class="bi bi-envelope"></i></a>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-6">
+        <h5>{% trans "Quick Links" %}</h5>
+        <ul>
+          <li><a href="{% url 'Website:who_we_are' %}">{% trans "Who We Are" %}</a></li>
+          <li><a href="{% url 'Website:vision_mission' %}">{% trans "Vision and Mission" %}</a></li>
+          <li><a href="{% url 'Website:what_we_do' %}">{% trans "What We Do" %}</a></li>
+          <li><a href="{% url 'Website:partners_networks' %}">{% trans "Partners and Networks" %}</a></li>
+          <li><a href="{% url 'Website:current_donors' %}">{% trans "Current Donors" %}</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <h5>{% trans "Program" %}</h5>
+        <ul>
+          {% for pillar in nav_programs %}
+          <li><a href="{{ pillar.get_absolute_url }}">
+            <span data-i18n-multi="{{ pillar|i18n_json:'title' }}">{{ pillar.title }}</span>
+          </a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <h5>{% trans "Contact" %}</h5>
+        <ul>
+          <li><i class="bi bi-geo-alt me-2"></i>{{ site_config.address }}</li>
+          <li><i class="bi bi-envelope me-2"></i>{{ site_config.email }}</li>
+          <li><i class="bi bi-telephone me-2"></i>{{ site_config.phone }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+<div class="subfooter">
+  <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2">
+    <div class="d-flex align-items-center gap-2">
+      <img src="{% static 'Website/img/logo-mdi.png' %}" alt="MDI">
+      <span>&copy; <span data-year></span> {{ site_config.site_name }}. {% trans "All rights reserved." %}</span>
+    </div>
+    <div class="small">{{ site_config.footer_credit }}</div>
+  </div>
+</div>
+
+<button class="back-to-top" aria-label="Back to top"><i class="bi bi-arrow-up"></i></button>
+
+<script src="{% static 'Website/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'Website/js/main.js' %}"></script>
+{% block script_extra %}{% endblock %}
+</body>
+</html>

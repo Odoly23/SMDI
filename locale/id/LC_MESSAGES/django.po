@@ -1,0 +1,327 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Language: id\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Home"
+msgstr "Beranda"
+
+msgid "Who We Are"
+msgstr "Tentang Kami"
+
+msgid "Program"
+msgstr "Program"
+
+msgid "Documents"
+msgstr "Dokumen"
+
+msgid "Doc PNDS"
+msgstr "Dok PNDS"
+
+msgid "Doc OGE"
+msgstr "Dok OGE"
+
+msgid "Petroleum Fund Doc"
+msgstr "Dok Dana Minyak"
+
+msgid "Statistics"
+msgstr "Statistik"
+
+msgid "Other Documents"
+msgstr "Dokumen Lainnya"
+
+msgid "Vision and Mission"
+msgstr "Visi dan Misi"
+
+msgid "What We Do"
+msgstr "Apa yang Kami Lakukan"
+
+msgid "Partners"
+msgstr "Mitra"
+
+msgid "Donors"
+msgstr "Donor"
+
+msgid "Contact"
+msgstr "Kontak"
+
+msgid "Dashboard"
+msgstr "Dasbor"
+
+msgid "Logout"
+msgstr "Keluar"
+
+msgid "Login"
+msgstr "Masuk"
+
+msgid "Quick Links"
+msgstr "Tautan Cepat"
+
+msgid "Partners and Networks"
+msgstr "Mitra dan Jaringan"
+
+msgid "Current Donors"
+msgstr "Donor Saat Ini"
+
+msgid "All rights reserved."
+msgstr "Hak cipta dilindungi."
+
+msgid "Vision"
+msgstr "Visi"
+
+msgid "Mission"
+msgstr "Misi"
+
+msgid "Profile"
+msgstr "Profil"
+
+msgid "Read more"
+msgstr "Baca selengkapnya"
+
+msgid "What We Do (heading small)"
+msgstr "Apa yang Kami Lakukan"
+
+msgid "MDI's Core Activities"
+msgstr "Kegiatan Inti MDI"
+
+msgid "Regular activities."
+msgstr "Kegiatan rutin."
+
+msgid "View All Activities"
+msgstr "Lihat Semua Kegiatan"
+
+msgid "Updates"
+msgstr "Pembaruan"
+
+msgid "Latest News"
+msgstr "Berita Terbaru"
+
+msgid "Follow our news."
+msgstr "Ikuti berita kami."
+
+msgid "Read more »"
+msgstr "Baca selengkapnya »"
+
+msgid "Blog & Analysis"
+msgstr "Blog & Analisis"
+
+msgid "Articles from the MDI Team"
+msgstr "Artikel dari Tim MDI"
+
+msgid "Reflections from our team."
+msgstr "Refleksi dari tim kami."
+
+msgid "Structure"
+msgstr "Struktur"
+
+msgid "Mata Dalan Institute (MDI) Organizational Chart"
+msgstr "Struktur Organisasi Mata Dalan Institute (MDI)"
+
+msgid "MDI's internal management and coordination structure."
+msgstr "Struktur manajemen dan koordinasi internal MDI."
+
+msgid ""
+"No org chart data yet. Add it via Django Admin → Website → Org Chart Member."
+msgstr ""
+"Belum ada data struktur organisasi. Tambahkan melalui Django Admin → Website"
+" → Org Chart Member."
+
+msgid "Visit Us"
+msgstr "Kunjungi Kami"
+
+msgid "Our Location"
+msgstr "Lokasi Kami"
+
+msgid "Coordinates"
+msgstr "Koordinat"
+
+msgid "Get Route From My Location"
+msgstr "Dapatkan Rute dari Lokasi Saya"
+
+msgid "Open in Google Maps"
+msgstr "Buka di Google Maps"
+
+msgid "Click \"Get Route\" to draw driving directions from your current location."
+msgstr ""
+"Klik \"Dapatkan Rute\" untuk menampilkan petunjuk arah dari lokasi Anda saat"
+" ini."
+
+msgid "Collaboration"
+msgstr "Kolaborasi"
+
+msgid "Partners and Donors"
+msgstr "Mitra dan Donor"
+
+msgid "Thanks to our partners."
+msgstr "Terima kasih kepada para mitra kami."
+
+msgid "By"
+msgstr "Oleh"
+
+msgid "min read"
+msgstr "menit baca"
+
+msgid "Back to Articles"
+msgstr "Kembali ke Artikel"
+
+msgid "Articles"
+msgstr "Artikel"
+
+msgid "No articles yet."
+msgstr "Belum ada artikel."
+
+msgid "Name"
+msgstr "Nama"
+
+msgid "Message"
+msgstr "Pesan"
+
+msgid "Send Message"
+msgstr "Kirim Pesan"
+
+msgid "Contact Us"
+msgstr "Hubungi Kami"
+
+msgid ""
+"Have a question or want to collaborate with MDI? Send us a message using the"
+" form below or reach us via the details listed here."
+msgstr ""
+"Ada pertanyaan atau ingin berkolaborasi dengan MDI? Kirimkan pesan melalui "
+"formulir di bawah ini atau hubungi kami melalui detail yang tercantum di "
+"sini."
+
+msgid "No donor data yet. Add it via Django Admin."
+msgstr "Belum ada data donor. Tambahkan melalui Django Admin."
+
+msgid "Download"
+msgstr "Unduh"
+
+msgid "No documents yet in this category."
+msgstr "Belum ada dokumen di kategori ini."
+
+msgid "Photo Gallery"
+msgstr "Galeri Foto"
+
+msgid "Back to News"
+msgstr "Kembali ke Berita"
+
+msgid "Detail Data"
+msgstr "Detail Data"
+
+msgid "Published Date"
+msgstr "Tanggal Terbit"
+
+msgid "Category"
+msgstr "Kategori"
+
+msgid "Location"
+msgstr "Lokasi"
+
+msgid "Location Detail"
+msgstr "Detail Lokasi"
+
+msgid "Related Program"
+msgstr "Program Terkait"
+
+msgid "Source"
+msgstr "Sumber"
+
+msgid "photos in this story"
+msgstr "foto dalam berita ini"
+
+msgid "No news yet."
+msgstr "Belum ada berita."
+
+msgid ""
+"MDI collaborates with civil society networks, international agencies, and "
+"government institutions:"
+msgstr ""
+"MDI berkolaborasi dengan jaringan masyarakat sipil, lembaga internasional, "
+"dan institusi pemerintah:"
+
+msgid "No partner data yet. Add it via Django Admin."
+msgstr "Belum ada data mitra. Tambahkan melalui Django Admin."
+
+msgid "Program Areas"
+msgstr "Bidang Program"
+
+msgid "Expected Indicators"
+msgstr "Indikator yang Diharapkan"
+
+msgid "Sub-Outcomes"
+msgstr "Sub-Hasil"
+
+msgid "Program Structure"
+msgstr "Struktur Program"
+
+msgid "section."
+msgstr "bagian."
+
+msgid "Our Foundation"
+msgstr "Fondasi Kami"
+
+msgid "Quick Facts"
+msgstr "Fakta Singkat"
+
+msgid "Full Name:"
+msgstr "Nama Lengkap:"
+
+msgid "Established:"
+msgstr "Didirikan:"
+
+msgid "Location:"
+msgstr "Lokasi:"
+
+msgid "Focus:"
+msgstr "Fokus:"
+
+msgid "Email:"
+msgstr "Email:"
+
+msgid "Phone:"
+msgstr "Telepon:"
+
+msgid "Approach"
+msgstr "Pendekatan"
+
+msgid "Coverage"
+msgstr "Cakupan"
+
+msgid "Founders"
+msgstr "Pendiri"
+
+msgid "Founders of Mata Dalan Institute (MDI)"
+msgstr "Pendiri Mata Dalan Institute (MDI)"
+
+msgid "The founding members of MDI."
+msgstr "Anggota pendiri MDI."
+
+msgid "No founder data yet. Add it via Django Admin → Website → Founder."
+msgstr ""
+"Belum ada data pendiri. Tambahkan melalui Django Admin → Website → Founder."
+
+msgid "Get to Know Us"
+msgstr "Kenali Kami"
+
+msgid "Bem-vindu ba %(name)s"
+msgstr "Selamat datang di %(name)s"
+
+msgid "List of public documents related to the %(name)s category."
+msgstr "Daftar dokumen publik terkait kategori %(name)s."
+
+msgid "Active since %(year)s"
+msgstr "Aktif sejak %(year)s"
+
+msgid "Based in %(place)s"
+msgstr "Berbasis di %(place)s"
+
+msgid ""
+"Detailed content and relevant documents for this program area can be found "
+"in the"
+msgstr ""
+"Konten rinci dan dokumen terkait untuk area program ini dapat ditemukan di "
+"bagian"
