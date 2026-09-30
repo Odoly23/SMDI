@@ -60,6 +60,29 @@ if not DEBUG:
     SECURE_HSTS_PRELOAD = True
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
+# Header/cookie hardening adisional (funsiona iha DEBUG=True no False hotu -
+# balun ne'e joga default Django 4+ nian ona, hakerek explisitu deit atu klaru)
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_REFERRER_POLICY = "same-origin"
+X_FRAME_OPTIONS = "DENY"
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = "Lax"
+SESSION_COOKIE_AGE = 60 * 60 * 8  # 8 oras — razoável ba painel admin (default Django 2 semana)
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+CSRF_COOKIE_HTTPONLY = True  # la iha JS ida ne'ebe presiza le'e csrftoken cookie
+CSRF_COOKIE_SAMESITE = "Lax"
+
+# Cache framework — uza ba rate-limit login (haree main/views.py). Default
+# LocMemCache OK ba deploy single-process; ba produsaun multi-worker/multi-server,
+# seteia CACHE_URL (Redis/Memcached) atu limitasaun partilhadu entre worker sira.
+if os.environ.get("CACHE_URL"):
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": os.environ["CACHE_URL"],
+        }
+    }
+
 
 # Application definition
 
@@ -88,6 +111,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'config.middleware.LoginRateLimitMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
