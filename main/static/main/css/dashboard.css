@@ -1,6 +1,7 @@
 :root {
-  --navy:    #0b1e8a;
-  --navy-dk: #071260;
+  /* Tema dashboard ikuti kór logo MDI: mean-tinan (red) + osan-mutin (gold) */
+  --navy:    #A11D26;   /* mdi-red — troka husi azul ba mean-tinan logo MDI */
+  --navy-dk: #7C141C;   /* mdi-red-dark */
   --white:   #ffffff;
   --topbar-h: 34px;
   --navbar-h: 62px;
@@ -11,6 +12,7 @@
   --mdi-red: #A11D26;
   --mdi-red-dark: #7C141C;
   --mdi-gold: #C79A3D;
+  --mdi-gold-light: #E8D3A0;
   --mdi-ink: #241E14;
 }
 
@@ -49,7 +51,7 @@ body {
   top: var(--topbar-h); left: 0; right: 0;
   height: var(--navbar-h);
   background: var(--navy);
-  border-bottom: 3px solid var(--white);
+  border-bottom: 3px solid var(--mdi-gold);
   z-index: 1040;
   display: flex; align-items: center;
   box-shadow: 0 2px 12px rgba(0,0,0,.2);
@@ -81,7 +83,8 @@ body {
   display: flex; align-items: center; gap: 7px; white-space: nowrap;
   transition: background .18s;
 }
-.nav-links > li > a:hover, .nav-links > li > a.active { background: rgba(255,255,255,.15); color: var(--white); }
+.nav-links > li > a:hover { background: rgba(255,255,255,.15); color: var(--white); }
+.nav-links > li > a.active { background: rgba(255,255,255,.15); color: var(--white); box-shadow: inset 0 -2px 0 var(--mdi-gold); }
 .nav-links .badge { margin-left: 2px; }
 .nav-links .dropdown-menu {
   border-radius: 8px; border: none;
@@ -197,9 +200,9 @@ body {
 .sb-body ul li.sb-on a {
   background: rgba(255,255,255,.18);
   color: var(--white);
-  border-left-color: var(--white);
+  border-left-color: var(--mdi-gold);
 }
-.sb-body ul li.sb-on a i { color: var(--white); }
+.sb-body ul li.sb-on a i { color: var(--mdi-gold-light); }
 .sb-body hr { border-color: rgba(255,255,255,.1); margin: 6px 8px; }
 
 /* ── OVERLAY DIMATIKAN TOTAL ── */
@@ -227,7 +230,7 @@ body {
 /* ── FOOTER ── */
 footer {
   background: var(--navy-dk);
-  border-top: 3px solid var(--white);
+  border-top: 3px solid var(--mdi-gold);
   color: rgba(255,255,255,.65);
   padding: 15px 0;
   text-align: center;
@@ -264,13 +267,13 @@ body.sb-open .main-navbar {
   background:#fff; border-radius:10px; padding:1.1rem;
   box-shadow: 0 4px 14px rgba(0,0,0,.05);
   text-align:center;
-  border-top: 3px solid var(--navy);
+  border-top: 3px solid var(--mdi-gold);
 }
 .stat-card i{ font-size:1.4rem; color:var(--navy); }
 .stat-card .num{ font-size:1.6rem; font-weight:800; color:var(--navy-dk); }
 .stat-card .label{ font-size:.78rem; color:#5a5f78; }
-.stat-card-alert{ border-top-color: var(--mdi-red); }
-.stat-card-alert i{ color: var(--mdi-red); }
+.stat-card-alert{ border-top-color: var(--mdi-red-dark); }
+.stat-card-alert i{ color: var(--mdi-red-dark); }
 
 .panel{
   background:#fff; border-radius:10px; padding:1.2rem;
