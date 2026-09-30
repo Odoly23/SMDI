@@ -1,0 +1,15 @@
+{% load static i18n %}
+<header class="page-header">
+  <div class="container">
+    <p class="section-eyebrow text-mdi-gold" style="border-color:#E7C878"
+       {% if title_json %}data-i18n-multi="{{ title_json }}"{% endif %}>{% if eyebrow %}{% trans eyebrow %}{% endif %}</p>
+    <h1 class="fw-bold mb-2" {% if title_json %}data-i18n-multi="{{ title_json }}"{% endif %}>{% trans page_title %}</h1>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item"><a href="{% url 'website:home' %}">{% trans "Home" %}</a></li>
+        <li class="breadcrumb-item active" aria-current="page"
+            {% if title_json %}data-i18n-multi="{{ title_json }}"{% endif %}>{% trans crumb %}</li>
+      </ol>
+    </nav>
+  </div>
+</header>

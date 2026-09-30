@@ -71,13 +71,20 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Terseiru - forms styling
+    'crispy_forms',
+    'crispy_bootstrap5',
+
     # Apps sistema sismdi
-    'Config',
-    'Custom',
-    'User',
-    'Website',
-    'Main',
+    'config',
+    'custom',
+    'users',
+    'website',
+    'main',
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -102,8 +109,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'Config.context_processors.site_config',
-                'Website.context_processors.nav_programs',
+                'config.context_processors.site_config',
+                'website.context_processors.nav_programs',
                 'django.template.context_processors.i18n',
             ],
         },
@@ -183,7 +190,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_URL = 'Main:login'
+LOGIN_URL = 'main:login'
 
 
 # Email

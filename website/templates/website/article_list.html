@@ -1,0 +1,61 @@
+{% extends "website/base.html" %}
+{% load static i18n %}
+{% load i18n_extras %}
+{% block title %}{% trans "Articles" %}{% endblock %}
+{% block content %}
+{% include "website/_page_header.html" with eyebrow_key="articles.eyebrow" eyebrow="Blog & Analysis" title_key="page.articles.title" page_title="Articles" crumb="Articles" %}
+<section class="section-pad">
+  <div class="container">
+    <div class="row g-4">
+      {% for article in page_obj %}
+      <div class="col-md-6 col-lg-4">
+        <div class="article-card article-card-rich h-100">
+          <div class="article-cover">
+            {% if article.cover_image %}
+            <img src="{{ article.cover_image.url }}" alt="{{ article.title }}" loading="lazy">
+            {% else %}
+            <div class="article-cover-fallback"><i class="bi bi-file-text"></i></div>
+            {% endif %}
+            {% if article.category %}<span class="article-cat-badge">{{ article.category.name }}</span>{% endif %}
+          </div>
+          <div class="article-card-body">
+            <h3><a href="{% url 'website:article_detail' article.slug %}">{{ article.title }}</a></h3>
+            <p>{{ article.excerpt }}</p>
+            <div class="author mt-auto">
+              {% if article.author.profile.photo %}
+              <img src="{{ article.author.profile.photo.url }}" alt="{{ article.author.get_full_name }}">
+              {% else %}
+              <img src="{% static 'website/img/team/staff1.svg' %}" alt="{{ article.author.get_full_name }}">
+              {% endif %}
+              <span><span class="name">{{ article.author.get_full_name|default:article.author.username }}</span><span class="role">{{ article.author.profile.position }}</span></span>
+              <span class="article-date">
+                {{ article.published_date|date:"d M Y" }}
+                &middot; {{ article.body|default:article.excerpt|reading_time }} <span>{% trans "min read" %}</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p class="text-muted">{% trans "No articles yet." %}</p>
+      {% endfor %}
+    </div>
+
+    {% if page_obj.has_other_pages %}
+    <nav class="mt-5">
+      <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+        {% endif %}
+        {% for num in page_obj.paginator.page_range %}
+        <li class="page-item {% if num == page_obj.number %}active{% endif %}"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+        {% endfor %}
+        {% if page_obj.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

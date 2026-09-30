@@ -1,0 +1,24 @@
+{% extends "website/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Current Donors" %}{% endblock %}
+{% block content %}
+{% include "website/_page_header.html" with eyebrow="Collaboration" page_title="Our Current Donors" crumb="Current Donors" %}
+<section class="section-pad">
+  <div class="container">
+    <div class="row g-4">
+      {% for d in donors %}
+      <div class="col-md-6 col-lg-4">
+        <div class="mdi-card">
+          {% if d.logo %}<img src="{{ d.logo.url }}" alt="{{ d.name }}" class="mb-2" style="max-height:50px;">
+          {% else %}<i class="bi bi-bank fs-3 text-mdi-red mb-2 d-block"></i>{% endif %}
+          <h3>{{ d.name }}</h3>
+          <p>{{ d.description }}</p>
+        </div>
+      </div>
+      {% empty %}
+      <p class="text-muted">{% trans "No donor data yet. Add it via Django Admin." %}</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

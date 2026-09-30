@@ -1,0 +1,38 @@
+{% load static %}
+<aside class="dashboard-sidebar">
+  <div class="sidebar-brand">
+    <img src="{% static 'website/img/logo-mdi.png' %}" alt="Logo">
+    <div>
+      <div class="fw-bold">{{ site_config.short_name|default:"MDI" }}</div>
+      <div class="small text-muted">Painel Administrasaun</div>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="{% url 'main:home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+      <i class="bi bi-speedometer2"></i> Dashboard
+    </a>
+
+    <div class="sidebar-section-title">Konteúdu Website</div>
+    <a href="/admin/website/slide/"><i class="bi bi-images"></i> Hero Slider</a>
+    <a href="/admin/website/visionmission/1/change/"><i class="bi bi-eye"></i> Vizaun &amp; Misaun</a>
+    <a href="/admin/website/whoweare/1/change/"><i class="bi bi-people"></i> Who We Are</a>
+    <a href="/admin/website/program/"><i class="bi bi-diagram-3"></i> Programa (Pilar)</a>
+    <a href="/admin/website/activity/"><i class="bi bi-activity"></i> Atividade</a>
+    <a href="/admin/website/newspost/"><i class="bi bi-newspaper"></i> Notísia</a>
+    <a href="/admin/website/article/"><i class="bi bi-pencil-square"></i> Artigu</a>
+    <a href="/admin/website/orgmember/"><i class="bi bi-diagram-2"></i> Organigrama</a>
+    <a href="/admin/website/founder/"><i class="bi bi-people-fill"></i> Fundador</a>
+    <a href="/admin/website/partner/"><i class="bi bi-hand-thumbs-up"></i> Parseiru / Doador</a>
+    <a href="/admin/website/document/"><i class="bi bi-file-earmark-pdf"></i> Dokumentu</a>
+    <a href="/admin/website/contactmessage/"><i class="bi bi-envelope"></i> Mensajen Kontaktu</a>
+
+    <div class="sidebar-section-title">Sistema</div>
+    <a href="/admin/config/siteconfig/1/change/"><i class="bi bi-gear"></i> Konfigurasaun Situs</a>
+    <a href="/admin/custom/category/"><i class="bi bi-tags"></i> Kategoria</a>
+    <a href="/admin/auth/user/"><i class="bi bi-person-badge"></i> Utilizador</a>
+    <a href="/admin/" target="_blank"><i class="bi bi-box-arrow-up-right"></i> Django Admin Kompletu</a>
+
+    <a href="{% url 'website:home' %}" class="mt-3" target="_blank"><i class="bi bi-globe"></i> Haree Website Públiku</a>
+    <a href="{% url 'main:logout' %}" class="text-danger"><i class="bi bi-box-arrow-left"></i> Logout</a>
+  </nav>
+</aside>

@@ -13,8 +13,8 @@ admin.site.index_title = "Jestaun Konteudu Website"
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('i18n/', include('django.conf.urls.i18n')),
-    path('dashboard/', include('Main.urls')),
-    path('', include('Website.urls')),
+    path('dashboard/', include('main.urls')),
+    path('', include('website.urls')),
 ]
 
 if settings.DEBUG:

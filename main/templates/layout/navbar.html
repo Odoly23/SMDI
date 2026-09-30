@@ -1,0 +1,22 @@
+<nav class="dashboard-navbar d-flex justify-content-between align-items-center px-4">
+  <button class="btn btn-sm btn-outline-secondary d-lg-none" type="button" id="sidebarToggle">
+    <i class="bi bi-list"></i>
+  </button>
+  <div class="fw-semibold">{% block navbar_title %}Dashboard{% endblock %}</div>
+  <div class="d-flex align-items-center gap-3">
+    <span class="small text-muted d-none d-md-inline">
+      Bem-vindu, <strong>{{ request.user.get_full_name|default:request.user.username }}</strong>
+      {% with user_group=request.user.groups.first %}{% if user_group %} &middot; {{ user_group.name|capfirst }}{% endif %}{% endwith %}
+    </span>
+    <div class="dropdown">
+      <button class="btn btn-sm btn-light border dropdown-toggle" data-bs-toggle="dropdown">
+        <i class="bi bi-person-circle"></i>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li><a class="dropdown-item" href="{% url 'website:home' %}" target="_blank"><i class="bi bi-globe me-2"></i>Haree Website</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item text-danger" href="{% url 'main:logout' %}"><i class="bi bi-box-arrow-left me-2"></i>Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>

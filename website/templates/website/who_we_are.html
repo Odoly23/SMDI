@@ -1,0 +1,138 @@
+{% extends "website/base.html" %}
+{% load i18n i18n_extras %}
+{% block title %}{% trans "Who We Are" %}{% endblock %}
+{% block content %}
+{% include "website/_page_header.html" with eyebrow="Profile" page_title="Who We Are" crumb="Who We Are" %}
+<section class="section-pad">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-7">
+        <p class="section-eyebrow">{{ who_we_are.profile_title }}</p>
+        <h2 class="section-title mb-3">{{ site_config.site_name }} ({{ site_config.short_name }})</h2>
+        <p style="color:var(--mdi-ink-soft)" data-i18n-multi="{{ who_we_are|i18n_json:'profile_text' }}">{{ who_we_are.profile_text }}</p>
+        <p style="color:var(--mdi-ink-soft)" data-i18n-multi="{{ who_we_are|i18n_json:'who_we_are_text' }}">{{ who_we_are.who_we_are_text }}</p>
+        <ul class="list-unstyled mt-4">
+          <li class="mb-2"><i class="bi bi-check-circle-fill text-mdi-green me-2"></i>{% blocktrans with year=who_we_are.established_year %}Active since {{ year }}{% endblocktrans %}</li>
+          <li class="mb-2"><i class="bi bi-check-circle-fill text-mdi-green me-2"></i>{% blocktrans with place=who_we_are.based_in %}Based in {{ place }}{% endblocktrans %}</li>
+        </ul>
+      </div>
+      <div class="col-lg-5">
+        <div class="mdi-card">
+          <h3><i class="bi bi-building text-mdi-red me-2"></i><span>{% trans "Quick Facts" %}</span></h3>
+          <ul class="list-unstyled small">
+            <li class="mb-2"><strong>{% trans "Full Name:" %}</strong> {{ site_config.site_name }} ({{ site_config.short_name }})</li>
+            <li class="mb-2"><strong>{% trans "Established:" %}</strong> {{ who_we_are.established_year }}</li>
+            <li class="mb-2"><strong>{% trans "Location:" %}</strong> {{ who_we_are.based_in }}</li>
+            <li class="mb-2"><strong>{% trans "Focus:" %}</strong> {{ who_we_are.focus_area }}</li>
+            <li class="mb-2"><strong>{% trans "Email:" %}</strong> {{ site_config.email }}</li>
+            <li class="mb-0"><strong>{% trans "Phone:" %}</strong> {{ site_config.phone }}</li>
+          </ul>
+          {% if who_we_are.geo_focus_regions.tet %}
+          <hr>
+          <h4 class="h6 mb-2"><i class="bi bi-geo-alt text-mdi-red me-2"></i>{{ who_we_are.geo_focus_title }}</h4>
+          <div class="d-flex flex-wrap gap-1">
+            {% for region in who_we_are.geo_focus_regions.tet %}
+            <span class="badge-tag">{{ region }}</span>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% if who_we_are.org_structure_intro or who_we_are.org_structure_items.tet %}
+<section class="section-pad bg-mdi-cream-dark">
+  <div class="container">
+    <p class="section-eyebrow">{% trans "Structure" %}</p>
+    <h2 class="section-title mb-4">{{ who_we_are.org_structure_title }}</h2>
+    <div class="row g-5">
+      <div class="col-lg-6">
+        {% if who_we_are.org_structure_intro %}
+        <p style="color:var(--mdi-ink-soft)" data-i18n-multi="{{ who_we_are|i18n_json:'org_structure_intro' }}">{{ who_we_are.org_structure_intro }}</p>
+        {% endif %}
+      </div>
+      <div class="col-lg-6">
+        {% if who_we_are.org_structure_items.tet %}
+        <ul class="list-unstyled" data-i18n-list="{{ who_we_are.org_structure_items|to_json }}">
+          {% for item in who_we_are.org_structure_items.tet %}
+          <li class="mb-2"><i class="bi bi-people-fill text-mdi-green me-2"></i>{{ item }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+        {% if who_we_are.org_structure_outro %}
+        <p style="color:var(--mdi-ink-soft)" data-i18n-multi="{{ who_we_are|i18n_json:'org_structure_outro' }}">{{ who_we_are.org_structure_outro }}</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if who_we_are.strategy_text %}
+<section class="section-pad">
+  <div class="container">
+    <div class="row g-5 align-items-center">
+      <div class="col-lg-4">
+        <p class="section-eyebrow">{% trans "Approach" %}</p>
+        <h2 class="section-title mb-0">{{ who_we_are.strategy_title }}</h2>
+      </div>
+      <div class="col-lg-8">
+        <p style="color:var(--mdi-ink-soft)" data-i18n-multi="{{ who_we_are|i18n_json:'strategy_text' }}">{{ who_we_are.strategy_text }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if who_we_are.geo_focus_regions.tet or who_we_are.geo_focus_intro %}
+<section class="section-pad bg-mdi-cream-dark">
+  <div class="container">
+    <p class="section-eyebrow">{% trans "Coverage" %}</p>
+    <h2 class="section-title mb-3">{{ who_we_are.geo_focus_title }}</h2>
+    {% if who_we_are.geo_focus_intro %}
+    <p style="color:var(--mdi-ink-soft);max-width:760px;" data-i18n-multi="{{ who_we_are|i18n_json:'geo_focus_intro' }}">{{ who_we_are.geo_focus_intro }}</p>
+    {% endif %}
+    {% if who_we_are.geo_focus_regions.tet %}
+    <div class="d-flex flex-wrap gap-2 mt-3" data-i18n-list="{{ who_we_are.geo_focus_regions|to_json }}" data-i18n-list-tag="div" data-i18n-list-class="region-chip">
+      {% for region in who_we_are.geo_focus_regions.tet %}
+      <div class="region-chip"><i class="bi bi-geo-alt-fill me-1"></i>{{ region }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% if who_we_are.geo_focus_outro %}
+    <p style="color:var(--mdi-ink-soft);max-width:760px;" class="mt-3" data-i18n-multi="{{ who_we_are|i18n_json:'geo_focus_outro' }}">{{ who_we_are.geo_focus_outro }}</p>
+    {% endif %}
+  </div>
+</section>
+{% endif %}
+
+<section class="section-pad">
+  <div class="container org-chart">
+    <p class="section-eyebrow">{% trans "Founders" %}</p>
+    <h2 class="section-title mb-1">{% trans "Founders of Mata Dalan Institute (MDI)" %}</h2>
+    <p class="section-sub mx-auto mb-5">{% trans "The founding members of MDI." %}</p>
+
+    <div class="row g-4 justify-content-center">
+      {% for f in founders %}
+      <div class="col-6 col-md-4">
+        <div class="founder-card">
+          <div class="founder-photo">
+            {% if f.photo %}
+            <img src="{{ f.photo.url }}" alt="{{ f.name }}">
+            {% else %}
+            <div class="fallback-icon"><i class="bi bi-person-fill"></i></div>
+            {% endif %}
+          </div>
+          <span class="fname">{{ f.name }}</span>
+          <span class="frole">{{ f.position }}</span>
+        </div>
+      </div>
+      {% empty %}
+      <p class="text-muted">{% trans "No founder data yet. Add it via Django Admin → Website → Founder." %}</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}
