@@ -1,18 +1,18 @@
 # SISMDI — Sistema Website Mata Dalan Institute (Django)
 
 Implementasi Django dari website Mata Dalan Institute (MDI), disusun mengikuti struktur
-project konvensi Anda (seperti project `sibtian`): app `Config`, `Custom`, `Main`,
-`User`, `Website`.
+project konvensi Anda: app `config`, `custom`, `main`, `users`, `website` (huruf kecil
+semua), `views.py`/`forms.py`/`decorators.py` mengikuti gaya kode Anda sendiri.
 
 ## Struktur App
 
 | App        | Peran                                                                 |
 |------------|------------------------------------------------------------------------|
-| `Website`  | **Frontend publik** — semua model konten (Slide, Vision/Mission, Activity, News, Article, OrgMember, Partner, Document, ContactMessage), views, urls, templates, dan static assets tema MDI. |
-| `Main`     | **Backend/Dashboard** — login, logout, halaman dashboard (`Home/`), layout admin custom (`Layout/`: navbar + sidebar). Sidebar berisi link cepat ke Django Admin per model. |
-| `User`     | Model `Profile` (ekstensi `auth.User` dengan role admin/editor/author/member, foto, jabatan), signal auto-create profile, dan `decorators.py` (`allowed_users`, `unauthenticated_user`, `admin_only`) untuk kontrol akses berbasis role. |
-| `Config`   | Model `SiteConfig` (singleton) — pengaturan situs: nama, logo, kontak, koordinat lokasi, dll. Tersedia di semua template via context processor `{{ site_config }}`. |
-| `Custom`   | Data master/lookup lintas app: `Category`, `Municipality`, `AdministrativePost`, `Year`. |
+| `website`  | **Frontend publik** — semua model konten (Slide, Vision/Mission, Activity, News, Article, OrgMember, Partner, Document, ContactMessage), views, urls, templates, dan static assets tema MDI. |
+| `main`     | **Backend/Dashboard** — login, logout, halaman dashboard (`home/`), layout admin custom (`layout/`: topbar + navbar + sidebar mobile). Menu berisi link cepat ke Django Admin per model. |
+| `users`    | Model `Profile` (ekstensi `auth.User` — foto, jabatan/posisi, bio, telepon) dan signal auto-create profile. Kontrol akses **bukan** lewat field role lagi, tapi lewat `django.contrib.auth.models.Group` (lihat bagian "Grupu Utilizador" di bawah). |
+| `config`   | Model `SiteConfig` (singleton) — pengaturan situs: nama, logo, kontak, koordinat lokasi, dll. Tersedia di semua template via context processor `{{ site_config }}`. `config/decorators.py` berisi `allowed_users`/`unauthenticated_user` untuk kontrol akses berbasis grupu. |
+| `custom`   | Data master/lookup lintas app: `Category`, `Municipality`, `AdministrativePost`, `Year`. |
 
 ## Cara Menjalankan
 
@@ -45,27 +45,59 @@ Buka **http://127.0.0.1:8000/** untuk website publik,
 dan **http://127.0.0.1:8000/dashboard/login/** untuk login ke panel admin.
 
 ### Akun Default (dari `seed_data`)
-- **Superuser/Admin dashboard:** `admin` / `admin12345`
-- **Staff/Author (penulis artikel):** `aderito.ximenes`, `maria.guterres`, `joao.belo`,
-  `fatima.soares`, `domingos.amaral` — semua password `mdi12345`
+- **Superuser/Admin dashboard:** `admin` / `admin12345` (grupu `admin`)
+- **Staff (penulis artikel):** `aderito.ximenes`, `maria.guterres`, `joao.belo`,
+  `fatima.soares`, `domingos.amaral` — semua password `mdi12345` (grupu `staff`)
 
 ⚠️ **Ganti semua password ini sebelum deploy ke production.**
 
+## Grupu Utilizador (Kontrolu Asesu)
+
+Kontrolu asesu ba dashboard uza **Django Groups** (`django.contrib.auth.models.Group`),
+laos field `role` iha model — hanesan konvensaun iha projetu Anda nian. Iha grupu tolu
+deit:
+
+| Grupu   | Asesu                                                                 |
+|---------|-------------------------------------------------------------------------|
+| `admin` | Asesu total — dashboard + menu "Sistema" (Konfigurasaun, Kategoria, Utilizador, Grupu). |
+| `staff` | Asesu dashboard (kria/edita konteúdu website) — la haree menu "Sistema". |
+| `member`| Grupu baze/públiku — **la iha** asesu ba dashboard (haree deit website públiku). |
+
+`config/decorators.py` (copiadu tuir kódigu Anda, tanpa ubah):
+
+```python
+from config.decorators import allowed_users, unauthenticated_user
+
+@allowed_users(allowed_roles=['admin', 'staff'])
+def some_view(request):
+    ...
+```
+
+`allowed_users` lee `request.user.groups.all()[0].name` (utilizador hanesan ida ho
+grupu ida deit) no redireciona ba `home/404.html` se grupu la permitidu. Grupu sira-ne'e
+automatikamente kriadu no atribuidu iha `seed_data` (haree `users/models.py` — konstante
+`GROUP_ADMIN`, `GROUP_STAFF`, `GROUP_MEMBER`).
+
 ## Alur Login/Logout
 
-- Login **satu pintu** via Django Auth (`django.contrib.auth`), dilayani oleh app `Main`
+- Login **satu pintu** via Django Auth (`django.contrib.auth`), dilayani oleh app `main`
   (`/dashboard/login/`, `/dashboard/logout/`).
-- Navbar di frontend publik (`Website`) otomatis menampilkan status login: tombol
-  **Login** jika belum masuk, atau dropdown nama pengguna (dengan link ke Dashboard
-  jika role-nya `admin`/`editor`/`author`) jika sudah masuk.
-- Kontrol akses berbasis role tersedia di `User/decorators.py`:
-  ```python
-  from User.decorators import allowed_users
+- View `main/views.py` mengikuti pola: `@login_required` + `@allowed_users(allowed_roles=[...])`
+  ditumpuk, dengan context `group`/`page`/`title`/`legend` di setiap view dashboard.
 
-  @allowed_users(allowed_roles=['admin', 'editor'])
-  def some_view(request):
-      ...
-  ```
+## Panel Admin (Dashboard)
+
+Tampilan dashboard (`main/templates/layout/`) memakai tema navy institusional:
+
+- **Topbar** — bar tipis di atas berisi kontak (email/telepon/alamat).
+- **Navbar utama** — logo + menu dropdown (Konteúdu, Publikasaun, Sistema) untuk desktop.
+- **Sidebar mobile** — menu ikon+label off-canvas (slide dari kiri, push content),
+  otomatis aktif di lebar layar < 992px, disembunyikan di desktop (menu dropdown navbar
+  dipakai sebagai gantinya).
+- Menu "Sistema" (Konfigurasi Situs, Kategori, Utilizador, Grupu, Django Admin) hanya
+  tampil untuk grupu `admin`.
+
+CSS-nya ada di `main/static/main/css/dashboard.css`.
 
 ## Mengelola Konten
 
@@ -73,14 +105,21 @@ Dua cara mengelola isi website:
 
 1. **Django Admin** (`/admin/`) — cara paling cepat, semua model sudah terdaftar dengan
    `list_display`, filter, dan search yang rapi.
-2. **Dashboard custom** (`/dashboard/`) — tampilan ringkasan/statistik, sidebar berisi
-   pintasan langsung ke halaman admin per model (Hero Slider, Vision & Mission,
+2. **Dashboard custom** (`/dashboard/`) — tampilan ringkasan/statistik, navbar/sidebar
+   berisi pintasan langsung ke halaman admin per model (Hero Slider, Vision & Mission,
    Activities, News, Articles, Organigrama, Partners, Documents, dll).
 
-> Dashboard `Main` saat ini adalah **shell/kerangka** (ringkasan + navigasi) — CRUD
+> Dashboard `main` saat ini adalah **shell/kerangka** (ringkasan + navigasi) — CRUD
 > sesungguhnya memakai Django Admin bawaan agar cepat dipakai. Jika ke depan Anda ingin
-> form CRUD custom bergaya AdminLTE penuh (seperti pada project `sibtian`), tinggal
-> tambahkan views/templates baru di app `Main` yang memanggil model dari `Website.models`.
+> form CRUD custom (seperti pada project referensi Anda), tinggal tambahkan
+> views/templates baru di app `main` yang memanggil model dari `website.models`, dengan
+> form bergaya `django-crispy-forms` seperti `website/forms.py`.
+
+## Forms (django-crispy-forms)
+
+Form (mis. `website/forms.py` — `ContactMessageForm`) memakai `django-crispy-forms` +
+`crispy-bootstrap5`, dengan `FormHelper`/`Layout` di `__init__`, sesuai gaya kode Anda.
+Template merender dengan `{% load crispy_forms_tags %}` + `{% crispy form %}`.
 
 ## Bahasa (Tetum/Indonesia/Portugis/Inggris)
 
@@ -109,9 +148,9 @@ Ada **dua lapis** konten yang diterjemahkan:
    Who We Are/Profile — termasuk struktur organisasi, pendekatan strategis, fokus
    geografis, teks Slide hero, heading/deskripsi/indikator Program) — via atribut
    `data-i18n-multi='{"tet":"..","id":"..",...}'` atau `data-i18n-list='{"tet":[...],...}'`
-   untuk daftar, dirender ulang oleh `Website/static/Website/js/main.js` saat halaman
+   untuk daftar, dirender ulang oleh `website/static/website/js/main.js` saat halaman
    dimuat (membaca `<html lang="...">` yang sudah diset Django). Template filter-nya ada
-   di `Website/templatetags/i18n_extras.py` (`i18n_json`, `i18n_json_words`, `to_json`).
+   di `website/templatetags/i18n_extras.py` (`i18n_json`, `i18n_json_words`, `to_json`).
    Setiap model terkait punya field tambahan `..._i18n` (JSONField) yang bisa diisi lewat
    Django Admin di bagian **"Tradusaun (opsional)"** — formatnya:
    ```json
@@ -141,13 +180,13 @@ sekarang punya field `parent` (self-FK) sehingga bisa membentuk hierarki:
 
 Setiap Program (Pilar maupun sub-outcome) punya field `indicators` (JSONField per bahasa)
 untuk daftar "Indikadór Esperadu" yang tampil di halaman detail. Menu navbar & footer
-dibangun otomatis dari data ini lewat context processor `Website.context_processors.nav_programs`
+dibangun otomatis dari data ini lewat context processor `website.context_processors.nav_programs`
 — tambah/ubah Pilar & sub-outcome cukup lewat Django Admin, tidak perlu ubah template.
 
 ## Peta Lokasi (Leaflet + Routing)
 
-Peta di homepage sekarang pakai **Leaflet.js** (offline, vendor di
-`Website/static/Website/vendor/leaflet/`), bukan lagi iframe OpenStreetMap. Fitur:
+Peta di homepage pakai **Leaflet.js** (offline, vendor di
+`website/static/website/vendor/leaflet/`), bukan iframe OpenStreetMap. Fitur:
 
 - Marker + popup nama & alamat kantor MDI.
 - Tombol **"Get Route From My Location"** — minta izin GPS browser pengunjung
@@ -186,26 +225,27 @@ sismdi_project/
 ├── .gitignore                   ← db.sqlite3, media/, .env, dst TIDAK ikut git
 ├── locale/                      ← katalog terjemahan Django i18n (tet/id/pt/en)
 ├── sismdi/                      ← settings, root urls, wsgi/asgi
-├── Config/                      ← SiteConfig
-├── Custom/                      ← Category, Municipality, AdministrativePost, Year
-├── User/                        ← Profile, decorators, signals
-├── Website/                     ← APP UTAMA FRONTEND
+├── config/                      ← SiteConfig, decorators.py (allowed_users, unauthenticated_user)
+├── custom/                      ← Category, Municipality, AdministrativePost, Year
+├── users/                       ← Profile, signals (kontrolu asesu → django.contrib.auth.models.Group)
+├── website/                     ← APP UTAMA FRONTEND
 │   ├── models.py
 │   ├── views.py
 │   ├── urls.py
 │   ├── admin.py
-│   ├── forms.py
+│   ├── forms.py                 ← django-crispy-forms (FormHelper/Layout)
 │   ├── context_processors.py    ← nav_programs (menu Pilar/sub-outcome)
 │   ├── templatetags/i18n_extras.py
 │   ├── management/commands/seed_data.py
-│   ├── templates/Website/       ← base.html + semua halaman
-│   └── static/Website/          ← Bootstrap, ikon, font, gambar, CSS/JS tema
-└── Main/                        ← APP UTAMA BACKEND/DASHBOARD
+│   ├── templates/website/       ← base.html + semua halaman
+│   └── static/website/          ← Bootstrap, ikon, font, gambar, CSS/JS tema
+└── main/                        ← APP UTAMA BACKEND/DASHBOARD
     ├── views.py (login, logout, home)
     ├── urls.py
-    ├── templates/Home/          ← home.html, login.html, logout.html
-    ├── templates/Layout/        ← Layout.html, navbar.html, sidebar.html
-    └── static/Main/css/dashboard.css
+    ├── context_processors.py    ← dashboard_badges (kontador mensajen seidauk lidu)
+    ├── templates/home/          ← home.html, login.html, logout.html, 404.html
+    ├── templates/layout/        ← layout.html, topbar.html, navbar.html, sidebar.html
+    └── static/main/css/dashboard.css
 ```
 
 ## Konfigurasi Produksi
@@ -229,7 +269,8 @@ python manage.py check --deploy     # pastikan tidak ada warning keamanan
 ```
 
 Jalankan lewat WSGI/ASGI server produksi (mis. `gunicorn sismdi.wsgi:application`),
-bukan `manage.py runserver`.
+bukan `manage.py runserver`. Jika `createsuperuser` dipakai, tambahkan user itu ke grupu
+`admin` secara manual (Django Admin → Utilizador → grupu) supaya bisa akses dashboard.
 
 ## Yang Perlu Dilengkapi Selanjutnya
 
@@ -240,7 +281,7 @@ bukan `manage.py runserver`.
    di kategori yang sesuai (Doc PNDS, Doc OJE, dst — kategori sudah dibuat oleh seed_data).
 3. **Ganti password default** akun `admin` dan semua akun staff sebelum production —
    atau lebih baik, jangan jalankan `seed_data` di produksi dan buat akun sendiri lewat
-   `createsuperuser`.
+   `createsuperuser` + assign grupu manual.
 4. **SECRET_KEY & DEBUG**: WAJIB diisi lewat `.env` sebelum online (lihat bagian
    "Konfigurasi Produksi" di atas) — jangan pernah pakai `DEBUG=True` di produksi.
 5. **Email**: form kontak saat ini hanya menyimpan ke database (`ContactMessage`,
