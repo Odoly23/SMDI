@@ -6,7 +6,7 @@ from django.utils.text import slugify
 
 from config.models import SiteConfig
 from custom.models import Category, Municipality, Year
-from users.models import Profile, GROUP_ADMIN, GROUP_EDITOR, GROUP_AUTHOR, GROUP_MEMBER
+from users.models import Profile, GROUP_ADMIN, GROUP_STAFF, GROUP_MEMBER
 from website.models import (
     Slide, VisionMission, WhoWeAre, Program, Activity,
     NewsPost, NewsImage, Article, OrgMember, Founder, Partner
@@ -21,7 +21,7 @@ class Command(BaseCommand):
         self.stdout.write("Seeding data MDI...")
 
         # ---------- Grupu (kontrolu asesu dashboard - haree config.decorators.allowed_users) ----------
-        for group_name in [GROUP_ADMIN, GROUP_EDITOR, GROUP_AUTHOR, GROUP_MEMBER]:
+        for group_name in [GROUP_ADMIN, GROUP_STAFF, GROUP_MEMBER]:
             Group.objects.get_or_create(name=group_name)
 
         # ---------- SiteConfig ----------
@@ -725,8 +725,8 @@ class Command(BaseCommand):
             profile.position = position
             profile.photo.name = f"website/team/{photo}"
             profile.save()
-            author_group = Group.objects.get(name=GROUP_AUTHOR)
-            user.groups.add(author_group)
+            staff_group = Group.objects.get(name=GROUP_STAFF)
+            user.groups.add(staff_group)
 
             slug = slugify(art_title)[:60]
             article_obj, _ = Article.objects.update_or_create(

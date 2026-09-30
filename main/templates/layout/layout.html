@@ -12,24 +12,58 @@
 {% block head_extra %}{% endblock %}
 </head>
 <body>
-<div class="d-flex" id="mainWrapper">
-  {% include "layout/sidebar.html" %}
-  <div class="flex-grow-1 dashboard-content">
-    {% include "layout/navbar.html" %}
-    <main class="p-4">
-      {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-          {{ message }}
-          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-        {% endfor %}
-      {% endif %}
+
+{% include "layout/topbar.html" %}
+{% include "layout/navbar.html" %}
+{% include "layout/sidebar.html" %}
+<div id="overlay"></div>
+
+<div class="page-wrapper">
+  <div class="container">
+    {% block breadcrumb %}
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'main:home' %}">Dashboard</a></li>
+        {% if page and page != 'home' %}<li class="breadcrumb-item active">{{ title }}</li>{% endif %}
+      </ol>
+    </nav>
+    {% endblock %}
+
+    {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+      {% endfor %}
+    {% endif %}
+
+    <div class="main-content">
       {% block content %}{% endblock %}
-    </main>
+    </div>
   </div>
 </div>
+
+<footer>
+  <div class="container">
+    &copy; {% now "Y" %} <strong>{{ site_config.site_name|default:"Mata Dalan Institute" }}</strong> &middot; Painel Administrasaun
+  </div>
+</footer>
+
 <script src="{% static 'website/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script>
+  (function () {
+    var ham = document.getElementById('sidebarToggle');
+    var sidebar = document.getElementById('sidebar');
+    var body = document.body;
+    if (ham && sidebar) {
+      ham.addEventListener('click', function () {
+        sidebar.classList.toggle('active');
+        body.classList.toggle('sb-open');
+      });
+    }
+  })();
+</script>
 {% block script_extra %}{% endblock %}
 </body>
 </html>

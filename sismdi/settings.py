@@ -111,6 +111,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'config.context_processors.site_config',
                 'website.context_processors.nav_programs',
+                'main.context_processors.dashboard_badges',
                 'django.template.context_processors.i18n',
             ],
         },

@@ -5,10 +5,9 @@ from django.contrib.auth.models import User
 # request.user.groups). Uza konstante sira-ne'e iha seed_data/admin
 # atu evita hakerek naran grupu ho liman kada fatin.
 GROUP_ADMIN = "admin"
-GROUP_EDITOR = "editor"
-GROUP_AUTHOR = "author"
+GROUP_STAFF = "staff"
 GROUP_MEMBER = "member"
-BACKEND_GROUPS = (GROUP_ADMIN, GROUP_EDITOR, GROUP_AUTHOR)
+BACKEND_GROUPS = (GROUP_ADMIN, GROUP_STAFF)
 
 
 class Profile(models.Model):
@@ -30,7 +29,7 @@ class Profile(models.Model):
 
     @property
     def is_backend_staff(self):
-        """True se user iha ona iha grupu admin/editor/author (haree BACKEND_GROUPS)."""
+        """True se user iha ona iha grupu admin/staff (haree BACKEND_GROUPS)."""
         if self.user.is_superuser:
             return True
         return self.user.groups.filter(name__in=BACKEND_GROUPS).exists()

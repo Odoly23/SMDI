@@ -27,7 +27,7 @@ def logout_view(request):
 
 
 @login_required(login_url="main:login")
-@allowed_users(allowed_roles=["admin", "editor", "author"])
+@allowed_users(allowed_roles=["admin", "staff"])
 def home(request):
     group = request.user.groups.all()[0].name
     context = {
