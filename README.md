@@ -214,6 +214,25 @@ Kartu & halaman detail artikel sudah dilengkapi: foto sampul (`cover_image`), ba
 kategori, foto+jabatan penulis, tanggal terbit, dan **estimasi waktu baca** otomatis
 (dihitung dari jumlah kata, filter `reading_time` di `i18n_extras.py`).
 
+## Estatístika Vizitante (FlagCounter)
+
+Website bele hatudu widget **FlagCounter** (kontador vizitante tuir nasaun) iha rua
+fatin: iha topbar (besik bandeira lingua) versaun mini, no iha parte leten-wán footer
+versaun kompletu ho lista bandeira.
+
+Atu ativa:
+
+1. Baa iha https://flagcounter.com/ → klik **"Get your free counter!"**.
+2. Hili estilu/bandeira ne'ebe ita hakarak (cores, kolunas, dll) — la presiza kria konta.
+3. Depois submete, site sei fó kódigu HTML ho URL hanesan
+   `https://s01.flagcounter.com/count2/`**`abcd1`**`/...` — kopia deit parte **`abcd1`**
+   (ID kontador ne'e).
+4. Iha Django Admin → **Konfigurasaun Situs** → seksaun **"Estatístika Vizitante"** →
+   kola ID ne'e iha kampu **FlagCounter ID** → Save.
+
+Widget sei aparese automatikamente iha website públiku (topbar + footer). Se kampu
+ne'e mamuk, widget la hatudu iha-ne'e (labele iha imajen kebrada).
+
 ## Struktur Folder
 
 ```

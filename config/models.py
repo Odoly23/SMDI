@@ -37,6 +37,18 @@ class SiteConfig(models.Model):
         default="Site ne'e dezenvolve ho Bootstrap 5 & Django."
     )
 
+    flagcounter_id = models.CharField(
+        max_length=20, blank=True,
+        verbose_name="FlagCounter ID",
+        help_text=(
+            "ID kontador husi flagcounter.com — halo konta gratis iha "
+            "https://flagcounter.com/ (klik \"Get your free counter!\"), "
+            "kopia deit ID ne'ebe mosu iha URL imajen (mis. husi "
+            "https://s11.flagcounter.com/count2/<b>abcd</b>/... ID = \"abcd\"). "
+            "Se mamuk, widget visitante-per-nasaun la hatudu iha site."
+        ),
+    )
+
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:

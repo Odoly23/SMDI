@@ -44,6 +44,13 @@
       <span class="small">{% blocktrans with name=site_config.site_name %}Bem-vindu ba {{ name }}{% endblocktrans %}</span>
     </div>
     <div class="d-flex align-items-center gap-3">
+      {% if site_config.flagcounter_id %}
+      <div class="topbar-visitor-counter d-none d-lg-block">
+        <a href="https://info.flagcounter.com/{{ site_config.flagcounter_id }}" target="_blank" rel="noopener" title="{% trans 'Visitor statistics by country' %}">
+          <img src="https://s01.flagcounter.com/mini/{{ site_config.flagcounter_id }}/bg_FFFFFF/txt_000000/border_CCCCCC/flags_0/" alt="Flag Counter">
+        </a>
+      </div>
+      {% endif %}
       <form action="{% url 'set_language' %}" method="post" class="lang-switch d-flex" role="group" aria-label="Language switcher">
         {% csrf_token %}
         <input type="hidden" name="next" value="{{ request.get_full_path }}">
@@ -208,6 +215,18 @@
         </ul>
       </div>
     </div>
+    {% if site_config.flagcounter_id %}
+    <div class="row">
+      <div class="col-12 d-flex justify-content-end">
+        <div class="footer-visitor-counter mt-4">
+          <div class="small mb-1 text-end">{% trans "Visitors by country" %}</div>
+          <a href="https://info.flagcounter.com/{{ site_config.flagcounter_id }}" target="_blank" rel="noopener">
+            <img src="https://s01.flagcounter.com/count2/{{ site_config.flagcounter_id }}/bg_FFFFFF/txt_000000/border_CCCCCC/columns_8/maxflags_12/viewers_0/labels_1/pageviews_0/flags_0/percent_0/" alt="Flag Counter">
+          </a>
+        </div>
+      </div>
+    </div>
+    {% endif %}
   </div>
 </footer>
 <div class="subfooter">

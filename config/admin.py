@@ -20,6 +20,14 @@ class SiteConfigAdmin(admin.ModelAdmin):
         ("Konten Footer", {
             "fields": ("about_text", "footer_credit")
         }),
+        ("Estatístika Vizitante", {
+            "fields": ("flagcounter_id",),
+            "description": (
+                "Widget FlagCounter hatudu bandeira/kontador vizitante tuir nasaun, "
+                "iha topbar (besik lingua) no iha footer. Haree help text iha baixu "
+                "atu hetan ID ne'e."
+            ),
+        }),
     )
 
     def has_add_permission(self, request):

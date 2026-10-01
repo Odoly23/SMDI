@@ -184,6 +184,14 @@ a:hover{ color: var(--mdi-green-dark); }
   box-shadow: 0 0 0 2px var(--mdi-gold-light);
 }
 
+/* Widget FlagCounter — kontador vizitante tuir nasaun (haree SiteConfig.flagcounter_id) */
+.topbar-visitor-counter{ display:flex; align-items:center; line-height:0; }
+.topbar-visitor-counter img{ border-radius:3px; opacity:.92; transition:opacity .2s ease; }
+.topbar-visitor-counter:hover img{ opacity:1; }
+.footer-visitor-counter{ opacity:.95; }
+.footer-visitor-counter .small{ color:#DCD6C6; }
+.footer-visitor-counter img{ border-radius:4px; max-width:100%; }
+
 @media (max-width: 991.98px){
   .topbar{ padding: .3rem 0; }
   .topbar .container{ flex-wrap: nowrap; gap:.5rem; }
