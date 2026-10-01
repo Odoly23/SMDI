@@ -295,6 +295,10 @@ a:hover{ color: var(--mdi-green-dark); }
   color: var(--mdi-red) !important;
   padding: .4rem 1.1rem !important;
   margin-left: .4rem;
+  display: inline-flex !important;
+  align-items: center;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 .nav-auth-link:hover{
   background: var(--mdi-red);
