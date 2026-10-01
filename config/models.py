@@ -38,7 +38,7 @@ class SiteConfig(models.Model):
     )
 
     flagcounter_id = models.CharField(
-        max_length=20, blank=True,
+        max_length=20, blank=True, default="GRdh",
         verbose_name="FlagCounter ID",
         help_text=(
             "ID kontador husi flagcounter.com — halo konta gratis iha "
