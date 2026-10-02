@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views, views_website, views_org, views_inbox
+from . import views, views_website, views_org, views_inbox, views_singleton
 
 app_name = "main"
 
@@ -62,4 +62,15 @@ urlpatterns = [
     path("message/", views_inbox.message_list, name="message-list"),
     path("message/<int:pk>/", views_inbox.message_detail, name="message-detail"),
     path("message/<int:pk>/delete/", views_inbox.message_delete, name="message-delete"),
+
+    # Slide Hero
+    path("slide/", views_singleton.slide_list, name="slide-list"),
+    path("slide/create/", views_singleton.slide_create, name="slide-create"),
+    path("slide/<int:pk>/edit/", views_singleton.slide_update, name="slide-update"),
+    path("slide/<int:pk>/delete/", views_singleton.slide_delete, name="slide-delete"),
+
+    # Konteudu singleton
+    path("vision-mission/", views_singleton.vision_mission_edit, name="vision-mission-edit"),
+    path("who-we-are/", views_singleton.who_we_are_edit, name="who-we-are-edit"),
+    path("site-config/", views_singleton.site_config_edit, name="site-config-edit"),
 ]
