@@ -1,0 +1,58 @@
+{% extends "layout/layout.html" %}
+{% load i18n crispy_forms_tags %}
+{% block content_class %}content-plain{% endblock %}
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb mb-2 mt-1">
+    <li class="breadcrumb-item"><a href="{% url 'main:home' %}">DASHBOARD</a></li>
+    {% if list_url %}<li class="breadcrumb-item"><a href="{{ list_url }}">{{ list_label|upper }}</a></li>{% endif %}
+    <li class="breadcrumb-item active" aria-current="page">{{ legend|upper }}</li>
+  </ol>
+</nav>
+{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-sm-12 col-lg-5">
+    <form method="POST" enctype="multipart/form-data" novalidate>
+      {% csrf_token %}
+      <div class="card shadow-lg pt-1 border-success rounded">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span>{% trans "Add photo" %}</span>
+          {% if list_url %}
+          <a href="{% url 'main:news-update' news.pk %}" class="btn btn-sm btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i>{% trans "Back" %}
+          </a>
+          {% endif %}
+        </div>
+        <div class="card-body">
+          {% crispy form %}
+        </div>
+        <div class="card-footer text-end bg-white">
+          <button type="submit" class="btn btn-danger"><i class="bi bi-upload me-1"></i>{% trans "Upload" %}</button>
+        </div>
+      </div> <!--end card-->
+    </form>
+  </div> <!--end col-->
+  <div class="col-sm-12 col-lg-7">
+    <div class="card shadow-lg pt-1 border-success rounded">
+      <div class="card-header">{% trans "Existing photos" %}</div>
+      <div class="card-body">
+        <div class="row g-3">
+          {% for img in images %}
+          <div class="col-6 col-md-4">
+            <div class="border rounded p-2 h-100 d-flex flex-column">
+              <img src="{{ img.image.url }}" class="img-fluid rounded mb-2" alt="{{ img.caption }}">
+              <div class="small text-muted flex-grow-1">{{ img.caption|default:"-" }}</div>
+              {% url 'main:news-image-delete' img.pk as del_url %}
+              {% include "layout/_delete_btn.html" with delete_url=del_url %}
+            </div>
+          </div>
+          {% empty %}
+          <div class="col-12 text-center text-muted py-4">{% trans "No photos yet." %}</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div> <!--end card-->
+  </div> <!--end col-->
+</div> <!--end row-->
+{% endblock %}

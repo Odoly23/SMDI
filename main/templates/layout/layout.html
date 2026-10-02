@@ -38,7 +38,7 @@
       {% endfor %}
     {% endif %}
 
-    <div class="main-content">
+    <div class="main-content {% block content_class %}{% endblock %}">
       {% block content %}{% endblock %}
     </div>
   </div>

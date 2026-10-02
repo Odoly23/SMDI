@@ -1,0 +1,7 @@
+{% load i18n %}
+<form method="post" action="{{ delete_url }}" class="d-inline" onsubmit="return confirm('{% trans "Delete this item? This cannot be undone." %}');">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-sm btn-outline-danger" title="{% trans 'Delete' %}">
+    <i class="bi bi-trash"></i>
+  </button>
+</form>
