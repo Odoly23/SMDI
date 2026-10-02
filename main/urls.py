@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views, views_website, views_org, views_inbox, views_singleton, views_lookup
+from . import views, views_website, views_org, views_inbox, views_singleton, views_lookup, views_users
 
 app_name = "main"
 
@@ -97,4 +97,10 @@ urlpatterns = [
     path("year/create/", views_lookup.year_create, name="year-create"),
     path("year/<int:pk>/edit/", views_lookup.year_update, name="year-update"),
     path("year/<int:pk>/delete/", views_lookup.year_delete, name="year-delete"),
+
+    # Konta Staff (User accounts)
+    path("staff/", views_users.staff_list, name="staff-list"),
+    path("staff/create/", views_users.staff_create, name="staff-create"),
+    path("staff/<int:pk>/edit/", views_users.staff_update, name="staff-update"),
+    path("staff/<int:pk>/delete/", views_users.staff_delete, name="staff-delete"),
 ]
