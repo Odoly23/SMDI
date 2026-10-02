@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views, views_website, views_org, views_inbox, views_singleton
+from . import views, views_website, views_org, views_inbox, views_singleton, views_lookup
 
 app_name = "main"
 
@@ -73,4 +73,28 @@ urlpatterns = [
     path("vision-mission/", views_singleton.vision_mission_edit, name="vision-mission-edit"),
     path("who-we-are/", views_singleton.who_we_are_edit, name="who-we-are-edit"),
     path("site-config/", views_singleton.site_config_edit, name="site-config-edit"),
+
+    # Kategoria (Category)
+    path("category/", views_lookup.category_list, name="category-list"),
+    path("category/create/", views_lookup.category_create, name="category-create"),
+    path("category/<int:pk>/edit/", views_lookup.category_update, name="category-update"),
+    path("category/<int:pk>/delete/", views_lookup.category_delete, name="category-delete"),
+
+    # Munisípiu (Municipality)
+    path("municipality/", views_lookup.municipality_list, name="municipality-list"),
+    path("municipality/create/", views_lookup.municipality_create, name="municipality-create"),
+    path("municipality/<int:pk>/edit/", views_lookup.municipality_update, name="municipality-update"),
+    path("municipality/<int:pk>/delete/", views_lookup.municipality_delete, name="municipality-delete"),
+
+    # Postu Administrativu (AdministrativePost)
+    path("adminpost/", views_lookup.adminpost_list, name="adminpost-list"),
+    path("adminpost/create/", views_lookup.adminpost_create, name="adminpost-create"),
+    path("adminpost/<int:pk>/edit/", views_lookup.adminpost_update, name="adminpost-update"),
+    path("adminpost/<int:pk>/delete/", views_lookup.adminpost_delete, name="adminpost-delete"),
+
+    # Tinan (Year)
+    path("year/", views_lookup.year_list, name="year-list"),
+    path("year/create/", views_lookup.year_create, name="year-create"),
+    path("year/<int:pk>/edit/", views_lookup.year_update, name="year-update"),
+    path("year/<int:pk>/delete/", views_lookup.year_delete, name="year-delete"),
 ]
