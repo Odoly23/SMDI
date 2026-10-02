@@ -1,0 +1,34 @@
+{% extends "layout/list_base.html" %}
+{% load i18n %}
+{% block toolbar %}
+{% if unread_count %}<span class="badge bg-danger">{{ unread_count }} {% trans "unread" %}</span>{% endif %}
+{% endblock %}
+{% block table_head %}
+<th>#</th>
+<th>{% trans "Name" %}</th>
+<th>{% trans "Email" %}</th>
+<th>{% trans "Received" %}</th>
+<th>{% trans "Status" %}</th>
+<th class="text-end">{% trans "Actions" %}</th>
+{% endblock %}
+{% block table_body %}
+{% for obj in page_obj %}
+<tr class="{% if not obj.is_read %}fw-bold{% endif %}">
+  <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
+  <td>{{ obj.name }}</td>
+  <td>{{ obj.email }}</td>
+  <td>{{ obj.created_at }}</td>
+  <td>
+    {% if obj.is_read %}<span class="badge bg-secondary">{% trans "Read" %}</span>
+    {% else %}<span class="badge bg-danger">{% trans "New" %}</span>{% endif %}
+  </td>
+  <td class="text-end">
+    <a href="{% url 'main:message-detail' obj.pk %}" class="btn btn-sm btn-outline-primary" title="{% trans 'View' %}"><i class="bi bi-eye"></i></a>
+    {% url 'main:message-delete' obj.pk as del_url %}
+    {% include "layout/_delete_btn.html" with delete_url=del_url %}
+  </td>
+</tr>
+{% empty %}
+<tr><td colspan="6" class="text-center text-muted py-4">{% trans "No messages yet." %}</td></tr>
+{% endfor %}
+{% endblock %}

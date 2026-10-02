@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views, views_website, views_org
+from . import views, views_website, views_org, views_inbox
 
 app_name = "main"
 
@@ -51,4 +51,15 @@ urlpatterns = [
     path("founder/create/", views_org.founder_create, name="founder-create"),
     path("founder/<int:pk>/edit/", views_org.founder_update, name="founder-update"),
     path("founder/<int:pk>/delete/", views_org.founder_delete, name="founder-delete"),
+
+    # Parseiru / Doador (Partner)
+    path("partner/", views_inbox.partner_list, name="partner-list"),
+    path("partner/create/", views_inbox.partner_create, name="partner-create"),
+    path("partner/<int:pk>/edit/", views_inbox.partner_update, name="partner-update"),
+    path("partner/<int:pk>/delete/", views_inbox.partner_delete, name="partner-delete"),
+
+    # Mensajen Kontaktu (ContactMessage inbox)
+    path("message/", views_inbox.message_list, name="message-list"),
+    path("message/<int:pk>/", views_inbox.message_detail, name="message-detail"),
+    path("message/<int:pk>/delete/", views_inbox.message_delete, name="message-delete"),
 ]
