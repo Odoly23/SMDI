@@ -1,0 +1,26 @@
+{% extends "layout/list_base.html" %}
+{% load i18n %}
+{% block table_head %}
+<th>#</th>
+<th>{% trans "Title" %}</th>
+<th>{% trans "Pilar" %}</th>
+<th>{% trans "Order" %}</th>
+<th class="text-end">{% trans "Actions" %}</th>
+{% endblock %}
+{% block table_body %}
+{% for obj in page_obj %}
+<tr>
+  <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
+  <td>{{ obj.title }}</td>
+  <td>{% if obj.parent %}{{ obj.parent.title }}{% else %}<span class="badge bg-info text-dark">{% trans "Pilar" %}</span>{% endif %}</td>
+  <td>{{ obj.order }}</td>
+  <td class="text-end">
+    <a href="{% url 'main:program-update' obj.pk %}" class="btn btn-sm btn-outline-primary" title="{% trans 'Edit' %}"><i class="bi bi-pencil"></i></a>
+    {% url 'main:program-delete' obj.pk as del_url %}
+    {% include "layout/_delete_btn.html" with delete_url=del_url %}
+  </td>
+</tr>
+{% empty %}
+<tr><td colspan="5" class="text-center text-muted py-4">{% trans "No records yet." %}</td></tr>
+{% endfor %}
+{% endblock %}

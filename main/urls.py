@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views, views_website
+from . import views, views_website, views_org
 
 app_name = "main"
 
@@ -33,4 +33,22 @@ urlpatterns = [
     path("document/create/", views_website.document_create, name="document-create"),
     path("document/<int:pk>/edit/", views_website.document_update, name="document-update"),
     path("document/<int:pk>/delete/", views_website.document_delete, name="document-delete"),
+
+    # Programa (Pilar / Sub-Outcome)
+    path("program/", views_org.program_list, name="program-list"),
+    path("program/create/", views_org.program_create, name="program-create"),
+    path("program/<int:pk>/edit/", views_org.program_update, name="program-update"),
+    path("program/<int:pk>/delete/", views_org.program_delete, name="program-delete"),
+
+    # Organigrama (OrgMember)
+    path("orgmember/", views_org.orgmember_list, name="orgmember-list"),
+    path("orgmember/create/", views_org.orgmember_create, name="orgmember-create"),
+    path("orgmember/<int:pk>/edit/", views_org.orgmember_update, name="orgmember-update"),
+    path("orgmember/<int:pk>/delete/", views_org.orgmember_delete, name="orgmember-delete"),
+
+    # Fundador (Founder)
+    path("founder/", views_org.founder_list, name="founder-list"),
+    path("founder/create/", views_org.founder_create, name="founder-create"),
+    path("founder/<int:pk>/edit/", views_org.founder_update, name="founder-update"),
+    path("founder/<int:pk>/delete/", views_org.founder_delete, name="founder-delete"),
 ]
