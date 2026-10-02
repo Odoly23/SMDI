@@ -16,31 +16,31 @@
       <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-folder2-open"></i> Konteúdu</a>
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="/admin/website/slide/"><i class="bi bi-images"></i> Hero Slider</a></li>
-          <li><a class="dropdown-item" href="/admin/website/visionmission/1/change/"><i class="bi bi-eye"></i> Vizaun &amp; Misaun</a></li>
-          <li><a class="dropdown-item" href="/admin/website/whoweare/1/change/"><i class="bi bi-people"></i> Who We Are</a></li>
-          <li><a class="dropdown-item" href="/admin/website/program/"><i class="bi bi-diagram-3"></i> Programa (Pilar)</a></li>
-          <li><a class="dropdown-item" href="/admin/website/orgmember/"><i class="bi bi-diagram-2"></i> Organigrama</a></li>
-          <li><a class="dropdown-item" href="/admin/website/founder/"><i class="bi bi-people-fill"></i> Fundador</a></li>
+          <li><a class="dropdown-item" href="{% url 'main:slide-list' %}"><i class="bi bi-images"></i> Hero Slider</a></li>
+          <li><a class="dropdown-item" href="{% url 'main:vision-mission-edit' %}"><i class="bi bi-eye"></i> Vizaun &amp; Misaun</a></li>
+          <li><a class="dropdown-item" href="{% url 'main:who-we-are-edit' %}"><i class="bi bi-people"></i> Who We Are</a></li>
+          <li><a class="dropdown-item" href="{% url 'main:program-list' %}"><i class="bi bi-diagram-3"></i> Programa (Pilar)</a></li>
+          <li><a class="dropdown-item" href="{% url 'main:orgmember-list' %}"><i class="bi bi-diagram-2"></i> Organigrama</a></li>
+          <li><a class="dropdown-item" href="{% url 'main:founder-list' %}"><i class="bi bi-people-fill"></i> Fundador</a></li>
         </ul>
       </li>
 
       <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-newspaper"></i> Publikasaun</a>
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="/admin/website/newspost/"><i class="bi bi-newspaper"></i> Notísia</a></li>
-          <li><a class="dropdown-item" href="/admin/website/article/"><i class="bi bi-pencil-square"></i> Artigu</a></li>
-          <li><a class="dropdown-item" href="/admin/website/activity/"><i class="bi bi-activity"></i> Atividade</a></li>
-          <li><a class="dropdown-item" href="/admin/website/document/"><i class="bi bi-file-earmark-pdf"></i> Dokumentu</a></li>
+          <li><a class="dropdown-item" href="{% url 'main:news-list' %}"><i class="bi bi-newspaper"></i> Notísia</a></li>
+          <li><a class="dropdown-item" href="{% url 'main:article-list' %}"><i class="bi bi-pencil-square"></i> Artigu</a></li>
+          <li><a class="dropdown-item" href="{% url 'main:activity-list' %}"><i class="bi bi-activity"></i> Atividade</a></li>
+          <li><a class="dropdown-item" href="{% url 'main:document-list' %}"><i class="bi bi-file-earmark-pdf"></i> Dokumentu</a></li>
         </ul>
       </li>
 
       <li>
-        <a href="/admin/website/partner/"><i class="bi bi-hand-thumbs-up"></i> Parseiru</a>
+        <a href="{% url 'main:partner-list' %}"><i class="bi bi-hand-thumbs-up"></i> Parseiru</a>
       </li>
 
       <li>
-        <a href="/admin/website/contactmessage/">
+        <a href="{% url 'main:message-list' %}">
           <i class="bi bi-envelope"></i> Mensajen
           {% if unread_messages_count %}<span class="badge bg-danger rounded-pill">{{ unread_messages_count }}</span>{% endif %}
         </a>
@@ -50,12 +50,13 @@
       <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-gear"></i> Sistema</a>
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="/admin/config/siteconfig/1/change/"><i class="bi bi-sliders"></i> Konfigurasaun Situs</a></li>
-          <li><a class="dropdown-item" href="/admin/custom/category/"><i class="bi bi-tags"></i> Kategoria</a></li>
-          <li><a class="dropdown-item" href="/admin/auth/user/"><i class="bi bi-person-badge"></i> Utilizador</a></li>
+          <li><a class="dropdown-item" href="{% url 'main:site-config-edit' %}"><i class="bi bi-sliders"></i> Konfigurasaun Situs</a></li>
+          <li><a class="dropdown-item" href="{% url 'main:category-list' %}"><i class="bi bi-tags"></i> Kategoria</a></li>
+          <li><a class="dropdown-item" href="{% url 'main:municipality-list' %}"><i class="bi bi-geo-alt"></i> Munisípiu</a></li>
+          <li><a class="dropdown-item" href="{% url 'main:adminpost-list' %}"><i class="bi bi-geo"></i> Postu Administrativu</a></li>
+          <li><a class="dropdown-item" href="{% url 'main:year-list' %}"><i class="bi bi-calendar3"></i> Tinan</a></li>
+          <li><a class="dropdown-item" href="{% url 'main:staff-list' %}"><i class="bi bi-person-badge"></i> Konta Staff</a></li>
           <li><a class="dropdown-item" href="/admin/auth/group/"><i class="bi bi-people"></i> Grupu / Permisaun</a></li>
-          <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" href="/admin/" target="_blank"><i class="bi bi-box-arrow-up-right"></i> Django Admin Kompletu</a></li>
         </ul>
       </li>
       {% endif %}

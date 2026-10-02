@@ -8,27 +8,27 @@
 
     <div class="sb-sec">Konteúdu</div>
     <ul>
-      <li><a href="/admin/website/slide/"><i class="bi bi-images"></i>Slider</a></li>
-      <li><a href="/admin/website/visionmission/1/change/"><i class="bi bi-eye"></i>Vizaun</a></li>
-      <li><a href="/admin/website/whoweare/1/change/"><i class="bi bi-people"></i>Who We Are</a></li>
-      <li><a href="/admin/website/program/"><i class="bi bi-diagram-3"></i>Programa</a></li>
-      <li><a href="/admin/website/orgmember/"><i class="bi bi-diagram-2"></i>Organigrama</a></li>
-      <li><a href="/admin/website/founder/"><i class="bi bi-people-fill"></i>Fundador</a></li>
+      <li><a href="{% url 'main:slide-list' %}"><i class="bi bi-images"></i>Slider</a></li>
+      <li><a href="{% url 'main:vision-mission-edit' %}"><i class="bi bi-eye"></i>Vizaun</a></li>
+      <li><a href="{% url 'main:who-we-are-edit' %}"><i class="bi bi-people"></i>Who We Are</a></li>
+      <li><a href="{% url 'main:program-list' %}"><i class="bi bi-diagram-3"></i>Programa</a></li>
+      <li><a href="{% url 'main:orgmember-list' %}"><i class="bi bi-diagram-2"></i>Organigrama</a></li>
+      <li><a href="{% url 'main:founder-list' %}"><i class="bi bi-people-fill"></i>Fundador</a></li>
     </ul>
 
     <div class="sb-sec">Publikasaun</div>
     <ul>
-      <li><a href="/admin/website/newspost/"><i class="bi bi-newspaper"></i>Notísia</a></li>
-      <li><a href="/admin/website/article/"><i class="bi bi-pencil-square"></i>Artigu</a></li>
-      <li><a href="/admin/website/activity/"><i class="bi bi-activity"></i>Atividade</a></li>
-      <li><a href="/admin/website/document/"><i class="bi bi-file-earmark-pdf"></i>Dokumentu</a></li>
+      <li><a href="{% url 'main:news-list' %}"><i class="bi bi-newspaper"></i>Notísia</a></li>
+      <li><a href="{% url 'main:article-list' %}"><i class="bi bi-pencil-square"></i>Artigu</a></li>
+      <li><a href="{% url 'main:activity-list' %}"><i class="bi bi-activity"></i>Atividade</a></li>
+      <li><a href="{% url 'main:document-list' %}"><i class="bi bi-file-earmark-pdf"></i>Dokumentu</a></li>
     </ul>
 
     <div class="sb-sec">Relasaun</div>
     <ul>
-      <li><a href="/admin/website/partner/"><i class="bi bi-hand-thumbs-up"></i>Parseiru</a></li>
+      <li><a href="{% url 'main:partner-list' %}"><i class="bi bi-hand-thumbs-up"></i>Parseiru</a></li>
       <li>
-        <a href="/admin/website/contactmessage/">
+        <a href="{% url 'main:message-list' %}">
           <i class="bi bi-envelope"></i>Mensajen{% if unread_messages_count %} ({{ unread_messages_count }}){% endif %}
         </a>
       </li>
@@ -37,11 +37,13 @@
     {% if request.user.is_superuser or request.user.groups.first.name == "admin" %}
     <div class="sb-sec">Sistema</div>
     <ul>
-      <li><a href="/admin/config/siteconfig/1/change/"><i class="bi bi-sliders"></i>Konfig.</a></li>
-      <li><a href="/admin/custom/category/"><i class="bi bi-tags"></i>Kategoria</a></li>
-      <li><a href="/admin/auth/user/"><i class="bi bi-person-badge"></i>Utilizador</a></li>
+      <li><a href="{% url 'main:site-config-edit' %}"><i class="bi bi-sliders"></i>Konfig.</a></li>
+      <li><a href="{% url 'main:category-list' %}"><i class="bi bi-tags"></i>Kategoria</a></li>
+      <li><a href="{% url 'main:municipality-list' %}"><i class="bi bi-geo-alt"></i>Munisípiu</a></li>
+      <li><a href="{% url 'main:adminpost-list' %}"><i class="bi bi-geo"></i>Postu Adm.</a></li>
+      <li><a href="{% url 'main:year-list' %}"><i class="bi bi-calendar3"></i>Tinan</a></li>
+      <li><a href="{% url 'main:staff-list' %}"><i class="bi bi-person-badge"></i>Utilizador</a></li>
       <li><a href="/admin/auth/group/"><i class="bi bi-people"></i>Grupu</a></li>
-      <li><a href="/admin/" target="_blank"><i class="bi bi-box-arrow-up-right"></i>Admin</a></li>
     </ul>
     {% endif %}
 
