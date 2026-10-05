@@ -1,4 +1,8 @@
 import datetime
+import os
+import secrets
+
+from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User, Group
 from django.db import transaction
@@ -719,7 +723,10 @@ class Command(BaseCommand):
                 defaults={"first_name": first, "last_name": last, "email": f"{username}@mditl.org"}
             )
             if created:
-                user.set_password("mdi12345")
+                if settings.DEBUG:
+                    user.set_password("mdi12345")  # demo lokál deit
+                else:
+                    user.set_unusable_password()  # produsaun: admin define password iha /dashboard/staff/
                 user.save()
             profile, _ = Profile.objects.get_or_create(user=user)
             profile.position = position
@@ -766,12 +773,22 @@ class Command(BaseCommand):
 
         # ---------- Superuser dashboard ----------
         if not User.objects.filter(username="admin").exists():
-            admin_user = User.objects.create_superuser("admin", "admin@mditl.org", "admin12345")
+            if settings.DEBUG:
+                admin_pw = "admin12345"  # demo lokál deit
+            else:
+                admin_pw = os.environ.get("SEED_ADMIN_PASSWORD") or secrets.token_urlsafe(16)
+            admin_user = User.objects.create_superuser("admin", "admin@mditl.org", admin_pw)
             Profile.objects.filter(user=admin_user).update(position="Administrador Sistema")
             admin_group = Group.objects.get(name=GROUP_ADMIN)
             admin_user.groups.add(admin_group)
-            self.stdout.write(self.style.WARNING(
-                "Superuser 'admin' kriadu ho password 'admin12345' - troka lalais bainhira produsaun!"
-            ))
+            if settings.DEBUG:
+                self.stdout.write(self.style.WARNING(
+                    "Superuser 'admin' kriadu ho password demo 'admin12345' (DEBUG lokál deit)."
+                ))
+            else:
+                self.stdout.write(self.style.WARNING(
+                    "Superuser 'admin' kriadu. Password (hatudu dala ida deit, hakerek!): "
+                    + (admin_pw if not os.environ.get("SEED_ADMIN_PASSWORD") else "(husi SEED_ADMIN_PASSWORD)")
+                ))
 
         self.stdout.write(self.style.SUCCESS("Seed data MDI kompletu!"))

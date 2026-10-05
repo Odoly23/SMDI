@@ -301,6 +301,15 @@ sismdi_project/
     └── static/main/css/dashboard.css
 ```
 
+## Deploy ke cPanel + MySQL (tanpa terminal)
+
+1. cPanel -> **MySQL Databases**: buat database `mditl2026_simdi`, buat user, lalu *Add User To Database* dengan **ALL PRIVILEGES**.
+2. Isi `.env` di application root: `DJANGO_SECRET_KEY`, `DJANGO_DEBUG=False`, `DJANGO_ALLOWED_HOSTS`, `DJANGO_CSRF_TRUSTED_ORIGINS`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DJANGO_STATIC_ROOT=/home/USER/public_html/static`, `DJANGO_MEDIA_ROOT=/home/USER/public_html/media` (lihat `.env.example`).
+3. Setup Python App (startup `passenger_wsgi.py`, entry `application`) -> **Run Pip Install** (`requirements.txt`).
+4. Di kolom *Execute python script* jalankan berurutan: `manage.py migrate`, `manage.py seed_data`, `manage.py collectstatic --noinput`.
+5. `seed_data` di produksi **tidak** memakai password demo: akun `admin` mendapat password acak yang ditampilkan sekali di output (atau isi `SEED_ADMIN_PASSWORD` di `.env`), akun staff dibuat tanpa password dan diatur admin lewat `/dashboard/staff/`.
+6. Tanpa `DJANGO_SECRET_KEY` dan dengan `DJANGO_DEBUG` bukan `True`, aplikasi menolak start (fail-closed).
+
 ## Konfigurasi Produksi
 
 Semua pengaturan sensitif dibaca dari environment variable (lihat `.env.example`):

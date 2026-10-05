@@ -33,13 +33,19 @@ def env_bool(name, default=False):
 # SECURITY WARNING: keep the secret key used in production secret!
 # Iha produsaun, SETE DJANGO_SECRET_KEY iha .env (haree .env.example).
 # Se DJANGO_SECRET_KEY la iha, sei uza xave "insecure" ba dezenvolvimentu deit.
-SECRET_KEY = os.environ.get(
-    "DJANGO_SECRET_KEY",
-    "django-insecure-)h&k9p9iwvwdl^!tyea@0x15e8os_(*vs*!*-_4tp+c$g)q9uw",
-)
+_DEV_SECRET_KEY = "django-insecure-)h&k9p9iwvwdl^!tyea@0x15e8os_(*vs*!*-_4tp+c$g)q9uw"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env_bool("DJANGO_DEBUG", True)
+
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY") or (_DEV_SECRET_KEY if DEBUG else None)
+if not SECRET_KEY:
+    # Fail-closed: la husik site hala'o iha produsaun ho xave la seguru.
+    from django.core.exceptions import ImproperlyConfigured
+    raise ImproperlyConfigured(
+        "DJANGO_SECRET_KEY la define. Sete iha file .env (haree .env.example) "
+        "— ka sete DJANGO_DEBUG=True ba dezenvolvimentu lokál deit."
+    )
 
 ALLOWED_HOSTS = [
     h.strip() for h in os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",") if h.strip()
@@ -148,19 +154,31 @@ WSGI_APPLICATION = 'sismdi.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if os.environ.get("DB_NAME"):
+    # MySQL/MariaDB (cPanel). Uza PyMySQL (pure-Python, la presiza kompila).
+    import pymysql
+    pymysql.version_info = (2, 2, 1, "final", 0)  # Django 5.2 rekere versaun mysqlclient >= 2.2.1
+    pymysql.install_as_MySQLdb()
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.environ["DB_NAME"],
+            'USER': os.environ.get("DB_USER", ""),
+            'PASSWORD': os.environ.get("DB_PASSWORD", ""),
+            'HOST': os.environ.get("DB_HOST", "localhost"),
+            'PORT': os.environ.get("DB_PORT", "3306"),
+            'CONN_MAX_AGE': 60,
+            'OPTIONS': {'charset': 'utf8mb4'},
+        }
     }
-}
-
-# Ba produsaun ho PostgreSQL/MySQL: seteia DATABASE_URL iha .env
-# (mis. postgres://user:pass@host:5432/dbname) no instala 'dj-database-url' +
-# 'psycopg[binary]', hafoin dekomenta kodigu kraik ne'e.
-# import dj_database_url
-# if os.environ.get("DATABASE_URL"):
-#     DATABASES["default"] = dj_database_url.parse(os.environ["DATABASE_URL"])
+else:
+    # Dezenvolvimentu lokál: SQLite (la presiza konfigurasaun).
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
@@ -207,11 +225,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+# Iha cPanel: sete DJANGO_STATIC_ROOT=/home/USER/public_html/static supaya Apache serve diretamente.
+STATIC_ROOT = Path(os.environ.get('DJANGO_STATIC_ROOT') or BASE_DIR / 'staticfiles')
 
 # Media files (uploaded oleh admin: foto, dokumen, logo, dll)
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+# Iha cPanel: sete DJANGO_MEDIA_ROOT=/home/USER/public_html/media (upload foun mosu iha site).
+MEDIA_ROOT = Path(os.environ.get('DJANGO_MEDIA_ROOT') or BASE_DIR / 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
