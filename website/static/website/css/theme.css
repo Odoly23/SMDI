@@ -827,3 +827,16 @@ a:hover{ color: var(--mdi-green-dark); }
   background: var(--mdi-green, #2E6B47); color:#fff;
   border-radius:50%; font-size:.7rem;
 }
+
+/* ---- Mobile fixes: tanpa overflow horizontal, organigrama rapi ---- */
+@media (max-width: 991.98px){
+  /* g-5 (gutter 3rem) melebihi padding .container (12px) -> halaman melebar. */
+  .row.g-5{ --bs-gutter-x: 1.5rem; --bs-gutter-y: 2rem; }
+  .org-node, .org-node-sm{ min-width: 0; max-width: 100%; }
+}
+@media (max-width: 575.98px){
+  .org-level{ gap: .9rem; margin: 1.1rem 0; }
+  .org-level-1 > [class*="col-"], .org-level-2 > [class*="col-"]{ flex:0 0 100%; max-width:100%; }
+  .org-node, .org-node-sm{ display:block; width:min(100%, 260px); margin-inline:auto; }
+  .org-level-0 .org-node{ display:block; }
+}
