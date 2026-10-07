@@ -5,45 +5,72 @@
 {% include "website/_page_header.html" with eyebrow="What We Do" page_title="What We Do" crumb="What We Do" %}
 <section class="section-pad">
   <div class="container">
+
+    <!-- Cari + filtru tag -->
+    <form method="get" action="{% url 'website:what_we_do' %}" class="wwd-search mb-3" role="search">
+      <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-search"></i></span>
+        <input type="search" name="q" value="{{ q }}" class="form-control" placeholder="{% trans 'Search activities...' %}" aria-label="{% trans 'Search activities' %}">
+        {% if active_tag %}<input type="hidden" name="tag" value="{{ active_tag }}">{% endif %}
+        <button class="btn btn-mdi-primary" type="submit">{% trans "Search" %}</button>
+      </div>
+    </form>
+
+    {% if tags %}
+    <div class="wwd-tags mb-4" aria-label="{% trans 'Filter by category' %}">
+      <a href="{% url 'website:what_we_do' %}{% if q %}?q={{ q|urlencode }}{% endif %}" class="badge-tag wwd-tag {% if not active_tag %}active{% endif %}">{% trans "All" %}</a>
+      {% for t in tags %}
+      <a href="?tag={{ t|urlencode }}{% if q %}&amp;q={{ q|urlencode }}{% endif %}" class="badge-tag wwd-tag {% if t == active_tag %}active{% endif %}">{{ t }}</a>
+      {% endfor %}
+    </div>
+    {% endif %}
+
     <div class="row g-4">
       {% for activity in activities %}
-      <div class="col-lg-3 col-md-6">
-        <div class="activity-card">
+      <div class="col-lg-4 col-md-6">
+        <article class="activity-card">
           <div class="img-wrap">
-            {% if activity.image %}<img src="{{ activity.image.url }}" alt="{{ activity.title }}">
-            {% else %}<img src="{% static 'website/img/news/activity1.svg' %}" alt="{{ activity.title }}">{% endif %}
+            {% if activity.image %}<img src="{{ activity.image.url }}" alt="{{ activity.title }}" loading="lazy">
+            {% else %}<img src="{% static 'website/img/news/activity1.svg' %}" alt="{{ activity.title }}" loading="lazy">{% endif %}
           </div>
           <div class="body">
             <span class="badge-tag">{{ activity.tag }}</span>
-            <h3>{{ activity.title }}</h3>
-            <p>{{ activity.description }}</p>
+            <h3><a href="{{ activity.get_absolute_url }}" class="stretched-link text-reset text-decoration-none">{{ activity.title }}</a></h3>
+            <p>{{ activity.description|truncatewords:100 }}</p>
+            <span class="activity-more">{% trans "View details" %} <i class="bi bi-arrow-right"></i></span>
           </div>
-        </div>
+        </article>
       </div>
+      {% empty %}
+      <div class="col-12"><p class="text-muted mb-0">{% trans "No activities found." %}</p></div>
       {% endfor %}
     </div>
 
+    {% if page_obj.has_other_pages %}
+    <nav class="mt-4" aria-label="Pagination">
+      <ul class="pagination justify-content-center flex-wrap">
+        {% if page_obj.has_previous %}
+        <li class="page-item"><a class="page-link" href="?{% if querystring %}{{ querystring }}&amp;{% endif %}page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+        {% endif %}
+        {% for num in page_obj.paginator.page_range %}
+        <li class="page-item {% if num == page_obj.number %}active{% endif %}"><a class="page-link" href="?{% if querystring %}{{ querystring }}&amp;{% endif %}page={{ num }}">{{ num }}</a></li>
+        {% endfor %}
+        {% if page_obj.has_next %}
+        <li class="page-item"><a class="page-link" href="?{% if querystring %}{{ querystring }}&amp;{% endif %}page={{ page_obj.next_page_number }}">&raquo;</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+    {% endif %}
+
     <div class="mt-5">
-      <h3 class="mb-4">{% trans "Program Areas" %}</h3>
-      <div class="row g-4">
+      <h3 class="mb-3">{% trans "Program Areas" %}</h3>
+      <div class="row g-3">
         {% for program in programs %}
-        <div class="col-md-4">
-          <div class="mdi-card h-100">
+        <div class="col-md-3 col-6">
+          <a href="{{ program.get_absolute_url }}" class="mdi-card d-block text-center program-tile">
             <i class="bi {{ program.icon }} fs-3 text-mdi-red mb-2 d-block"></i>
-            <h3 class="h5" data-i18n-multi="{{ program|i18n_json:'title' }}">{{ program.title }}</h3>
-            <p class="small" data-i18n-multi="{{ program|i18n_json_words:'description:24' }}">{{ program.description|truncatewords:24 }}</p>
-            <a href="{{ program.get_absolute_url }}" class="small fw-semibold">{% trans "Read more" %}</a>
-            {% if program.children.all %}
-            <ul class="list-unstyled small mt-3 mb-0" style="border-top:1px solid var(--mdi-cream-dark);padding-top:.75rem;">
-              {% for child in program.children.all %}
-              <li class="mb-1">
-                <a href="{{ child.get_absolute_url }}"><i class="bi bi-chevron-right me-1"></i>
-                <span data-i18n-multi="{{ child|i18n_json:'title' }}">{{ child.title }}</span></a>
-              </li>
-              {% endfor %}
-            </ul>
-            {% endif %}
-          </div>
+            <span data-i18n-multi="{{ program|i18n_json:'title' }}">{{ program.title }}</span>
+          </a>
         </div>
         {% endfor %}
       </div>

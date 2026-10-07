@@ -1,7 +1,7 @@
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 
-from .models import Article, NewsPost, Program
+from .models import Activity, Article, NewsPost, Program
 
 STATIC_PAGES = [
     "website:home", "website:who_we_are", "website:vision_mission", "website:what_we_do",
@@ -63,10 +63,19 @@ class ArticleSitemap(Sitemap):
         return obj.published_date
 
 
+class ActivitySitemap(Sitemap):
+    changefreq = "monthly"
+    priority = 0.6
+
+    def items(self):
+        return Activity.objects.filter(is_published=True)
+
+
 SITEMAPS = {
     "pages": StaticSitemap,
     "documents": DocumentCategorySitemap,
     "programs": ProgramSitemap,
     "news": NewsSitemap,
     "articles": ArticleSitemap,
+    "activities": ActivitySitemap,
 }

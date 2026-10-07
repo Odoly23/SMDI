@@ -1,0 +1,37 @@
+{% extends "website/base.html" %}
+{% load static i18n %}
+{% block title %}{{ activity.title }}{% endblock %}
+{% block description %}{{ activity.description|truncatewords:30 }}{% endblock %}
+{% block content %}
+{% include "website/_page_header.html" with eyebrow="What We Do" page_title=activity.title crumb=activity.title %}
+<section class="section-pad">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <article class="activity-detail">
+          <div class="activity-detail-img mb-3">
+            {% if activity.image %}<img src="{{ activity.image.url }}" alt="{{ activity.title }}">
+            {% else %}<img src="{% static 'website/img/news/activity1.svg' %}" alt="{{ activity.title }}">{% endif %}
+          </div>
+          <span class="badge-tag">{{ activity.tag }}</span>
+          {% if activity.municipality %}<span class="small text-muted ms-2"><i class="bi bi-geo-alt me-1"></i>{{ activity.municipality }}</span>{% endif %}
+          <h2 class="h3 mt-3">{{ activity.title }}</h2>
+          <div class="activity-detail-text">{{ activity.description|linebreaks }}</div>
+          <a href="{% url 'website:what_we_do' %}" class="btn btn-outline-secondary mt-2"><i class="bi bi-arrow-left me-1"></i>{% trans "Back to What We Do" %}</a>
+        </article>
+      </div>
+      {% if others %}
+      <aside class="col-lg-4">
+        <h3 class="h5 mb-3">{% trans "Other activities" %}</h3>
+        {% for o in others %}
+        <a href="{{ o.get_absolute_url }}" class="mdi-card d-block mb-3 text-decoration-none">
+          <span class="badge-tag">{{ o.tag }}</span>
+          <span class="d-block fw-semibold mt-2">{{ o.title }}</span>
+        </a>
+        {% endfor %}
+      </aside>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -8,6 +8,7 @@ urlpatterns = [
     path("who-we-are/", views.who_we_are, name="who_we_are"),
     path("vision-mission/", views.vision_mission, name="vision_mission"),
     path("what-we-do/", views.what_we_do, name="what_we_do"),
+    path("what-we-do/activity/<int:pk>/", views.activity_detail, name="activity_detail"),
     path("partners-networks/", views.partners_networks, name="partners_networks"),
     path("current-donors/", views.current_donors, name="current_donors"),
     path("program/<slug:slug>/", views.program_detail, name="program_detail"),

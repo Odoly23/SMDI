@@ -83,7 +83,7 @@
 </div>
 
 <!-- =============== NAVBAR =============== -->
-<nav class="navbar navbar-expand-lg navbar-mdi sticky-top">
+<nav class="navbar navbar-expand-xl navbar-mdi sticky-top">
   <div class="container">
     <a class="navbar-brand" href="{% url 'website:home' %}">
       <img src="{% static 'website/img/logo-mdi.png' %}" alt="Logo {{ site_config.site_name }}">
@@ -96,7 +96,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="mdiNavbar">
-      <ul class="navbar-nav ms-auto align-items-lg-center">
+      <ul class="navbar-nav ms-auto align-items-xl-center">
         <li class="nav-item"><a class="nav-link" href="{% url 'website:home' %}">{% trans "Home" %}</a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'website:who_we_are' %}">{% trans "Who We Are" %}</a></li>
 
@@ -143,7 +143,7 @@
         <li class="nav-item"><a class="nav-link" href="{% url 'website:partners_networks' %}">{% trans "Partners" %}</a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'website:current_donors' %}">{% trans "Donors" %}</a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'website:contact' %}">{% trans "Contact" %}</a></li>
-        <li class="nav-item ms-lg-2">
+        <li class="nav-item ms-xl-2">
           {% if request.user.is_authenticated %}
           <div class="dropdown">
             <button class="btn nav-auth-link dropdown-toggle" type="button" data-bs-toggle="dropdown">

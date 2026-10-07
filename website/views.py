@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.core.paginator import Paginator
+from django.db.models import Q
 
 from custom.models import Category
 from .models import (
@@ -38,12 +39,43 @@ def vision_mission(request):
     return render(request, "website/vision_mission.html", context)
 
 
+ACTIVITIES_PER_PAGE = 9
+
+
 def what_we_do(request):
+    """Lista atividade: ringkas (max 100 liafuan), bele buka (q) no filtru tag, ho paginasaun."""
+    q = (request.GET.get("q") or "").strip()
+    tag = (request.GET.get("tag") or "").strip()
+    base = Activity.objects.filter(is_published=True)
+    tags = list(base.order_by("tag").values_list("tag", flat=True).distinct())
+    activities = base
+    if q:
+        activities = activities.filter(
+            Q(title__icontains=q) | Q(description__icontains=q) | Q(tag__icontains=q)
+        )
+    if tag:
+        activities = activities.filter(tag=tag)
+    page_obj = Paginator(activities, ACTIVITIES_PER_PAGE).get_page(request.GET.get("page"))
+    # query string tuir mai (la inklui page) ba link paginasaun
+    keep = request.GET.copy()
+    keep.pop("page", None)
     context = {
-        "activities": Activity.objects.filter(is_published=True),
-        "programs": Program.objects.filter(parent__isnull=True).prefetch_related("children"),
+        "page_obj": page_obj,
+        "activities": page_obj,
+        "tags": tags,
+        "q": q,
+        "active_tag": tag,
+        "total": activities.count(),
+        "querystring": keep.urlencode(),
+        "programs": Program.objects.filter(parent__isnull=True).order_by("order"),
     }
     return render(request, "website/what_we_do.html", context)
+
+
+def activity_detail(request, pk):
+    activity = get_object_or_404(Activity, pk=pk, is_published=True)
+    others = Activity.objects.filter(is_published=True).exclude(pk=pk)[:3]
+    return render(request, "website/activity_detail.html", {"activity": activity, "others": others})
 
 
 def partners_networks(request):

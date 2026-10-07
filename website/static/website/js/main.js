@@ -56,7 +56,7 @@
 
   /* ---------- NAVBAR: PROGRAM SUBMENU (Pilar > Sub-Outcome) ---------- */
   function initSubmenus() {
-    var isMobile = function () { return window.innerWidth < 992; };
+    var isMobile = function () { return window.innerWidth < 1200; };
 
     qsa(".dropdown-submenu > .dropdown-submenu-toggle").forEach(function (toggle) {
       toggle.addEventListener("click", function (e) {

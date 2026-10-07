@@ -177,6 +177,9 @@ class Activity(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return reverse("website:activity_detail", kwargs={"pk": self.pk})
+
 
 # =====================================================================
 # NEWS
