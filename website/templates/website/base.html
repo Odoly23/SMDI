@@ -14,6 +14,7 @@
 <meta name="geo.region" content="TL">
 <meta name="geo.placename" content="Dili, Timor-Leste">
 <meta name="theme-color" content="#A11D26">
+<link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="{{ site_config.site_name }}">
@@ -29,6 +30,16 @@
 <link rel="stylesheet" href="{% static 'website/vendor/bootstrap/css/bootstrap.min.css' %}">
 <link rel="stylesheet" href="{% static 'website/vendor/bootstrap-icons/bootstrap-icons.min.css' %}">
 <link rel="stylesheet" href="{% static 'website/css/theme.css' %}">
+{% if GA_MEASUREMENT_ID %}
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ GA_MEASUREMENT_ID }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '{{ GA_MEASUREMENT_ID }}');
+</script>
+{% endif %}
 {% block head_extra %}{% endblock %}
 </head>
 <body>

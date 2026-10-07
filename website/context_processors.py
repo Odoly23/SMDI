@@ -1,3 +1,5 @@
+from django.conf import settings
+
 from .models import Program
 
 
@@ -10,3 +12,8 @@ def nav_programs(request):
         .order_by("order")
     )
     return {"nav_programs": programs}
+
+
+def analytics(request):
+    """Hatudu ID Google Analytics (GA4) ba template, se defini iha .env."""
+    return {"GA_MEASUREMENT_ID": getattr(settings, "GA_MEASUREMENT_ID", "")}

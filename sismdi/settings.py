@@ -99,6 +99,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sitemaps',
 
     # Terseiru - forms styling
     'crispy_forms',
@@ -141,6 +142,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'config.context_processors.site_config',
                 'website.context_processors.nav_programs',
+                'website.context_processors.analytics',
                 'main.context_processors.dashboard_badges',
                 'django.template.context_processors.i18n',
             ],
@@ -253,3 +255,7 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
 EMAIL_USE_TLS = env_bool("EMAIL_USE_TLS", True)
 DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "no-reply@matadalaninstitute.tl")
+
+
+# Google Analytics 4 (opsional). Hatama iha .env: GA_MEASUREMENT_ID=G-XXXXXXXXXX
+GA_MEASUREMENT_ID = os.environ.get("GA_MEASUREMENT_ID", "").strip()
