@@ -89,7 +89,7 @@ class ResponsiveTests(StaticLiveServerTestCase):
                 self.assertFalse(pg.locator(".navbar-toggler").is_visible())
                 links = pg.locator(".navbar-mdi .navbar-nav > .nav-item > .nav-link")
                 boxes = [links.nth(i).bounding_box() for i in range(links.count())]
-                self.assertGreaterEqual(len(boxes), 9)
+                self.assertGreaterEqual(len(boxes), 8)
                 tops = {round(b["y"]) for b in boxes}
                 self.assertLessEqual(max(tops) - min(tops), 4, "menu pecah jadi >1 baris")
                 brand = pg.locator(".navbar-brand").bounding_box()
@@ -204,3 +204,55 @@ class ResponsiveTests(StaticLiveServerTestCase):
         pg.wait_for_load_state()
         self.assertIn("/what-we-do/activity/", pg.url)
         self.assertIn("kata299", pg.content())
+
+    # -- 4. halaman detail aktivitas ---------------------------------------
+    def test_activity_detail_long_text_is_clamped_and_expands(self):
+        for key in ("hp-360", "tablet-768", "laptop-1366"):
+            with self.subTest(viewport=key):
+                pg, w = self.page(key, f"/what-we-do/activity/{self.activity.pk}/")
+                text = pg.locator(".activity-detail-text")
+                self.assertTrue(pg.locator("[data-clamp].is-clamped").count() == 1, "teks panjang harus terlipat")
+                folded = text.bounding_box()["height"]
+                pg.click(".clamp-toggle")
+                opened = text.bounding_box()["height"]
+                self.assertGreater(opened, folded)
+                self.assertEqual(pg.locator("[data-clamp].is-clamped").count(), 0)
+
+    def test_activity_detail_sidebar_does_not_overlap_footer(self):
+        for key in ("hp-360", "tablet-768", "laptop-1366"):
+            with self.subTest(viewport=key):
+                pg, w = self.page(key, f"/what-we-do/activity/{self.activity.pk}/")
+                footer = pg.locator(".footer-mdi").bounding_box()
+                items = pg.locator(".related-item")
+                self.assertGreater(items.count(), 0)
+                for i in range(items.count()):
+                    b = items.nth(i).bounding_box()
+                    self.assertLessEqual(b["y"] + b["height"], footer["y"] + 1, "kartu menimpa footer")
+                    self.assertLessEqual(b["height"], 140, "kartu terlalu tinggi")
+                    self.assertGreaterEqual(b["x"], 0)
+                    self.assertLessEqual(b["x"] + b["width"], w)
+
+    # -- 5. menu dropdown ----------------------------------------------------
+    def test_navbar_groups_open_on_phone(self):
+        pg, _ = self.page("hp-360", "/")
+        pg.click(".navbar-toggler")
+        pg.wait_for_timeout(400)
+        pg.click(".navbar-mdi .nav-link.dropdown-toggle >> nth=0")
+        pg.wait_for_timeout(300)
+        visible = pg.locator(".navbar-mdi .dropdown-menu.show .dropdown-item")
+        self.assertGreaterEqual(visible.count(), 2)
+        for i in range(visible.count()):
+            b = visible.nth(i).bounding_box()
+            self.assertLessEqual(b["x"] + b["width"], 360)
+
+    def test_navbar_groups_open_on_desktop_inside_viewport(self):
+        pg, w = self.page("laptop-1366", "/")
+        toggles = pg.locator(".navbar-mdi .nav-link.dropdown-toggle")
+        for i in range(toggles.count()):
+            toggles.nth(i).click()
+            pg.wait_for_timeout(200)
+            menu = pg.locator(".navbar-mdi .dropdown-menu.show").first
+            if menu.count():
+                b = menu.bounding_box()
+                self.assertGreaterEqual(b["x"], 0)
+                self.assertLessEqual(b["x"] + b["width"], w)

@@ -7,6 +7,36 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+msgid "About Us"
+msgstr "Sobre Nós"
+
+msgid "Partnership"
+msgstr "Parcerias"
+
+msgid "Media"
+msgstr "Media"
+
+msgid "News"
+msgstr "Notícias"
+
+msgid "Show less"
+msgstr "Mostrar menos"
+
+msgid "Previous"
+msgstr "Anterior"
+
+msgid "Next"
+msgstr "Seguinte"
+
+msgid "Activities"
+msgstr "Atividades"
+
+msgid "Other activities"
+msgstr "Outras atividades"
+
+msgid "Back to What We Do"
+msgstr "Voltar a O Que Fazemos"
+
 msgid "Home"
 msgstr "Início"
 

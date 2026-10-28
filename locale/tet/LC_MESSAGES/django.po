@@ -7,6 +7,36 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+msgid "About Us"
+msgstr "Kona-ba Ami"
+
+msgid "Partnership"
+msgstr "Parseria"
+
+msgid "Media"
+msgstr "Média"
+
+msgid "News"
+msgstr "Notísia"
+
+msgid "Show less"
+msgstr "Hatudu uitoan"
+
+msgid "Previous"
+msgstr "Anterior"
+
+msgid "Next"
+msgstr "Tuir mai"
+
+msgid "Activities"
+msgstr "Atividade sira"
+
+msgid "Other activities"
+msgstr "Atividade seluk"
+
+msgid "Back to What We Do"
+msgstr "Fila ba Saida Ami Halo"
+
 msgid "Home"
 msgstr "Uma Pájina"
 

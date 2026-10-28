@@ -74,8 +74,18 @@ def what_we_do(request):
 
 def activity_detail(request, pk):
     activity = get_object_or_404(Activity, pk=pk, is_published=True)
-    others = Activity.objects.filter(is_published=True).exclude(pk=pk)[:3]
-    return render(request, "website/activity_detail.html", {"activity": activity, "others": others})
+    ordered = list(Activity.objects.filter(is_published=True).only("pk", "title", "tag", "image", "order"))
+    ids = [a.pk for a in ordered]
+    i = ids.index(activity.pk) if activity.pk in ids else 0
+    prev_activity = ordered[i - 1] if i > 0 else None
+    next_activity = ordered[i + 1] if i + 1 < len(ordered) else None
+    others = [a for a in ordered if a.pk != activity.pk][:4]
+    words = len(activity.description.split())
+    return render(request, "website/activity_detail.html", {
+        "activity": activity, "others": others,
+        "prev_activity": prev_activity, "next_activity": next_activity,
+        "read_minutes": max(1, round(words / 200)),
+    })
 
 
 def partners_networks(request):

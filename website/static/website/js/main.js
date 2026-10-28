@@ -107,6 +107,26 @@
     });
   }
 
+  /* ---------- TEKS PANJANG: lipat + tombol "Lee tan" ---------- */
+  function initClamp() {
+    qsa("[data-clamp]").forEach(function (box) {
+      var text = box.querySelector(".activity-detail-text") || box;
+      box.classList.add("is-clamped");
+      if (text.scrollHeight <= text.clientHeight + 40) { box.classList.remove("is-clamped"); return; }
+      var btn = document.createElement("button");
+      btn.type = "button"; btn.className = "btn btn-outline-secondary btn-sm clamp-toggle";
+      btn.setAttribute("aria-expanded", "false");
+      btn.textContent = box.getAttribute("data-more") || "Read more";
+      btn.addEventListener("click", function () {
+        var open = box.classList.toggle("is-clamped") === false;
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+        btn.textContent = open ? (box.getAttribute("data-less") || "Show less") : (box.getAttribute("data-more") || "Read more");
+        if (!open) box.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+      box.appendChild(btn);
+    });
+  }
+
   /* ---------- YEAR STAMP ---------- */
   function stampYear() {
     qsa("[data-year]").forEach(function (el) {
@@ -120,6 +140,7 @@
     markActiveNav();
     initBackToTop();
     stampYear();
+    initClamp();
   });
 
   window.MDI = { getLang: getLang };

@@ -12,6 +12,16 @@ LOCALE_DIR = BASE_DIR / "locale"
 
 # msgid (English, as written in templates) -> {"tet": .., "id": .., "pt": .., "en": ..}
 STRINGS = {
+    "About Us": {"tet": "Kona-ba Ami", "id": "Tentang Kami", "pt": "Sobre Nós", "en": "About Us"},
+    "Partnership": {"tet": "Parseria", "id": "Kemitraan", "pt": "Parcerias", "en": "Partnership"},
+    "Media": {"tet": "Média", "id": "Media", "pt": "Media", "en": "Media"},
+    "News": {"tet": "Notísia", "id": "Berita", "pt": "Notícias", "en": "News"},
+    "Show less": {"tet": "Hatudu uitoan", "id": "Tampilkan lebih sedikit", "pt": "Mostrar menos", "en": "Show less"},
+    "Previous": {"tet": "Anterior", "id": "Sebelumnya", "pt": "Anterior", "en": "Previous"},
+    "Next": {"tet": "Tuir mai", "id": "Berikutnya", "pt": "Seguinte", "en": "Next"},
+    "Activities": {"tet": "Atividade sira", "id": "Kegiatan", "pt": "Atividades", "en": "Activities"},
+    "Other activities": {"tet": "Atividade seluk", "id": "Kegiatan lainnya", "pt": "Outras atividades", "en": "Other activities"},
+    "Back to What We Do": {"tet": "Fila ba Saida Ami Halo", "id": "Kembali ke Apa yang Kami Lakukan", "pt": "Voltar a O Que Fazemos", "en": "Back to What We Do"},
     "Home": {"tet": "Uma Pájina", "id": "Beranda", "pt": "Início", "en": "Home"},
     "Who We Are": {"tet": "Ita Sé", "id": "Tentang Kami", "pt": "Quem Somos", "en": "Who We Are"},
     "Program": {"tet": "Programa", "id": "Program", "pt": "Programa", "en": "Program"},

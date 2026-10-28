@@ -156,3 +156,34 @@ class SeoTests(TestCase):
     @override_settings(GA_MEASUREMENT_ID="G-TEST123456")
     def test_analytics_with_id(self):
         self.assertContains(self.client.get("/"), "G-TEST123456")
+
+
+class ActivityDetailPageTests(TestCase):
+    def setUp(self):
+        self.items = [Activity.objects.create(tag="T", title=f"Aktividade {i}", description="kata " * 50, order=i)
+                      for i in range(6)]
+
+    def test_context_has_pager_and_limited_others(self):
+        r = self.client.get(self.items[2].get_absolute_url())
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(r.context["prev_activity"].pk, self.items[1].pk)
+        self.assertEqual(r.context["next_activity"].pk, self.items[3].pk)
+        self.assertEqual(len(r.context["others"]), 4)
+        self.assertNotIn(self.items[2].pk, [o.pk for o in r.context["others"]])
+        self.assertGreaterEqual(r.context["read_minutes"], 1)
+
+    def test_first_and_last_have_one_neighbour(self):
+        self.assertIsNone(self.client.get(self.items[0].get_absolute_url()).context["prev_activity"])
+        self.assertIsNone(self.client.get(self.items[-1].get_absolute_url()).context["next_activity"])
+
+    def test_uses_compact_related_list_not_stretching_cards(self):
+        html = self.client.get(self.items[0].get_absolute_url()).content.decode()
+        self.assertIn("related-item", html)
+        self.assertNotIn("mdi-card", html)
+        self.assertIn("data-clamp", html)
+
+    def test_navbar_has_grouped_dropdowns(self):
+        html = self.client.get("/").content.decode()
+        self.assertEqual(html.count("dropdown-toggle"), html.count('data-bs-toggle="dropdown"') - html.count('btn nav-auth-link dropdown-toggle'))
+        for url in ("/who-we-are/", "/vision-mission/", "/partners-networks/", "/current-donors/", "/news/", "/articles/"):
+            self.assertIn(f'class="dropdown-item" href="{url}"', html)

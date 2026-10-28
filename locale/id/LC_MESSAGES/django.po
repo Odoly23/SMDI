@@ -7,6 +7,36 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+msgid "About Us"
+msgstr "Tentang Kami"
+
+msgid "Partnership"
+msgstr "Kemitraan"
+
+msgid "Media"
+msgstr "Media"
+
+msgid "News"
+msgstr "Berita"
+
+msgid "Show less"
+msgstr "Tampilkan lebih sedikit"
+
+msgid "Previous"
+msgstr "Sebelumnya"
+
+msgid "Next"
+msgstr "Berikutnya"
+
+msgid "Activities"
+msgstr "Kegiatan"
+
+msgid "Other activities"
+msgstr "Kegiatan lainnya"
+
+msgid "Back to What We Do"
+msgstr "Kembali ke Apa yang Kami Lakukan"
+
 msgid "Home"
 msgstr "Beranda"
 

@@ -4,31 +4,64 @@
 {% block description %}{{ activity.description|truncatewords:30 }}{% endblock %}
 {% block content %}
 {% include "website/_page_header.html" with eyebrow="What We Do" page_title=activity.title crumb=activity.title %}
-<section class="section-pad">
+<section class="section-pad activity-page">
   <div class="container">
-    <div class="row g-4">
+    <div class="row g-4 g-xl-5">
       <div class="col-lg-8">
         <article class="activity-detail">
-          <div class="activity-detail-img mb-3">
-            {% if activity.image %}<img src="{{ activity.image.url }}" alt="{{ activity.title }}">
-            {% else %}<img src="{% static 'website/img/news/activity1.svg' %}" alt="{{ activity.title }}">{% endif %}
+          <figure class="activity-hero mb-4">
+            {% if activity.image %}<img src="{{ activity.image.url }}" alt="{{ activity.title }}" loading="eager" decoding="async">
+            {% else %}<img src="{% static 'website/img/news/activity1.svg' %}" alt="{{ activity.title }}" loading="eager" decoding="async">{% endif %}
+          </figure>
+          <div class="activity-meta mb-3">
+            <span class="badge-tag">{{ activity.tag }}</span>
+            {% if activity.municipality %}<span class="activity-meta-item"><i class="bi bi-geo-alt"></i>{{ activity.municipality }}</span>{% endif %}
+            <span class="activity-meta-item"><i class="bi bi-calendar3"></i>{{ activity.created_at|date:"d M Y" }}</span>
+            <span class="activity-meta-item"><i class="bi bi-clock"></i>{{ read_minutes }} min</span>
           </div>
-          <span class="badge-tag">{{ activity.tag }}</span>
-          {% if activity.municipality %}<span class="small text-muted ms-2"><i class="bi bi-geo-alt me-1"></i>{{ activity.municipality }}</span>{% endif %}
-          <h2 class="h3 mt-3">{{ activity.title }}</h2>
-          <div class="activity-detail-text">{{ activity.description|linebreaks }}</div>
-          <a href="{% url 'website:what_we_do' %}" class="btn btn-outline-secondary mt-2"><i class="bi bi-arrow-left me-1"></i>{% trans "Back to What We Do" %}</a>
+          <div class="activity-body" data-clamp data-more="{% trans 'Read more' %}" data-less="{% trans 'Show less' %}">
+            <div class="activity-detail-text">{{ activity.description|linebreaks }}</div>
+          </div>
+          <div class="activity-actions mt-4">
+            <a href="{% url 'website:what_we_do' %}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>{% trans "Back to What We Do" %}</a>
+          </div>
+          {% if prev_activity or next_activity %}
+          <nav class="activity-pager" aria-label="{% trans 'Activities' %}">
+            {% if prev_activity %}
+            <a href="{{ prev_activity.get_absolute_url }}" class="activity-pager-link prev">
+              <span class="small text-muted"><i class="bi bi-arrow-left me-1"></i>{% trans "Previous" %}</span>
+              <span class="fw-semibold">{{ prev_activity.title|truncatechars:60 }}</span>
+            </a>{% else %}<span></span>{% endif %}
+            {% if next_activity %}
+            <a href="{{ next_activity.get_absolute_url }}" class="activity-pager-link next">
+              <span class="small text-muted">{% trans "Next" %}<i class="bi bi-arrow-right ms-1"></i></span>
+              <span class="fw-semibold">{{ next_activity.title|truncatechars:60 }}</span>
+            </a>{% endif %}
+          </nav>
+          {% endif %}
         </article>
       </div>
       {% if others %}
       <aside class="col-lg-4">
-        <h3 class="h5 mb-3">{% trans "Other activities" %}</h3>
-        {% for o in others %}
-        <a href="{{ o.get_absolute_url }}" class="mdi-card d-block mb-3 text-decoration-none">
-          <span class="badge-tag">{{ o.tag }}</span>
-          <span class="d-block fw-semibold mt-2">{{ o.title }}</span>
-        </a>
-        {% endfor %}
+        <div class="activity-side">
+          <h2 class="h5 mb-3">{% trans "Other activities" %}</h2>
+          <ul class="related-list">
+            {% for o in others %}
+            <li>
+              <a href="{{ o.get_absolute_url }}" class="related-item">
+                <span class="related-thumb">
+                  {% if o.image %}<img src="{{ o.image.url }}" alt="" loading="lazy" decoding="async">
+                  {% else %}<img src="{% static 'website/img/news/activity1.svg' %}" alt="" loading="lazy" decoding="async">{% endif %}
+                </span>
+                <span class="related-text">
+                  <span class="badge-tag">{{ o.tag }}</span>
+                  <span class="related-title">{{ o.title }}</span>
+                </span>
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
       </aside>
       {% endif %}
     </div>

@@ -98,7 +98,13 @@
     <div class="collapse navbar-collapse" id="mdiNavbar">
       <ul class="navbar-nav ms-auto align-items-xl-center">
         <li class="nav-item"><a class="nav-link" href="{% url 'website:home' %}">{% trans "Home" %}</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'website:who_we_are' %}">{% trans "Who We Are" %}</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{% trans "About Us" %}</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'website:who_we_are' %}">{% trans "Who We Are" %}</a></li>
+            <li><a class="dropdown-item" href="{% url 'website:vision_mission' %}">{% trans "Vision and Mission" %}</a></li>
+          </ul>
+        </li>
 
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="{% url 'website:what_we_do' %}" role="button" data-bs-toggle="dropdown">{% trans "Program" %}</a>
@@ -128,7 +134,7 @@
         </li>
 
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">{% trans "Documents" %}</a>
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{% trans "Documents" %}</a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="{% url 'website:documents_by_category' 'doc-pnds' %}">{% trans "Doc PNDS" %}</a></li>
             <li><a class="dropdown-item" href="{% url 'website:documents_by_category' 'doc-oge' %}">{% trans "Doc OGE" %}</a></li>
@@ -138,10 +144,21 @@
           </ul>
         </li>
 
-        <li class="nav-item"><a class="nav-link" href="{% url 'website:vision_mission' %}">{% trans "Vision and Mission" %}</a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'website:what_we_do' %}">{% trans "What We Do" %}</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'website:partners_networks' %}">{% trans "Partners" %}</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'website:current_donors' %}">{% trans "Donors" %}</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{% trans "Partnership" %}</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'website:partners_networks' %}">{% trans "Partners and Networks" %}</a></li>
+            <li><a class="dropdown-item" href="{% url 'website:current_donors' %}">{% trans "Current Donors" %}</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{% trans "Media" %}</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'website:news_list' %}">{% trans "News" %}</a></li>
+            <li><a class="dropdown-item" href="{% url 'website:article_list' %}">{% trans "Articles" %}</a></li>
+          </ul>
+        </li>
         <li class="nav-item"><a class="nav-link" href="{% url 'website:contact' %}">{% trans "Contact" %}</a></li>
         <li class="nav-item ms-xl-2">
           {% if request.user.is_authenticated %}
