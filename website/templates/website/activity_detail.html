@@ -1,6 +1,12 @@
 {% extends "website/base.html" %}
 {% load static i18n %}
 {% block title %}{{ activity.title }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block og_title %}{{ activity.title }}{% endblock %}
+{% block og_description %}{{ activity.description|truncatewords:30 }}{% endblock %}
+{% block og_image %}{% if activity.image %}{{ request.scheme }}://{{ request.get_host }}{{ activity.image.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'website/img/logo-mdi.png' %}{% endif %}{% endblock %}
+{% block tw_title %}{{ activity.title }}{% endblock %}
+{% block tw_image %}{% if activity.image %}{{ request.scheme }}://{{ request.get_host }}{{ activity.image.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'website/img/logo-mdi.png' %}{% endif %}{% endblock %}
 {% block description %}{{ activity.description|truncatewords:30 }}{% endblock %}
 {% block content %}
 {% include "website/_page_header.html" with eyebrow="What We Do" page_title=activity.title crumb=activity.title %}
@@ -22,6 +28,7 @@
           <div class="activity-body" data-clamp data-more="{% trans 'Read more' %}" data-less="{% trans 'Show less' %}">
             <div class="activity-detail-text">{{ activity.description|linebreaks }}</div>
           </div>
+          {% include "website/_share.html" with share_title=activity.title %}
           <div class="activity-actions mt-4">
             <a href="{% url 'website:what_we_do' %}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>{% trans "Back to What We Do" %}</a>
           </div>

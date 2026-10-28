@@ -16,13 +16,17 @@
 <meta name="theme-color" content="#A11D26">
 <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
 
-<meta property="og:type" content="website">
+<meta property="og:type" content="{% block og_type %}website{% endblock %}">
 <meta property="og:site_name" content="{{ site_config.site_name }}">
 <meta property="og:title" content="{% block og_title %}{{ site_config.site_name }}{% endblock %}">
-<meta property="og:description" content="{{ site_config.about_text }}">
+<meta property="og:description" content="{% block og_description %}{{ site_config.about_text|truncatechars:200 }}{% endblock %}">
+<meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+<meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'website/img/logo-mdi.png' %}{% endblock %}">
 <meta property="og:locale" content="{{ LANGUAGE_CODE }}">
 
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{% block tw_title %}{{ site_config.site_name }}{% endblock %}">
+<meta name="twitter:image" content="{% block tw_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'website/img/logo-mdi.png' %}{% endblock %}">
 
 <link rel="icon" type="image/png" href="{% static 'website/img/logo-mdi.png' %}">
 <link rel="apple-touch-icon" href="{% static 'website/img/logo-mdi.png' %}">
@@ -33,7 +37,7 @@
 {% if GA_MEASUREMENT_ID %}
 <!-- Google Analytics 4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id={{ GA_MEASUREMENT_ID }}"></script>
-<script>
+<script nonce="{{ csp_nonce }}">
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
@@ -133,6 +137,7 @@
           </ul>
         </li>
 
+        {% if PUBLIC_DOCUMENTS %}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{% trans "Documents" %}</a>
           <ul class="dropdown-menu">
@@ -143,6 +148,7 @@
             <li><a class="dropdown-item" href="{% url 'website:documents_by_category' 'doc-outros' %}">{% trans "Other Documents" %}</a></li>
           </ul>
         </li>
+        {% endif %}
 
         <li class="nav-item"><a class="nav-link" href="{% url 'website:what_we_do' %}">{% trans "What We Do" %}</a></li>
         <li class="nav-item dropdown">

@@ -12,6 +12,20 @@ LOCALE_DIR = BASE_DIR / "locale"
 
 # msgid (English, as written in templates) -> {"tet": .., "id": .., "pt": .., "en": ..}
 STRINGS = {
+    "Page not found": {"tet": "Pájina la hetan", "id": "Halaman tidak ditemukan", "pt": "Página não encontrada", "en": "Page not found"},
+    "The page you are looking for does not exist or has been moved.": {"tet": "Pájina ne'ebé ita buka la existe ka muda ona.", "id": "Halaman yang Anda cari tidak ada atau telah dipindahkan.", "pt": "A página que procura não existe ou foi movida.", "en": "The page you are looking for does not exist or has been moved."},
+    "Our impact in numbers": {"tet": "Ami nia impaktu iha númeru", "id": "Dampak kami dalam angka", "pt": "O nosso impacto em números", "en": "Our impact in numbers"},
+    "Municipalities reached": {"tet": "Munisípiu ne'ebé ami to'o", "id": "Munisipalitas terjangkau", "pt": "Municípios alcançados", "en": "Municipalities reached"},
+    "Where We Work": {"tet": "Ami Servisu iha Ne'ebé", "id": "Wilayah Kerja", "pt": "Onde Trabalhamos", "en": "Where We Work"},
+    "Our Areas of Work": {"tet": "Ami nia Area Servisu", "id": "Area Kerja Kami", "pt": "As Nossas Áreas de Trabalho", "en": "Our Areas of Work"},
+    "Click a circle to see activities in that municipality.": {"tet": "Klik sirkulu atu haree atividade iha munisípiu ne'e.", "id": "Klik lingkaran untuk melihat kegiatan di munisipalitas tersebut.", "pt": "Clique num círculo para ver as atividades nesse município.", "en": "Click a circle to see activities in that municipality."},
+    "View activities": {"tet": "Haree atividade", "id": "Lihat kegiatan", "pt": "Ver atividades", "en": "View activities"},
+    "activities": {"tet": "atividade", "id": "kegiatan", "pt": "atividades", "en": "activities"},
+    "Map of municipalities where MDI works": {"tet": "Mapa munisípiu ne'ebé MDI servisu", "id": "Peta munisipalitas tempat MDI bekerja", "pt": "Mapa dos municípios onde o MDI trabalha", "en": "Map of municipalities where MDI works"},
+    "Clear filter": {"tet": "Hamoos filtru", "id": "Hapus filter", "pt": "Limpar filtro", "en": "Clear filter"},
+    "Share": {"tet": "Fahe", "id": "Bagikan", "pt": "Partilhar", "en": "Share"},
+    "Copy link": {"tet": "Kopia ligasaun", "id": "Salin tautan", "pt": "Copiar ligação", "en": "Copy link"},
+    "Link copied": {"tet": "Ligasaun kopia ona", "id": "Tautan disalin", "pt": "Ligação copiada", "en": "Link copied"},
     "About Us": {"tet": "Kona-ba Ami", "id": "Tentang Kami", "pt": "Sobre Nós", "en": "About Us"},
     "Partnership": {"tet": "Parseria", "id": "Kemitraan", "pt": "Parcerias", "en": "Partnership"},
     "Media": {"tet": "Média", "id": "Media", "pt": "Media", "en": "Media"},

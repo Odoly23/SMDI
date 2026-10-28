@@ -119,6 +119,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'config.middleware.LoginRateLimitMiddleware',
+    'config.middleware.SecurityHeadersMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -143,6 +144,7 @@ TEMPLATES = [
                 'config.context_processors.site_config',
                 'website.context_processors.nav_programs',
                 'website.context_processors.analytics',
+                'website.context_processors.csp_nonce',
                 'main.context_processors.dashboard_badges',
                 'django.template.context_processors.i18n',
             ],
@@ -258,4 +260,6 @@ DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "no-reply@matadalanins
 
 
 # Google Analytics 4 (opsional). Hatama iha .env: GA_MEASUREMENT_ID=G-XXXXXXXXXX
+CSP_REPORT_ONLY = env_bool("DJANGO_CSP_REPORT_ONLY", False)  # True = CSP cuma relata, la bloke
+PUBLIC_DOCUMENTS = env_bool("DJANGO_PUBLIC_DOCUMENTS", False)  # halaman Dokumen publik: mati secara default
 GA_MEASUREMENT_ID = os.environ.get("GA_MEASUREMENT_ID", "").strip()

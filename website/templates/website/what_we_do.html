@@ -12,10 +12,15 @@
         <span class="input-group-text"><i class="bi bi-search"></i></span>
         <input type="search" name="q" value="{{ q }}" class="form-control" placeholder="{% trans 'Search activities...' %}" aria-label="{% trans 'Search activities' %}">
         {% if active_tag %}<input type="hidden" name="tag" value="{{ active_tag }}">{% endif %}
+        {% if active_mun %}<input type="hidden" name="mun" value="{{ active_mun }}">{% endif %}
         <button class="btn btn-mdi-primary" type="submit">{% trans "Search" %}</button>
       </div>
     </form>
 
+    {% if active_mun %}
+    <p class="mb-3"><span class="badge-tag"><i class="bi bi-geo-alt me-1"></i>{{ active_mun }}</span>
+      <a href="{% url 'website:what_we_do' %}" class="small ms-2">{% trans "Clear filter" %}</a></p>
+    {% endif %}
     {% if tags %}
     <div class="wwd-tags mb-4" aria-label="{% trans 'Filter by category' %}">
       <a href="{% url 'website:what_we_do' %}{% if q %}?q={{ q|urlencode }}{% endif %}" class="badge-tag wwd-tag {% if not active_tag %}active{% endif %}">{% trans "All" %}</a>

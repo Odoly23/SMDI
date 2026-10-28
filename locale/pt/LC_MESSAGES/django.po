@@ -7,6 +7,48 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+msgid "Page not found"
+msgstr "Página não encontrada"
+
+msgid "The page you are looking for does not exist or has been moved."
+msgstr "A página que procura não existe ou foi movida."
+
+msgid "Our impact in numbers"
+msgstr "O nosso impacto em números"
+
+msgid "Municipalities reached"
+msgstr "Municípios alcançados"
+
+msgid "Where We Work"
+msgstr "Onde Trabalhamos"
+
+msgid "Our Areas of Work"
+msgstr "As Nossas Áreas de Trabalho"
+
+msgid "Click a circle to see activities in that municipality."
+msgstr "Clique num círculo para ver as atividades nesse município."
+
+msgid "View activities"
+msgstr "Ver atividades"
+
+msgid "activities"
+msgstr "atividades"
+
+msgid "Map of municipalities where MDI works"
+msgstr "Mapa dos municípios onde o MDI trabalha"
+
+msgid "Clear filter"
+msgstr "Limpar filtro"
+
+msgid "Share"
+msgstr "Partilhar"
+
+msgid "Copy link"
+msgstr "Copiar ligação"
+
+msgid "Link copied"
+msgstr "Ligação copiada"
+
 msgid "About Us"
 msgstr "Sobre Nós"
 

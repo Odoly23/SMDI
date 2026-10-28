@@ -70,7 +70,7 @@ class ResponsiveTests(StaticLiveServerTestCase):
         return ["/", "/who-we-are/", "/vision-mission/", "/what-we-do/",
                 f"/what-we-do/activity/{self.activity.pk}/", "/partners-networks/",
                 "/current-donors/", "/news/", "/articles/", "/contact/",
-                "/documents/doc-pnds/", "/program/pilar-1/"]
+                "/program/pilar-1/"]
 
     # -- 1. la iha scroll horizontal ----------------------------------------
     def test_no_horizontal_overflow(self):
@@ -89,7 +89,7 @@ class ResponsiveTests(StaticLiveServerTestCase):
                 self.assertFalse(pg.locator(".navbar-toggler").is_visible())
                 links = pg.locator(".navbar-mdi .navbar-nav > .nav-item > .nav-link")
                 boxes = [links.nth(i).bounding_box() for i in range(links.count())]
-                self.assertGreaterEqual(len(boxes), 8)
+                self.assertGreaterEqual(len(boxes), 7)
                 tops = {round(b["y"]) for b in boxes}
                 self.assertLessEqual(max(tops) - min(tops), 4, "menu pecah jadi >1 baris")
                 brand = pg.locator(".navbar-brand").bounding_box()
@@ -256,3 +256,40 @@ class ResponsiveTests(StaticLiveServerTestCase):
                 b = menu.bounding_box()
                 self.assertGreaterEqual(b["x"], 0)
                 self.assertLessEqual(b["x"] + b["width"], w)
+
+    # -- 6. CSP: la iha violasaun iha pajina publika hotu ----------------------
+    def test_no_csp_violations_on_public_pages(self):
+        from custom.models import Municipality
+        Activity.objects.filter(pk=self.activity.pk).update(municipality=Municipality.objects.create(name="Dili"))
+        pg_paths = self.paths() + ["/halaman-tidak-ada/"]
+        for path in pg_paths:
+            with self.subTest(path=path):
+                w, h = VIEWPORTS["laptop-1366"]
+                ctx = self.browser.new_context(viewport={"width": w, "height": h})
+                self.addCleanup(ctx.close)
+                pg = ctx.new_page()
+                msgs = []
+                pg.on("console", lambda m: msgs.append(m.text) if "Content Security Policy" in m.text else None)
+                pg.add_init_script("window.__csp=[];document.addEventListener('securitypolicyviolation',e=>window.__csp.push(e.violatedDirective+' '+e.blockedURI))")
+                pg.goto(self.live_server_url + path, wait_until="domcontentloaded")
+                pg.wait_for_timeout(1200)
+                events = pg.evaluate("window.__csp")
+                self.assertEqual(msgs + events, [], f"CSP violation on {path}")
+
+    def test_homepage_impact_map_renders_circles(self):
+        from custom.models import Municipality
+        Activity.objects.filter(pk=self.activity.pk).update(municipality=Municipality.objects.create(name="Dili"))
+        pg, _ = self.page("hp-360", "/")
+        pg.wait_for_timeout(1000)
+        self.assertGreaterEqual(pg.locator("#mdiImpactMap path.leaflet-interactive").count(), 1)
+        self.assertGreater(pg.locator(".impact-band .impact-num").count(), 0)
+
+    def test_share_copy_button_works(self):
+        ctx = self.browser.new_context(viewport={"width": 390, "height": 800}, permissions=["clipboard-read", "clipboard-write"])
+        self.addCleanup(ctx.close)
+        pg = ctx.new_page()
+        pg.goto(self.live_server_url + f"/what-we-do/activity/{self.activity.pk}/", wait_until="domcontentloaded")
+        pg.click("[data-share-copy]")
+        pg.wait_for_timeout(300)
+        self.assertTrue(pg.locator(".share-status").inner_text().strip())
+        self.assertIn(f"/what-we-do/activity/{self.activity.pk}/", pg.evaluate("navigator.clipboard.readText()"))

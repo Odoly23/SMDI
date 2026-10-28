@@ -127,6 +127,31 @@
     });
   }
 
+  /* ---------- BAGIKAN: salin link + share bawaan HP ---------- */
+  function initShare() {
+    qsa("[data-share]").forEach(function (bar) {
+      var status = bar.querySelector(".share-status");
+      var title = bar.getAttribute("data-share-title") || document.title;
+      var say = function (t) { if (status) { status.textContent = t; setTimeout(function () { status.textContent = ""; }, 2500); } };
+      var copy = bar.querySelector("[data-share-copy]");
+      if (copy) copy.addEventListener("click", function () {
+        var url = window.location.href;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(function () { say(bar.getAttribute("data-copied")); });
+        } else {
+          var ta = document.createElement("textarea"); ta.value = url; document.body.appendChild(ta); ta.select();
+          try { document.execCommand("copy"); say(bar.getAttribute("data-copied")); } catch (e) {}
+          document.body.removeChild(ta);
+        }
+      });
+      var nat = bar.querySelector("[data-share-native]");
+      if (nat && navigator.share) {
+        nat.classList.remove("d-none");
+        nat.addEventListener("click", function () { navigator.share({ title: title, url: window.location.href }).catch(function () {}); });
+      }
+    });
+  }
+
   /* ---------- YEAR STAMP ---------- */
   function stampYear() {
     qsa("[data-year]").forEach(function (el) {
@@ -141,6 +166,7 @@
     initBackToTop();
     stampYear();
     initClamp();
+    initShare();
   });
 
   window.MDI = { getLang: getLang };

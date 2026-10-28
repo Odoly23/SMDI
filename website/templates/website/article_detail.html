@@ -2,6 +2,13 @@
 {% load static i18n %}
 {% load i18n_extras %}
 {% block title %}{{ article.title }}{% endblock %}
+{% block description %}{{ article.excerpt|default:article.title }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block og_title %}{{ article.title }}{% endblock %}
+{% block og_description %}{{ article.excerpt|default:article.title }}{% endblock %}
+{% block og_image %}{% if article.cover_image %}{{ request.scheme }}://{{ request.get_host }}{{ article.cover_image.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'website/img/logo-mdi.png' %}{% endif %}{% endblock %}
+{% block tw_title %}{{ article.title }}{% endblock %}
+{% block tw_image %}{% if article.cover_image %}{{ request.scheme }}://{{ request.get_host }}{{ article.cover_image.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'website/img/logo-mdi.png' %}{% endif %}{% endblock %}
 {% block content %}
 {% include "website/_page_header.html" with eyebrow_key="articles.eyebrow" eyebrow="Artigu" page_title=article.title crumb=article.title %}
 <section class="section-pad">
@@ -30,6 +37,7 @@
         </div>
         <p class="lead">{{ article.excerpt }}</p>
         <div style="color:var(--mdi-ink-soft); white-space:pre-line;">{{ article.body }}</div>
+        {% include "website/_share.html" with share_title=article.title %}
         <a href="{% url 'website:article_list' %}" class="btn-mdi-outline mt-4" style="color:var(--mdi-red);border-color:var(--mdi-red);">
           &laquo; <span>{% trans "Back to Articles" %}</span>
         </a>

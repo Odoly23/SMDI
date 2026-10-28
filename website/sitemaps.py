@@ -27,7 +27,8 @@ class DocumentCategorySitemap(Sitemap):
     priority = 0.6
 
     def items(self):
-        return DOC_CATEGORIES
+        from django.conf import settings
+        return DOC_CATEGORIES if getattr(settings, "PUBLIC_DOCUMENTS", False) else []
 
     def location(self, slug):
         return reverse("website:documents_by_category", kwargs={"cat_slug": slug})

@@ -16,4 +16,12 @@ def nav_programs(request):
 
 def analytics(request):
     """Hatudu ID Google Analytics (GA4) ba template, se defini iha .env."""
-    return {"GA_MEASUREMENT_ID": getattr(settings, "GA_MEASUREMENT_ID", "")}
+    return {
+        "GA_MEASUREMENT_ID": getattr(settings, "GA_MEASUREMENT_ID", ""),
+        "PUBLIC_DOCUMENTS": getattr(settings, "PUBLIC_DOCUMENTS", False),
+    }
+
+
+def csp_nonce(request):
+    """Nonce CSP ba inline <script> iha template publika."""
+    return {"csp_nonce": getattr(request, "csp_nonce", "")}

@@ -3,7 +3,7 @@ from django.test import TestCase, override_settings
 from django.urls import reverse
 
 from custom.models import Category
-from .models import Activity, NewsPost, Program
+from .models import Activity, Article, ImpactStat, NewsPost, Program
 
 
 def words(n, prefix="kata"):
@@ -23,7 +23,6 @@ class PublicPagesTests(TestCase):
             reverse("website:partners_networks"), reverse("website:current_donors"),
             reverse("website:news_list"), reverse("website:article_list"),
             reverse("website:contact"),
-            reverse("website:documents_by_category", args=["doc-pnds"]),
             reverse("website:program_detail", args=["pilar-1"]),
         ]
         for url in urls:
@@ -187,3 +186,142 @@ class ActivityDetailPageTests(TestCase):
         self.assertEqual(html.count("dropdown-toggle"), html.count('data-bs-toggle="dropdown"') - html.count('btn nav-auth-link dropdown-toggle'))
         for url in ("/who-we-are/", "/vision-mission/", "/partners-networks/", "/current-donors/", "/news/", "/articles/"):
             self.assertIn(f'class="dropdown-item" href="{url}"', html)
+
+
+class HiddenDocumentsTests(TestCase):
+    """Dokumen la publiku (default): menu la hatudu, URL 404, la iha iha sitemap."""
+    def setUp(self):
+        Category.objects.create(name="Doc PNDS", slug="doc-pnds", context="document")
+
+    def test_documents_url_is_404_by_default(self):
+        self.assertEqual(self.client.get("/documents/doc-pnds/").status_code, 404)
+
+    def test_no_documents_menu_or_sitemap(self):
+        html = self.client.get("/").content.decode()
+        self.assertNotIn("/documents/", html)
+        self.assertNotIn("/documents/", self.client.get("/sitemap.xml").content.decode())
+
+    @override_settings(PUBLIC_DOCUMENTS=True)
+    def test_can_be_turned_on_again(self):
+        self.assertEqual(self.client.get("/documents/doc-pnds/").status_code, 200)
+        self.assertIn("/documents/doc-pnds/", self.client.get("/").content.decode())
+
+
+class SharingAndSeoTests(TestCase):
+    def setUp(self):
+        import datetime
+        self.news = NewsPost.objects.create(title="Berita Tes", slug="berita-tes", excerpt="Ringkasan tes",
+                                            body="isi", published_date=datetime.date(2026, 1, 1))
+        self.act = Activity.objects.create(tag="T", title="Aktividade Tes", description="deskrisaun " * 30)
+
+    def test_share_bar_and_open_graph_on_detail_pages(self):
+        for url in (f"/news/{self.news.slug}/", self.act.get_absolute_url()):
+            with self.subTest(url=url):
+                html = self.client.get(url).content.decode()
+                self.assertIn("data-share", html)
+                self.assertIn("wa.me/?text=", html)
+                self.assertIn("facebook.com/sharer", html)
+                self.assertIn('property="og:type" content="article"', html)
+                self.assertIn('property="og:url"', html)
+                self.assertIn('property="og:image" content="http://testserver/', html)
+                self.assertIn('name="twitter:title"', html)
+
+    def test_og_title_matches_page(self):
+        html = self.client.get(f"/news/{self.news.slug}/").content.decode()
+        self.assertIn('property="og:title" content="Berita Tes"', html)
+        self.assertIn('property="og:description" content="Ringkasan tes"', html)
+
+
+class ImpactTests(TestCase):
+    def test_auto_stats_from_database_when_no_manual_entries(self):
+        from custom.models import Municipality
+        dili = Municipality.objects.create(name="Dili")
+        Activity.objects.create(tag="T", title="A1", description="x", municipality=dili)
+        Activity.objects.create(tag="T", title="A2", description="x", municipality=dili)
+        r = self.client.get("/")
+        values = {s.get("key"): s["value"] for s in r.context["impact_stats"]}
+        self.assertEqual(values["activities"], 2)
+        self.assertEqual(values["municipalities"], 1)
+        self.assertEqual(r.context["impact_points"], [{"name": "Dili", "count": 2, "lat": -8.5586, "lng": 125.5736}])
+        self.assertContains(r, "impact-band")
+        self.assertContains(r, 'id="impactPoints"')
+
+    def test_manual_stats_override_auto(self):
+        ImpactStat.objects.create(label="Suku", value=120, suffix="+", order=1)
+        ImpactStat.objects.create(label="Hidden", value=9, is_active=False)
+        r = self.client.get("/")
+        self.assertEqual([s["label"] for s in r.context["impact_stats"]], ["Suku"])
+        self.assertContains(r, "120")
+
+    def test_no_empty_sections_without_data(self):
+        r = self.client.get("/")
+        self.assertNotContains(r, "impact-band")
+        self.assertNotContains(r, "mdiImpactMap")
+
+    def test_unknown_municipality_is_not_plotted(self):
+        from custom.models import Municipality
+        m = Municipality.objects.create(name="Tempat Asing")
+        Activity.objects.create(tag="T", title="A", description="x", municipality=m)
+        self.assertEqual(self.client.get("/").context["impact_points"], [])
+
+    def test_municipality_filter_on_what_we_do(self):
+        from custom.models import Municipality
+        d = Municipality.objects.create(name="Dili"); e = Municipality.objects.create(name="Ermera")
+        Activity.objects.create(tag="T", title="Di Dili", description="x", municipality=d)
+        Activity.objects.create(tag="T", title="Di Ermera", description="x", municipality=e)
+        r = self.client.get("/what-we-do/?mun=Dili")
+        self.assertEqual([a.title for a in r.context["activities"]], ["Di Dili"])
+
+    def test_geo_aliases(self):
+        from .geo import centroid_for
+        for name in ("Liquiçá", "liquica", "RAEOA", "Lautém", "Dili"):
+            self.assertIsNotNone(centroid_for(name), name)
+        self.assertIsNone(centroid_for("Mars"))
+
+
+class SecurityHeaderTests(TestCase):
+    def test_csp_on_public_pages_with_nonce(self):
+        r = self.client.get("/")
+        csp = r["Content-Security-Policy"]
+        self.assertIn("default-src 'self'", csp)
+        self.assertIn("frame-ancestors 'none'", csp)
+        self.assertIn("object-src 'none'", csp)
+        self.assertNotIn("script-src 'self' 'unsafe-inline'", csp)
+        self.assertIn("nonce-", csp)
+        self.assertIn("camera=()", r["Permissions-Policy"])
+
+    @override_settings(CSP_REPORT_ONLY=True)
+    def test_report_only_switch(self):
+        r = self.client.get("/")
+        self.assertTrue(r.has_header("Content-Security-Policy-Report-Only"))
+        self.assertFalse(r.has_header("Content-Security-Policy"))
+
+    def test_dashboard_and_admin_exempt_from_csp(self):
+        for path in ("/admin/login/", "/dashboard/login/"):
+            self.assertFalse(self.client.get(path).has_header("Content-Security-Policy"), path)
+
+    @override_settings(GA_MEASUREMENT_ID="G-TEST123")
+    def test_inline_ga_script_has_matching_nonce(self):
+        r = self.client.get("/")
+        nonce = r["Content-Security-Policy"].split("'nonce-")[1].split("'")[0]
+        self.assertIn(f'<script nonce="{nonce}">', r.content.decode())
+
+    def test_no_inline_scripts_without_nonce_on_public_pages(self):
+        import re
+        for path in ("/", "/what-we-do/", "/who-we-are/", "/contact/"):
+            html = self.client.get(path).content.decode()
+            for tag in re.findall(r"<script(?![^>]*\bsrc=)(?![^>]*type=\"application/json\")[^>]*>", html):
+                self.assertIn("nonce=", tag, f"{path}: {tag}")
+
+    @override_settings(DEBUG=False, ALLOWED_HOSTS=["testserver"])
+    def test_friendly_404_page(self):
+        r = self.client.get("/halaman-tidak-ada/")
+        self.assertEqual(r.status_code, 404)
+        self.assertContains(r, "error-code", status_code=404)
+        self.assertContains(r, 'href="/"', status_code=404)
+
+    def test_500_page_renders_standalone(self):
+        from django.template.loader import render_to_string
+        html = render_to_string("500.html")
+        self.assertIn("500", html)
+        self.assertNotIn("{{", html)

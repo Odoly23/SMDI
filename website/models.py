@@ -362,3 +362,24 @@ class ContactMessage(models.Model):
 
     def __str__(self):
         return f"{self.name} <{self.email}>"
+
+
+# =====================================================================
+# IMPACT STATS (angka dampak di homepage; opsional, diisi manual)
+# =====================================================================
+class ImpactStat(models.Model):
+    label = models.CharField(max_length=100, help_text="Label (Tetum, default). Mis. 'Suku ne'ebé ami akompaña'")
+    label_i18n = models.JSONField(default=dict, blank=True, help_text='Tradusaun: {"id":"..","pt":"..","en":".."}')
+    value = models.PositiveIntegerField(help_text="Nomór (mis. 120)")
+    suffix = models.CharField(max_length=5, blank=True, help_text="Opsional: '+', '%', dst.")
+    icon = models.CharField(max_length=50, default="bi-bar-chart", help_text="Nome klase Bootstrap Icons")
+    order = models.PositiveIntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["order", "id"]
+        verbose_name = "Estatístika Impaktu"
+        verbose_name_plural = "Estatístika Impaktu"
+
+    def __str__(self):
+        return f"{self.label}: {self.value}{self.suffix}"

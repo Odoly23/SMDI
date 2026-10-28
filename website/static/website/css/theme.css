@@ -975,3 +975,26 @@ a:hover{ color: var(--mdi-green-dark); }
 @media (max-width:575.98px){
   .page-header h1{ display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden; }
 }
+
+/* ---- Tombol bagikan ---- */
+.share-bar{ display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; margin-top:1.75rem; padding-top:1.25rem; border-top:1px solid var(--mdi-cream-dark); }
+.share-label{ font-weight:600; font-size:.9rem; margin-right:.25rem; }
+.share-btn{ width:40px; height:40px; border-radius:50%; border:1px solid var(--mdi-cream-dark); background:#fff; color: var(--mdi-ink); display:inline-flex; align-items:center; justify-content:center; font-size:1.1rem; text-decoration:none; cursor:pointer; transition: background .2s ease, color .2s ease, transform .2s ease; }
+.share-btn:hover, .share-btn:focus-visible{ background: var(--mdi-red); color:#fff; border-color: var(--mdi-red); transform: translateY(-2px); }
+.share-btn.wa:hover{ background:#25D366; border-color:#25D366; }
+.share-btn.fb:hover{ background:#1877F2; border-color:#1877F2; }
+
+/* ---- Statistik dampak + peta area kerja ---- */
+.impact-band{ background: linear-gradient(120deg, #241E14, #7C141C); color:#fff; padding: 2.4rem 0; }
+.impact-item{ padding:.5rem; }
+.impact-item .bi{ font-size:1.6rem; color: var(--mdi-gold-light); }
+.impact-num{ font-family: var(--font-display); font-weight:700; font-size: clamp(1.9rem, 5vw, 2.8rem); line-height:1.1; margin:.3rem 0 .15rem; }
+.impact-label{ font-size:.9rem; color:#e9dfc4; overflow-wrap:anywhere; }
+#mdiImpactMap{ width:100%; height:420px; background:#eee; }
+@media (max-width:575.98px){ #mdiImpactMap{ height:320px; } .impact-band{ padding:1.8rem 0; } }
+.impact-legend .badge-tag{ text-decoration:none; }
+.impact-legend .badge-tag:hover{ background: var(--mdi-red); color:#fff; }
+
+/* ---- Halaman error ---- */
+.error-page{ min-height:50vh; display:flex; align-items:center; }
+.error-code{ font-family: var(--font-display); font-weight:700; font-size: clamp(4rem, 18vw, 8rem); line-height:1; color: var(--mdi-red); margin:.5rem 0; }

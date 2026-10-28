@@ -1,18 +1,46 @@
+from django.conf import settings
+from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.core.paginator import Paginator
-from django.db.models import Q
+from django.db.models import Count, Q
 
 from custom.models import Category
 from .models import (
     Slide, VisionMission, WhoWeAre, Program, Activity,
-    NewsPost, Article, OrgMember, Founder, Partner, Document
+    NewsPost, Article, OrgMember, Founder, Partner, Document, ImpactStat
 )
+from .geo import centroid_for
 from .forms import ContactMessageForm
+
+
+def impact_context():
+    """Angka dampak: pakai ImpactStat manual (admin) se iha; se la iha, uza kontajen otomátiku husi database.
+    Mapa: munisípiu ho atividade publika no koordenadanian."""
+    published = Activity.objects.filter(is_published=True)
+    manual = list(ImpactStat.objects.filter(is_active=True))
+    if manual:
+        stats = [{"obj": m, "label": m.label, "value": m.value, "suffix": m.suffix, "icon": m.icon} for m in manual]
+    else:
+        stats = [
+            {"obj": None, "label": "Atividade", "key": "activities", "value": published.count(), "suffix": "", "icon": "bi-activity"},
+            {"obj": None, "label": "Munisípiu", "key": "municipalities", "value": published.exclude(municipality__isnull=True).values("municipality").distinct().count(), "suffix": "", "icon": "bi-geo-alt"},
+            {"obj": None, "label": "Notísia", "key": "news", "value": NewsPost.objects.filter(is_published=True).count(), "suffix": "", "icon": "bi-newspaper"},
+            {"obj": None, "label": "Parseiru", "key": "partners", "value": Partner.objects.count(), "suffix": "", "icon": "bi-people"},
+        ]
+        stats = [s for s in stats if s["value"] > 0]
+    points = []
+    rows = published.exclude(municipality__isnull=True).values("municipality__name").annotate(n=Count("id")).order_by("-n")
+    for r in rows:
+        c = centroid_for(r["municipality__name"])
+        if c:
+            points.append({"name": r["municipality__name"], "count": r["n"], "lat": c[0], "lng": c[1]})
+    return {"impact_stats": stats, "impact_points": points}
 
 
 def home(request):
     context = {
+        **impact_context(),
         "slides": Slide.objects.filter(is_active=True),
         "vision_mission": VisionMission.load(),
         "who_we_are": WhoWeAre.load(),
@@ -46,6 +74,7 @@ def what_we_do(request):
     """Lista atividade: ringkas (max 100 liafuan), bele buka (q) no filtru tag, ho paginasaun."""
     q = (request.GET.get("q") or "").strip()
     tag = (request.GET.get("tag") or "").strip()
+    mun = (request.GET.get("mun") or "").strip()
     base = Activity.objects.filter(is_published=True)
     tags = list(base.order_by("tag").values_list("tag", flat=True).distinct())
     activities = base
@@ -55,6 +84,8 @@ def what_we_do(request):
         )
     if tag:
         activities = activities.filter(tag=tag)
+    if mun:
+        activities = activities.filter(municipality__name=mun)
     page_obj = Paginator(activities, ACTIVITIES_PER_PAGE).get_page(request.GET.get("page"))
     # query string tuir mai (la inklui page) ba link paginasaun
     keep = request.GET.copy()
@@ -65,6 +96,7 @@ def what_we_do(request):
         "tags": tags,
         "q": q,
         "active_tag": tag,
+        "active_mun": mun,
         "total": activities.count(),
         "querystring": keep.urlencode(),
         "programs": Program.objects.filter(parent__isnull=True).order_by("order"),
@@ -110,6 +142,8 @@ def program_detail(request, slug):
 
 
 def documents_by_category(request, cat_slug):
+    if not getattr(settings, "PUBLIC_DOCUMENTS", False):
+        raise Http404("Dokumen la publiku")
     category = get_object_or_404(Category, slug=cat_slug, context="document")
     documents = Document.objects.filter(category=category)
     return render(request, "website/documents.html", {
@@ -152,3 +186,14 @@ def contact(request):
     else:
         form = ContactMessageForm()
     return render(request, "website/contact.html", {"form": form})
+
+
+def error_404(request, exception=None):
+    return render(request, "404.html", status=404)
+
+
+def error_500(request):
+    """Standalone: la uza context processor/database, atu bele hatudu maske sistema iha problema."""
+    from django.http import HttpResponseServerError
+    from django.template.loader import render_to_string
+    return HttpResponseServerError(render_to_string("500.html"))

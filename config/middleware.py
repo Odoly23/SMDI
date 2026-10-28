@@ -52,3 +52,51 @@ class LoginRateLimitMiddleware:
                 cache.set(key, cache.get(key, 0) + 1, WINDOW_SECONDS)
 
         return response
+
+
+# ---------------------------------------------------------------------
+# Header seguransa ba pájina publika: CSP ho nonce + Permissions-Policy.
+# Panel /admin/ no /dashboard/ la tama iha CSP (iha inline script/style rasik).
+# Troka ba mode "report-only" (la bloke, deit relata iha console) ho
+# DJANGO_CSP_REPORT_ONLY=1 se iha buat ruma ne'ebé sala depois de update.
+# ---------------------------------------------------------------------
+import secrets
+
+from django.conf import settings
+
+CSP_EXEMPT_PREFIXES = ("/admin/", "/dashboard/")
+
+
+def build_csp(nonce):
+    parts = [
+        "default-src 'self'",
+        f"script-src 'self' 'nonce-{nonce}' https://www.googletagmanager.com",
+        "style-src 'self' 'unsafe-inline'",
+        "img-src 'self' data: blob: https://*.tile.openstreetmap.org https://s01.flagcounter.com "
+        "https://www.googletagmanager.com https://*.google-analytics.com",
+        "font-src 'self' data:",
+        "connect-src 'self' https://router.project-osrm.org https://*.google-analytics.com "
+        "https://*.analytics.google.com https://www.googletagmanager.com",
+        "media-src 'self'",
+        "frame-src 'none'",
+        "object-src 'none'",
+        "base-uri 'self'",
+        "form-action 'self'",
+        "frame-ancestors 'none'",
+    ]
+    return "; ".join(parts)
+
+
+class SecurityHeadersMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        request.csp_nonce = secrets.token_urlsafe(16)
+        response = self.get_response(request)
+        response.setdefault("Permissions-Policy", "camera=(), microphone=(), payment=(), usb=(), geolocation=(self)")
+        if not request.path.startswith(CSP_EXEMPT_PREFIXES):
+            name = ("Content-Security-Policy-Report-Only"
+                    if getattr(settings, "CSP_REPORT_ONLY", False) else "Content-Security-Policy")
+            response[name] = build_csp(request.csp_nonce)
+        return response

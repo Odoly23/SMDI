@@ -39,10 +39,12 @@
         </div>
         {% endif %}
 
+        {% if PUBLIC_DOCUMENTS %}
         <p style="color:var(--mdi-ink-soft)" class="mt-4">
           {% blocktrans %}Detailed content and relevant documents for this program area can be found in the{% endblocktrans %}
           <a href="{% url 'website:documents_by_category' 'doc-pnds' %}">{% trans "Documents" %}</a> {% trans "section." %}
         </p>
+        {% endif %}
       </div>
       <div class="col-lg-4">
         <div class="mdi-card">

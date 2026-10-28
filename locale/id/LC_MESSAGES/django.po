@@ -7,6 +7,48 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+msgid "Page not found"
+msgstr "Halaman tidak ditemukan"
+
+msgid "The page you are looking for does not exist or has been moved."
+msgstr "Halaman yang Anda cari tidak ada atau telah dipindahkan."
+
+msgid "Our impact in numbers"
+msgstr "Dampak kami dalam angka"
+
+msgid "Municipalities reached"
+msgstr "Munisipalitas terjangkau"
+
+msgid "Where We Work"
+msgstr "Wilayah Kerja"
+
+msgid "Our Areas of Work"
+msgstr "Area Kerja Kami"
+
+msgid "Click a circle to see activities in that municipality."
+msgstr "Klik lingkaran untuk melihat kegiatan di munisipalitas tersebut."
+
+msgid "View activities"
+msgstr "Lihat kegiatan"
+
+msgid "activities"
+msgstr "kegiatan"
+
+msgid "Map of municipalities where MDI works"
+msgstr "Peta munisipalitas tempat MDI bekerja"
+
+msgid "Clear filter"
+msgstr "Hapus filter"
+
+msgid "Share"
+msgstr "Bagikan"
+
+msgid "Copy link"
+msgstr "Salin tautan"
+
+msgid "Link copied"
+msgstr "Tautan disalin"
+
 msgid "About Us"
 msgstr "Tentang Kami"
 

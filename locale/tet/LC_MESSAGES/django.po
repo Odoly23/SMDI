@@ -7,6 +7,48 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+msgid "Page not found"
+msgstr "Pájina la hetan"
+
+msgid "The page you are looking for does not exist or has been moved."
+msgstr "Pájina ne'ebé ita buka la existe ka muda ona."
+
+msgid "Our impact in numbers"
+msgstr "Ami nia impaktu iha númeru"
+
+msgid "Municipalities reached"
+msgstr "Munisípiu ne'ebé ami to'o"
+
+msgid "Where We Work"
+msgstr "Ami Servisu iha Ne'ebé"
+
+msgid "Our Areas of Work"
+msgstr "Ami nia Area Servisu"
+
+msgid "Click a circle to see activities in that municipality."
+msgstr "Klik sirkulu atu haree atividade iha munisípiu ne'e."
+
+msgid "View activities"
+msgstr "Haree atividade"
+
+msgid "activities"
+msgstr "atividade"
+
+msgid "Map of municipalities where MDI works"
+msgstr "Mapa munisípiu ne'ebé MDI servisu"
+
+msgid "Clear filter"
+msgstr "Hamoos filtru"
+
+msgid "Share"
+msgstr "Fahe"
+
+msgid "Copy link"
+msgstr "Kopia ligasaun"
+
+msgid "Link copied"
+msgstr "Ligasaun kopia ona"
+
 msgid "About Us"
 msgstr "Kona-ba Ami"
 

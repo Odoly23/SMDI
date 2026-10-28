@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import (
     Slide, VisionMission, WhoWeAre, Program, Activity,
-    NewsPost, NewsImage, Article, OrgMember, Founder, Partner, Document, ContactMessage
+    NewsPost, NewsImage, Article, OrgMember, Founder, Partner, Document, ContactMessage, ImpactStat
 )
 
 I18N_HELP = (
@@ -94,6 +94,16 @@ class ProgramAdmin(admin.ModelAdmin):
             "fields": ("title_i18n", "heading_i18n", "description_i18n"),
             "description": I18N_HELP,
         }),
+    )
+
+
+@admin.register(ImpactStat)
+class ImpactStatAdmin(admin.ModelAdmin):
+    list_display = ("label", "value", "suffix", "icon", "order", "is_active")
+    list_editable = ("order", "is_active")
+    fieldsets = (
+        (None, {"fields": ("label", "value", "suffix", "icon", "order", "is_active")}),
+        ("Tradusaun (opsional)", {"classes": ("collapse",), "fields": ("label_i18n",), "description": I18N_HELP}),
     )
 
 

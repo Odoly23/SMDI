@@ -1,6 +1,13 @@
 {% extends "website/base.html" %}
-{% load i18n %}
+{% load static i18n %}
 {% block title %}{{ post.title }}{% endblock %}
+{% block description %}{{ post.excerpt }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block og_title %}{{ post.title }}{% endblock %}
+{% block og_description %}{{ post.excerpt }}{% endblock %}
+{% block og_image %}{% if post.image %}{{ request.scheme }}://{{ request.get_host }}{{ post.image.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'website/img/logo-mdi.png' %}{% endif %}{% endblock %}
+{% block tw_title %}{{ post.title }}{% endblock %}
+{% block tw_image %}{% if post.image %}{{ request.scheme }}://{{ request.get_host }}{{ post.image.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'website/img/logo-mdi.png' %}{% endif %}{% endblock %}
 {% block content %}
 {% include "website/_page_header.html" with eyebrow="News" page_title=post.title crumb=post.title %}
 <section class="section-pad">
@@ -11,6 +18,7 @@
         <p class="text-muted small mb-1">{{ post.published_date|date:"d F Y" }} {% if post.category %}&middot; {{ post.category.name }}{% endif %}</p>
         <p class="lead">{{ post.excerpt }}</p>
         <div style="color:var(--mdi-ink-soft); white-space:pre-line;">{{ post.body }}</div>
+        {% include "website/_share.html" with share_title=post.title %}
 
         {% if post.gallery_images.all %}
         <div class="mt-5">

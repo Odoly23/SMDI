@@ -1,0 +1,16 @@
+{% load i18n %}
+{% comment %}Parameter: share_title (teks). URL = halaman ini.{% endcomment %}
+<div class="share-bar" data-share data-share-title="{{ share_title }}" data-copied="{% trans 'Link copied' %}">
+  <span class="share-label"><i class="bi bi-share me-1"></i>{% trans "Share" %}</span>
+  {% with url=request.scheme|add:"://"|add:request.get_host|add:request.path %}
+  <a class="share-btn wa" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"
+     href="https://wa.me/?text={{ share_title|urlencode }}%20{{ url|urlencode }}"><i class="bi bi-whatsapp"></i></a>
+  <a class="share-btn fb" target="_blank" rel="noopener noreferrer" aria-label="Facebook"
+     href="https://www.facebook.com/sharer/sharer.php?u={{ url|urlencode }}"><i class="bi bi-facebook"></i></a>
+  <a class="share-btn em" aria-label="Email"
+     href="mailto:?subject={{ share_title|urlencode }}&amp;body={{ url|urlencode }}"><i class="bi bi-envelope"></i></a>
+  {% endwith %}
+  <button type="button" class="share-btn copy" data-share-copy aria-label="{% trans 'Copy link' %}"><i class="bi bi-link-45deg"></i></button>
+  <button type="button" class="share-btn native d-none" data-share-native aria-label="{% trans 'Share' %}"><i class="bi bi-box-arrow-up"></i></button>
+  <span class="share-status small text-muted" role="status" aria-live="polite"></span>
+</div>
