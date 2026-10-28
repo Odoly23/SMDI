@@ -1,5 +1,6 @@
 {% extends "website/base.html" %}
 {% load static i18n %}
+{% load media_extras %}
 {% load i18n_extras %}
 {% block title %}{% trans "Articles" %}{% endblock %}
 {% block content %}
@@ -12,7 +13,7 @@
         <div class="article-card article-card-rich h-100">
           <div class="article-cover">
             {% if article.cover_image %}
-            <img src="{{ article.cover_image.url }}" alt="{{ article.title }}" loading="lazy">
+            <img src="{{ article.cover_image|thumb:720 }}" alt="{{ article.title }}" loading="lazy" decoding="async">
             {% else %}
             <div class="article-cover-fallback"><i class="bi bi-file-text"></i></div>
             {% endif %}
@@ -23,7 +24,7 @@
             <p>{{ article.excerpt }}</p>
             <div class="author mt-auto">
               {% if article.author.profile.photo %}
-              <img src="{{ article.author.profile.photo.url }}" alt="{{ article.author.get_full_name }}">
+              <img src="{{ article.author.profile.photo|thumb:160 }}" alt="{{ article.author.get_full_name }}" loading="lazy" decoding="async">
               {% else %}
               <img src="{% static 'website/img/team/staff1.svg' %}" alt="{{ article.author.get_full_name }}">
               {% endif %}

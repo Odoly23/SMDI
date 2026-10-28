@@ -1,5 +1,6 @@
 {% extends "website/base.html" %}
 {% load i18n %}
+{% load media_extras %}
 {% block title %}{% trans "Partners and Networks" %}{% endblock %}
 {% block content %}
 {% include "website/_page_header.html" with eyebrow="Collaboration" page_title="Our Partners and Networks" crumb="Partners and Networks" %}
@@ -10,7 +11,7 @@
       {% for p in partners %}
       <div class="col-6 col-md-3">
         <div class="sponsor-strip">
-          {% if p.logo %}<img src="{{ p.logo.url }}" alt="{{ p.name }}" style="max-height:60px;max-width:100%;">
+          {% if p.logo %}<img src="{{ p.logo|thumb:320 }}" alt="{{ p.name }}" style="max-height:60px;max-width:100%;" loading="lazy" decoding="async">
           {% else %}<span>{{ p.name }}</span>{% endif %}
         </div>
       </div>

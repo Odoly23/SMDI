@@ -1,5 +1,6 @@
 {% extends "website/base.html" %}
 {% load static i18n %}
+{% load media_extras %}
 {% block title %}{{ activity.title }}{% endblock %}
 {% block og_type %}article{% endblock %}
 {% block og_title %}{{ activity.title }}{% endblock %}
@@ -16,7 +17,7 @@
       <div class="col-lg-8">
         <article class="activity-detail">
           <figure class="activity-hero mb-4">
-            {% if activity.image %}<img src="{{ activity.image.url }}" alt="{{ activity.title }}" loading="eager" decoding="async">
+            {% if activity.image %}<img src="{{ activity.image.url }}" alt="{{ activity.title }}" loading="eager" decoding="async" fetchpriority="high">
             {% else %}<img src="{% static 'website/img/news/activity1.svg' %}" alt="{{ activity.title }}" loading="eager" decoding="async">{% endif %}
           </figure>
           <div class="activity-meta mb-3">
@@ -57,7 +58,7 @@
             <li>
               <a href="{{ o.get_absolute_url }}" class="related-item">
                 <span class="related-thumb">
-                  {% if o.image %}<img src="{{ o.image.url }}" alt="" loading="lazy" decoding="async">
+                  {% if o.image %}<img src="{{ o.image|thumb:200 }}" alt="" loading="lazy" decoding="async">
                   {% else %}<img src="{% static 'website/img/news/activity1.svg' %}" alt="" loading="lazy" decoding="async">{% endif %}
                 </span>
                 <span class="related-text">

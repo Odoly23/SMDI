@@ -7,6 +7,9 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+msgid "Skip to content"
+msgstr "Skip to content"
+
 msgid "Page not found"
 msgstr "Page not found"
 

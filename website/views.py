@@ -47,7 +47,7 @@ def home(request):
         # Limit 5 & selalu ambil yang PALING BARU (bukan urutan manual 'order')
         "activities": Activity.objects.filter(is_published=True).order_by("-created_at", "-id")[:5],
         "news_list": NewsPost.objects.filter(is_published=True).order_by("-published_date", "-id")[:5],
-        "articles": Article.objects.filter(is_published=True).select_related("author").order_by("-published_date", "-id")[:5],
+        "articles": Article.objects.filter(is_published=True).select_related("author", "author__profile").order_by("-published_date", "-id")[:5],
         "org_top": OrgMember.objects.filter(level=0).prefetch_related("children__children"),
         "partners": Partner.objects.all(),
     }
@@ -165,7 +165,7 @@ def news_detail(request, slug):
 
 
 def article_list(request):
-    articles = Article.objects.filter(is_published=True).select_related("author")
+    articles = Article.objects.filter(is_published=True).select_related("author", "author__profile")
     paginator = Paginator(articles, 9)
     page_obj = paginator.get_page(request.GET.get("page"))
     return render(request, "website/article_list.html", {"page_obj": page_obj})

@@ -325,3 +325,78 @@ class SecurityHeaderTests(TestCase):
         html = render_to_string("500.html")
         self.assertIn("500", html)
         self.assertNotIn("{{", html)
+
+
+class PerformanceTests(TestCase):
+    def test_upload_is_downscaled_and_compressed(self):
+        import io
+        from PIL import Image
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        import random
+        random.seed(1)
+        im = Image.effect_noise((3200, 2400), 80).convert("RGB")
+        buf = io.BytesIO(); im.save(buf, "JPEG", quality=98)
+        big = buf.getvalue()
+        self.assertGreater(len(big), 800 * 1024)
+        a = Activity.objects.create(tag="T", title="Foto besar", description="x",
+                                    image=SimpleUploadedFile("foto.jpg", big, content_type="image/jpeg"))
+        a.refresh_from_db()
+        with Image.open(a.image.path) as saved:
+            self.assertLessEqual(max(saved.size), 1600)
+        self.assertLess(a.image.size, len(big) // 2)
+        self.addCleanup(lambda: a.image.delete(save=False))
+
+    def test_small_image_left_untouched(self):
+        import io
+        from PIL import Image
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        buf = io.BytesIO(); Image.new("RGB", (300, 200), "red").save(buf, "PNG")
+        data = buf.getvalue()
+        a = Activity.objects.create(tag="T", title="Kecil", description="x",
+                                    image=SimpleUploadedFile("kecil.png", data, content_type="image/png"))
+        self.assertEqual(a.image.size, len(data))
+        self.addCleanup(lambda: a.image.delete(save=False))
+
+    def test_thumb_filter_creates_webp_and_falls_back(self):
+        import io, os
+        from PIL import Image
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        from .images import thumb_url
+        buf = io.BytesIO(); Image.new("RGB", (1200, 800), "blue").save(buf, "JPEG")
+        a = Activity.objects.create(tag="T", title="Thumb", description="x",
+                                    image=SimpleUploadedFile("t.jpg", buf.getvalue(), content_type="image/jpeg"))
+        url = thumb_url(a.image, 400)
+        self.assertTrue(url.endswith(".webp"), url)
+        from django.conf import settings
+        path = os.path.join(settings.MEDIA_ROOT, url.replace(settings.MEDIA_URL, "", 1))
+        with Image.open(path) as t:
+            self.assertEqual(t.width, 400)
+        self.assertEqual(thumb_url(None, 400), "")
+        self.addCleanup(lambda: (a.image.delete(save=False), os.path.exists(path) and os.remove(path)))
+
+    def test_home_does_not_load_heavy_map_libraries_eagerly(self):
+        html = self.client.get("/").content.decode()
+        import re
+        eager = re.findall(r'<script src="[^"]*leaflet[^"]*"', html)
+        self.assertEqual(eager, [], "Leaflet/routing harus lazy")
+        self.assertIn("maps-loader.js", html)
+        self.assertIn("data-routing=", html)
+
+    def test_assets_are_versioned_and_deferred(self):
+        html = self.client.get("/").content.decode()
+        self.assertRegex(html, r'theme\.css\?v=\w+')
+        self.assertRegex(html, r'main\.js\?v=\w+" defer')
+        self.assertIn('rel="preload"', html)
+        self.assertIn('href="#main"', html)
+
+    def test_gzip_enabled_for_html(self):
+        r = self.client.get("/", HTTP_ACCEPT_ENCODING="gzip")
+        self.assertEqual(r.get("Content-Encoding"), "gzip")
+
+    def test_nav_programs_cached_and_invalidated(self):
+        from django.core.cache import cache
+        cache.clear()
+        Program.objects.create(slug="p1", title="Pilar Satu", description="x", icon="bi-x", order=0)
+        self.assertContains(self.client.get("/what-we-do/"), "Pilar Satu")
+        Program.objects.create(slug="p2", title="Pilar Rua", description="x", icon="bi-x", order=1)
+        self.assertContains(self.client.get("/what-we-do/"), "Pilar Rua")  # cache dibersihkan oleh signal

@@ -276,13 +276,23 @@ class ResponsiveTests(StaticLiveServerTestCase):
                 events = pg.evaluate("window.__csp")
                 self.assertEqual(msgs + events, [], f"CSP violation on {path}")
 
-    def test_homepage_impact_map_renders_circles(self):
+    def test_homepage_impact_map_renders_circles_lazily(self):
         from custom.models import Municipality
         Activity.objects.filter(pk=self.activity.pk).update(municipality=Municipality.objects.create(name="Dili"))
-        pg, _ = self.page("hp-360", "/")
-        pg.wait_for_timeout(1000)
+        ctx = self.browser.new_context(viewport={"width": 360, "height": 740})
+        self.addCleanup(ctx.close)
+        pg = ctx.new_page()
+        loaded = []
+        pg.on("request", lambda r: loaded.append(r.url))
+        pg.goto(self.live_server_url + "/", wait_until="domcontentloaded")
+        pg.wait_for_timeout(800)
+        self.assertFalse(any(u.endswith("leaflet.js") for u in loaded), "Leaflet tidak boleh dimuat sebelum peta mendekat")
+        self.assertFalse(any("routing-machine.js" in u for u in loaded), "library rute hanya saat tombol diklik")
+        pg.locator("#mdiImpactMap").scroll_into_view_if_needed()
+        pg.wait_for_selector("#mdiImpactMap path.leaflet-interactive", timeout=8000)
         self.assertGreaterEqual(pg.locator("#mdiImpactMap path.leaflet-interactive").count(), 1)
         self.assertGreater(pg.locator(".impact-band .impact-num").count(), 0)
+        self.assertFalse(any("routing-machine.js" in u for u in loaded))
 
     def test_share_copy_button_works(self):
         ctx = self.browser.new_context(viewport={"width": 390, "height": 800}, permissions=["clipboard-read", "clipboard-write"])

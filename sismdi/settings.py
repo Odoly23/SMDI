@@ -118,6 +118,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'django.middleware.gzip.GZipMiddleware',
     'config.middleware.LoginRateLimitMiddleware',
     'config.middleware.SecurityHeadersMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -145,6 +146,7 @@ TEMPLATES = [
                 'website.context_processors.nav_programs',
                 'website.context_processors.analytics',
                 'website.context_processors.csp_nonce',
+                'website.context_processors.asset_version',
                 'main.context_processors.dashboard_badges',
                 'django.template.context_processors.i18n',
             ],
@@ -260,6 +262,23 @@ DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "no-reply@matadalanins
 
 
 # Google Analytics 4 (opsional). Hatama iha .env: GA_MEASUREMENT_ID=G-XXXXXXXXXX
+def _asset_version():
+    """Versi aset = waktu modifikasi terbaru file CSS/JS situs (otomatis berubah bainhira file diganti)."""
+    v = os.environ.get("ASSET_VERSION")
+    if v:
+        return v
+    newest = 0
+    for rel in ("website/static/website/css/theme.css", "website/static/website/js/main.js",
+                "website/static/website/js/impact.js", "website/static/website/js/home-map.js",
+                "website/static/website/js/maps-loader.js"):
+        try:
+            newest = max(newest, int(os.path.getmtime(BASE_DIR / rel)))
+        except OSError:
+            pass
+    return str(newest or 1)
+
+
+ASSET_VERSION = _asset_version()
 CSP_REPORT_ONLY = env_bool("DJANGO_CSP_REPORT_ONLY", False)  # True = CSP cuma relata, la bloke
 PUBLIC_DOCUMENTS = env_bool("DJANGO_PUBLIC_DOCUMENTS", False)  # halaman Dokumen publik: mati secara default
 GA_MEASUREMENT_ID = os.environ.get("GA_MEASUREMENT_ID", "").strip()

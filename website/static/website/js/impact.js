@@ -27,7 +27,10 @@
     }
   }
 
-  /* ---- peta area kerja ---- */
+  /* ---- peta area kerja (dipanggil maps-loader.js setelah Leaflet termuat) ---- */
+  window.MDI = window.MDI || {};
+  window.MDI.initImpactMap = initImpactMap;
+  function initImpactMap() {
   var mapEl = document.getElementById("mdiImpactMap");
   if (!mapEl || typeof L === "undefined") return;
   var dataEl = document.getElementById(mapEl.getAttribute("data-points-id"));
@@ -64,4 +67,5 @@
   });
   if (bounds.length > 1) map.fitBounds(bounds, { padding: [40, 40], maxZoom: 9 });
   else map.setView(bounds[0], 10);
+  }
 })();

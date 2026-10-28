@@ -1,5 +1,6 @@
 /* Peta lokalizasaun MDI + rota (Leaflet). Data husi atributu data-* iha #mdiLeafletMap. */
-(function(){
+window.MDI = window.MDI || {};
+window.MDI.initHomeMap = function(){
   var mapEl = document.getElementById('mdiLeafletMap');
   if (!mapEl || typeof L === 'undefined') return;
 
@@ -58,6 +59,7 @@
 
         if (routingControl) { map.removeControl(routingControl); }
 
+        window.MDI.loadRouting().then(function(){
         routingControl = L.Routing.control({
           waypoints: [
             L.latLng(userLat, userLng),
@@ -84,6 +86,7 @@
             return destMarker;
           }
         }).addTo(map);
+        });
 
         routeBtn.innerHTML = originalHtml;
         routeBtn.disabled = false;
@@ -96,4 +99,4 @@
       }, { enableHighAccuracy: true, timeout: 10000 });
     });
   }
-})();
+};

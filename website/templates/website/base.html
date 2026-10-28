@@ -33,7 +33,10 @@
 
 <link rel="stylesheet" href="{% static 'website/vendor/bootstrap/css/bootstrap.min.css' %}">
 <link rel="stylesheet" href="{% static 'website/vendor/bootstrap-icons/bootstrap-icons.min.css' %}">
-<link rel="stylesheet" href="{% static 'website/css/theme.css' %}">
+<link rel="preload" href="{% static 'website/vendor/fonts/poppins/poppins-latin-400-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{% static 'website/vendor/fonts/poppins/poppins-latin-600-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{% static 'website/vendor/fonts/playfair/playfair-display-latin-700-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="{% static 'website/css/theme.css' %}?v={{ ASSET_V }}">
 {% if GA_MEASUREMENT_ID %}
 <!-- Google Analytics 4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id={{ GA_MEASUREMENT_ID }}"></script>
@@ -47,6 +50,7 @@
 {% block head_extra %}{% endblock %}
 </head>
 <body>
+<a class="skip-link" href="#main">{% trans "Skip to content" %}</a>
 <!-- =============== TOPBAR =============== -->
 <div class="topbar">
   <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
@@ -202,7 +206,9 @@
 </div>
 {% endif %}
 
+<main id="main" tabindex="-1">
 {% block content %}{% endblock %}
+</main>
 
 <!-- =============== FOOTER =============== -->
 <footer class="footer-mdi">
@@ -275,8 +281,8 @@
 
 <button class="back-to-top" aria-label="Back to top"><i class="bi bi-arrow-up"></i></button>
 
-<script src="{% static 'website/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-<script src="{% static 'website/js/main.js' %}"></script>
+<script src="{% static 'website/vendor/bootstrap/js/bootstrap.bundle.min.js' %}" defer></script>
+<script src="{% static 'website/js/main.js' %}?v={{ ASSET_V }}" defer></script>
 {% block script_extra %}{% endblock %}
 </body>
 </html>

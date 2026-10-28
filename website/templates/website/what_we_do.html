@@ -1,5 +1,6 @@
 {% extends "website/base.html" %}
 {% load static i18n i18n_extras %}
+{% load media_extras %}
 {% block title %}{% trans "What We Do" %}{% endblock %}
 {% block content %}
 {% include "website/_page_header.html" with eyebrow="What We Do" page_title="What We Do" crumb="What We Do" %}
@@ -35,7 +36,7 @@
       <div class="col-lg-4 col-md-6">
         <article class="activity-card">
           <div class="img-wrap">
-            {% if activity.image %}<img src="{{ activity.image.url }}" alt="{{ activity.title }}" loading="lazy">
+            {% if activity.image %}<img src="{{ activity.image|thumb:640 }}" alt="{{ activity.title }}" loading="lazy" decoding="async" width="640" height="400">
             {% else %}<img src="{% static 'website/img/news/activity1.svg' %}" alt="{{ activity.title }}" loading="lazy">{% endif %}
           </div>
           <div class="body">

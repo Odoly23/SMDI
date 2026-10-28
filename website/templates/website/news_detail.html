@@ -17,7 +17,7 @@
         {% if post.image %}<img src="{{ post.image.url }}" alt="{{ post.title }}" class="img-fluid rounded-3 mb-4 news-cover">{% endif %}
         <p class="text-muted small mb-1">{{ post.published_date|date:"d F Y" }} {% if post.category %}&middot; {{ post.category.name }}{% endif %}</p>
         <p class="lead">{{ post.excerpt }}</p>
-        <div style="color:var(--mdi-ink-soft); white-space:pre-line;">{{ post.body }}</div>
+        <div class="prose-block" style="white-space:pre-line;">{{ post.body }}</div>
         {% include "website/_share.html" with share_title=post.title %}
 
         {% if post.gallery_images.all %}

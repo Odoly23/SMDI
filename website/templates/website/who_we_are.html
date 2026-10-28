@@ -1,5 +1,6 @@
 {% extends "website/base.html" %}
 {% load i18n i18n_extras %}
+{% load media_extras %}
 {% block title %}{% trans "Who We Are" %}{% endblock %}
 {% block content %}
 {% include "website/_page_header.html" with eyebrow="Profile" page_title="Who We Are" crumb="Who We Are" %}
@@ -120,7 +121,7 @@
         <div class="founder-card">
           <div class="founder-photo">
             {% if f.photo %}
-            <img src="{{ f.photo.url }}" alt="{{ f.name }}">
+            <img src="{{ f.photo|thumb:480 }}" alt="{{ f.name }}" loading="lazy" decoding="async">
             {% else %}
             <div class="fallback-icon"><i class="bi bi-person-fill"></i></div>
             {% endif %}

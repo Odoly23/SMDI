@@ -12,6 +12,7 @@ LOCALE_DIR = BASE_DIR / "locale"
 
 # msgid (English, as written in templates) -> {"tet": .., "id": .., "pt": .., "en": ..}
 STRINGS = {
+    "Skip to content": {"tet": "Salta ba konteúdu", "id": "Lewati ke konten", "pt": "Saltar para o conteúdo", "en": "Skip to content"},
     "Page not found": {"tet": "Pájina la hetan", "id": "Halaman tidak ditemukan", "pt": "Página não encontrada", "en": "Page not found"},
     "The page you are looking for does not exist or has been moved.": {"tet": "Pájina ne'ebé ita buka la existe ka muda ona.", "id": "Halaman yang Anda cari tidak ada atau telah dipindahkan.", "pt": "A página que procura não existe ou foi movida.", "en": "The page you are looking for does not exist or has been moved."},
     "Our impact in numbers": {"tet": "Ami nia impaktu iha númeru", "id": "Dampak kami dalam angka", "pt": "O nosso impacto em números", "en": "Our impact in numbers"},

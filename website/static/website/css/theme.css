@@ -998,3 +998,18 @@ a:hover{ color: var(--mdi-green-dark); }
 /* ---- Halaman error ---- */
 .error-page{ min-height:50vh; display:flex; align-items:center; }
 .error-code{ font-family: var(--font-display); font-weight:700; font-size: clamp(4rem, 18vw, 8rem); line-height:1; color: var(--mdi-red); margin:.5rem 0; }
+
+/* ---- Performa & keterbacaan ---- */
+html{ scroll-behavior:smooth; }
+@media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } *{ animation-duration:.01ms !important; transition-duration:.01ms !important; } }
+img{ max-width:100%; height:auto; }
+.skip-link{ position:absolute; left:-999px; top:0; background: var(--mdi-red); color:#fff; padding:.6rem 1rem; z-index:2000; border-radius:0 0 8px 0; }
+.skip-link:focus{ left:0; }
+main:focus{ outline:none; }
+/* bagian bawah layar tidak dirender sampai mendekati (render awal lebih cepat); peta TIDAK dimasukkan karena butuh ukuran */
+.cv-auto{ content-visibility:auto; contain-intrinsic-size: auto 700px; }
+/* teks berita/artikel: lebar baris nyaman dibaca (~70 karakter), spasi lega */
+.prose-block{ max-width:70ch; font-size:1.05rem; line-height:1.85; color: var(--mdi-ink-soft); overflow-wrap:anywhere; }
+.prose-block p{ margin-bottom:1.1rem; }
+a:focus-visible, button:focus-visible, .btn:focus-visible{ outline:3px solid var(--mdi-gold); outline-offset:2px; }
+@media (max-width:575.98px){ .prose-block{ font-size:1rem; line-height:1.75; } }

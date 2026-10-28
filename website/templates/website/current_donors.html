@@ -1,5 +1,6 @@
 {% extends "website/base.html" %}
 {% load i18n %}
+{% load media_extras %}
 {% block title %}{% trans "Current Donors" %}{% endblock %}
 {% block content %}
 {% include "website/_page_header.html" with eyebrow="Collaboration" page_title="Our Current Donors" crumb="Current Donors" %}
@@ -9,7 +10,7 @@
       {% for d in donors %}
       <div class="col-md-6 col-lg-4">
         <div class="mdi-card">
-          {% if d.logo %}<img src="{{ d.logo.url }}" alt="{{ d.name }}" class="mb-2" style="max-height:50px;">
+          {% if d.logo %}<img src="{{ d.logo|thumb:320 }}" alt="{{ d.name }}" class="mb-2" style="max-height:50px;" loading="lazy" decoding="async">
           {% else %}<i class="bi bi-bank fs-3 text-mdi-red mb-2 d-block"></i>{% endif %}
           <h3>{{ d.name }}</h3>
           <p>{{ d.description }}</p>

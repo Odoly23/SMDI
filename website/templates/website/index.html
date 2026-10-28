@@ -1,5 +1,6 @@
 {% extends "website/base.html" %}
 {% load static i18n i18n_extras %}
+{% load media_extras %}
 {% block title %}{% trans "Home" %}{% endblock %}
 
 {% block head_extra %}
@@ -129,7 +130,7 @@
       <div class="col-lg-3 col-md-6">
         <div class="activity-card">
           <div class="img-wrap">
-            {% if activity.image %}<img src="{{ activity.image.url }}" alt="{{ activity.title }}">
+            {% if activity.image %}<img src="{{ activity.image|thumb:640 }}" alt="{{ activity.title }}" loading="lazy" decoding="async" width="640" height="400">
             {% else %}<img src="{% static 'website/img/news/activity1.svg' %}" alt="{{ activity.title }}">{% endif %}
           </div>
           <div class="body">
@@ -145,7 +146,7 @@
 </section>
 
 <!-- =============== NEWS + ARTICLES =============== -->
-<section class="section-pad">
+<section class="cv-auto section-pad">
   <div class="container">
     <div class="row g-5">
       <div class="col-lg-7">
@@ -175,7 +176,7 @@
           <div class="article-card">
             <div class="author">
               {% if article.author.profile.photo %}
-              <img src="{{ article.author.profile.photo.url }}" alt="{{ article.author.get_full_name }}">
+              <img src="{{ article.author.profile.photo|thumb:160 }}" alt="{{ article.author.get_full_name }}" loading="lazy" decoding="async">
               {% else %}
               <img src="{% static 'website/img/team/staff1.svg' %}" alt="{{ article.author.get_full_name }}">
               {% endif %}
@@ -193,7 +194,7 @@
 </section>
 
 <!-- =============== ORGANIGRAMA (Struktura Hierárkiku) =============== -->
-<section class="section-pad bg-mdi-cream-dark">
+<section class="cv-auto section-pad bg-mdi-cream-dark">
   <div class="container org-chart">
     <p class="section-eyebrow">{% trans "Structure" %}</p>
     <h2 class="section-title mb-1">{% trans "Mata Dalan Institute (MDI) Organizational Chart" %}</h2>
@@ -203,7 +204,7 @@
     <div class="org-level org-level-0">
       <div class="org-node">
         <div class="org-photo">
-          {% if top.photo %}<img src="{{ top.photo.url }}" alt="{{ top.name }}">
+          {% if top.photo %}<img src="{{ top.photo|thumb:300 }}" alt="{{ top.name }}" loading="lazy" decoding="async">
           {% else %}<div class="fallback-icon"><i class="bi bi-person-fill"></i></div>{% endif %}
         </div>
         <span class="oname">{{ top.name }}</span>
@@ -217,7 +218,7 @@
       <div class="col-6 col-md-3">
         <div class="org-node">
           <div class="org-photo">
-            {% if mid.photo %}<img src="{{ mid.photo.url }}" alt="{{ mid.name }}">
+            {% if mid.photo %}<img src="{{ mid.photo|thumb:300 }}" alt="{{ mid.name }}" loading="lazy" decoding="async">
             {% else %}<div class="fallback-icon"><i class="bi bi-person-fill"></i></div>{% endif %}
           </div>
           <span class="oname">{{ mid.name }}</span>
@@ -229,7 +230,7 @@
           <div class="col-12">
             <div class="org-node org-node-sm">
               <div class="org-photo sm">
-                {% if leaf.photo %}<img src="{{ leaf.photo.url }}" alt="{{ leaf.name }}">
+                {% if leaf.photo %}<img src="{{ leaf.photo|thumb:240 }}" alt="{{ leaf.name }}" loading="lazy" decoding="async">
                 {% else %}<div class="fallback-icon"><i class="bi bi-person-fill"></i></div>{% endif %}
               </div>
               <span class="oname">{{ leaf.name }}</span>
@@ -305,7 +306,7 @@
 </section>
 
 <!-- =============== SPONSORS =============== -->
-<section class="section-pad bg-mdi-cream-dark">
+<section class="cv-auto section-pad bg-mdi-cream-dark">
   <div class="container text-center">
     <p class="section-eyebrow">{% trans "Collaboration" %}</p>
     <h2 class="section-title mb-1">{% trans "Partners and Donors" %}</h2>
@@ -314,7 +315,7 @@
       {% for p in partners %}
       <div class="col-6 col-md-3">
         <div class="sponsor-strip">
-          {% if p.logo %}<img src="{{ p.logo.url }}" alt="{{ p.name }}" style="max-height:60px;max-width:100%;">
+          {% if p.logo %}<img src="{{ p.logo|thumb:320 }}" alt="{{ p.name }}" style="max-height:60px;max-width:100%;" loading="lazy" decoding="async">
           {% else %}<span>{{ p.name }}</span>{% endif %}
         </div>
       </div>
@@ -325,8 +326,9 @@
 {% endblock %}
 
 {% block script_extra %}
-<script src="{% static 'website/vendor/leaflet/js/leaflet.js' %}"></script>
-<script src="{% static 'website/vendor/leaflet-routing/js/leaflet-routing-machine.js' %}"></script>
-<script src="{% static 'website/js/home-map.js' %}"></script>
-<script src="{% static 'website/js/impact.js' %}"></script>
+<script src="{% static 'website/js/impact.js' %}?v={{ ASSET_V }}" defer></script>
+<script src="{% static 'website/js/maps-loader.js' %}?v={{ ASSET_V }}" defer
+        data-leaflet="{% static 'website/vendor/leaflet/js/leaflet.js' %}"
+        data-routing="{% static 'website/vendor/leaflet-routing/js/leaflet-routing-machine.js' %}"
+        data-home-map="{% static 'website/js/home-map.js' %}?v={{ ASSET_V }}"></script>
 {% endblock %}

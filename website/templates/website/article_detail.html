@@ -36,7 +36,7 @@
           {% if article.category %}<span class="badge-tag ms-auto">{{ article.category.name }}</span>{% endif %}
         </div>
         <p class="lead">{{ article.excerpt }}</p>
-        <div style="color:var(--mdi-ink-soft); white-space:pre-line;">{{ article.body }}</div>
+        <div class="prose-block" style="white-space:pre-line;">{{ article.body }}</div>
         {% include "website/_share.html" with share_title=article.title %}
         <a href="{% url 'website:article_list' %}" class="btn-mdi-outline mt-4" style="color:var(--mdi-red);border-color:var(--mdi-red);">
           &laquo; <span>{% trans "Back to Articles" %}</span>
