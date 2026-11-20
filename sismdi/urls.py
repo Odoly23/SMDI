@@ -7,6 +7,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
 from django.http import HttpResponse
+from website import views as website_views
 from django.views.decorators.http import require_GET
 
 from website.sitemaps import SITEMAPS
@@ -30,6 +31,7 @@ admin.site.site_title = "Painel MDI"
 admin.site.index_title = "Jestaun Konteudu Website"
 
 urlpatterns = [
+    path(".well-known/security.txt", website_views.security_txt, name="security_txt"),
     path('robots.txt', robots_txt, name='robots_txt'),
     path('sitemap.xml', sitemap, {'sitemaps': SITEMAPS}, name='sitemap'),
     path('admin/', admin.site.urls),

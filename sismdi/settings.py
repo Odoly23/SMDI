@@ -61,7 +61,7 @@ if not DEBUG:
     SECURE_SSL_REDIRECT = env_bool("DJANGO_SECURE_SSL_REDIRECT", True)
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
-    SECURE_HSTS_SECONDS = 60 * 60 * 24 * 30
+    SECURE_HSTS_SECONDS = int(os.environ.get("DJANGO_HSTS_SECONDS", 60 * 60 * 24 * 365))  # 1 tahun (syarat preload)
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
@@ -279,6 +279,7 @@ def _asset_version():
 
 
 ASSET_VERSION = _asset_version()
+SECURITY_CONTACT = os.environ.get("SECURITY_CONTACT", "mailto:info@mdi.tl")  # kontak untuk /.well-known/security.txt
 CSP_REPORT_ONLY = env_bool("DJANGO_CSP_REPORT_ONLY", False)  # True = CSP cuma relata, la bloke
 PUBLIC_DOCUMENTS = env_bool("DJANGO_PUBLIC_DOCUMENTS", False)  # halaman Dokumen publik: mati secara default
 GA_MEASUREMENT_ID = os.environ.get("GA_MEASUREMENT_ID", "").strip()

@@ -197,3 +197,17 @@ def error_500(request):
     from django.http import HttpResponseServerError
     from django.template.loader import render_to_string
     return HttpResponseServerError(render_to_string("500.html"))
+
+
+def security_txt(request):
+    """RFC 9116: kontak resmi untuk laporan celah keamanan."""
+    from datetime import datetime, timedelta, timezone
+    from django.http import HttpResponse
+    expires = (datetime.now(timezone.utc) + timedelta(days=365)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    body = (
+        f"Contact: {settings.SECURITY_CONTACT}\n"
+        f"Expires: {expires}\n"
+        "Preferred-Languages: tet, pt, id, en\n"
+        f"Canonical: {request.scheme}://{request.get_host()}/.well-known/security.txt\n"
+    )
+    return HttpResponse(body, content_type="text/plain; charset=utf-8")

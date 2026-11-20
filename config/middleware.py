@@ -94,6 +94,7 @@ class SecurityHeadersMiddleware:
     def __call__(self, request):
         request.csp_nonce = secrets.token_urlsafe(16)
         response = self.get_response(request)
+        response.setdefault("Cross-Origin-Resource-Policy", "same-origin")
         response.setdefault("Permissions-Policy", "camera=(), microphone=(), payment=(), usb=(), geolocation=(self)")
         if not request.path.startswith(CSP_EXEMPT_PREFIXES):
             name = ("Content-Security-Policy-Report-Only"

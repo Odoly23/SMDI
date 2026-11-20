@@ -400,3 +400,16 @@ class PerformanceTests(TestCase):
         self.assertContains(self.client.get("/what-we-do/"), "Pilar Satu")
         Program.objects.create(slug="p2", title="Pilar Rua", description="x", icon="bi-x", order=1)
         self.assertContains(self.client.get("/what-we-do/"), "Pilar Rua")  # cache dibersihkan oleh signal
+
+
+class SecurityScanFixesTests(TestCase):
+    def test_security_txt(self):
+        r = self.client.get("/.well-known/security.txt")
+        self.assertEqual(r.status_code, 200)
+        body = r.content.decode()
+        self.assertIn("Contact: ", body)
+        self.assertIn("Expires: ", body)
+        self.assertTrue(r["Content-Type"].startswith("text/plain"))
+
+    def test_corp_header_present(self):
+        self.assertEqual(self.client.get("/")["Cross-Origin-Resource-Policy"], "same-origin")
