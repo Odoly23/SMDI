@@ -338,3 +338,22 @@ main:focus{ outline:none; }
 .mdi-brand__text span{ white-space:nowrap; }
 @media (max-width:1399.98px){ .mdi-brand__text span{ display:none; } }
 @media (min-width:1200px) and (max-width:1399.98px){ .mdi-nav__list .nav-link{ padding:.5rem .45rem; font-size:.88rem; } }
+
+/* ---------- 20. Slider beranda ---------- */
+.mdi-slider{ position:relative; background:var(--mdi-dark); }
+.mdi-slide{ position:relative; min-height:clamp(26rem,62vh,40rem); display:flex; align-items:center; background-size:cover; background-position:center; padding:clamp(3rem,6vw,5rem) 0 clamp(4rem,7vw,6rem); }
+.mdi-slide::before{ content:""; position:absolute; inset:0; background:linear-gradient(90deg,rgba(21,21,23,.88) 0%,rgba(21,21,23,.62) 55%,rgba(21,21,23,.25) 100%); }
+.mdi-slide .container{ position:relative; }
+.mdi-slide__copy{ max-width:40rem; }
+.mdi-kicker--light{ color:#fff; }
+.mdi-kicker--light .mdi-kicker__ray{ filter:brightness(0) invert(1); }
+.mdi-slide__title{ color:#fff !important; font-size:clamp(2rem,1.2rem + 3vw,3.5rem); margin-bottom:1rem; max-width:20ch; }
+.mdi-slide__text{ color:#E5E5E7; font-size:clamp(1.02rem,1rem + .25vw,1.2rem); max-width:52ch; margin-bottom:1.75rem; }
+.mdi-btn--light{ --_bd:rgba(255,255,255,.7); --_fg:#fff; }
+.mdi-btn--light:hover{ --_bg:#fff; --_fg:var(--mdi-dark); --_bd:#fff; }
+.mdi-slider .carousel-indicators{ margin-bottom:1.25rem; }
+.mdi-slider .carousel-indicators [data-bs-target]{ width:28px; height:4px; border:0; border-radius:2px; background:#fff; opacity:.5; }
+.mdi-slider .carousel-indicators .active{ opacity:1; background:var(--mdi-red); }
+.mdi-slider .carousel-control-prev,.mdi-slider .carousel-control-next{ width:4rem; }
+@media (max-width:767.98px){ .mdi-slider .carousel-control-prev,.mdi-slider .carousel-control-next{ display:none; } }
+.mdi-slider .mdi-ledger{ margin-top:0; }

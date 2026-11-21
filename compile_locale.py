@@ -12,6 +12,7 @@ LOCALE_DIR = BASE_DIR / "locale"
 
 # msgid (English, as written in templates) -> {"tet": .., "id": .., "pt": .., "en": ..}
 STRINGS = {
+    "MDI highlights": {"tet": "Destaque MDI", "id": "Sorotan MDI", "pt": "Destaques do MDI", "en": "MDI highlights"},
     "Years of work": {"tet": "Tinan servisu", "id": "Tahun berkarya", "pt": "Anos de trabalho", "en": "Years of work"},
     "Pillar %(n)s": {"tet": "Pilar %(n)s", "id": "Pilar %(n)s", "pt": "Pilar %(n)s", "en": "Pillar %(n)s"},
     "Main menu": {"tet": "Menu prinsipál", "id": "Menu utama", "pt": "Menu principal", "en": "Main menu"},
@@ -52,7 +53,7 @@ STRINGS = {
     "Statistics": {"tet": "Estatístika", "id": "Statistik", "pt": "Estatísticas", "en": "Statistics"},
     "Other Documents": {"tet": "Dokumentu Seluk", "id": "Dokumen Lainnya", "pt": "Outros Documentos", "en": "Other Documents"},
     "Vision and Mission": {"tet": "Vizaun no Misaun", "id": "Visi dan Misi", "pt": "Visão e Missão", "en": "Vision and Mission"},
-    "What We Do": {"tet": "Saida ne'ebé Ami Halo", "id": "Apa yang Kami Lakukan", "pt": "O Que Fazemos", "en": "What We Do"},
+    "What We Do": {"tet": "Saida mak Ami Halo", "id": "Apa yang Kami Lakukan", "pt": "O Que Fazemos", "en": "What We Do"},
     "Partners": {"tet": "Parseiru", "id": "Mitra", "pt": "Parceiros", "en": "Partners"},
     "Donors": {"tet": "Doadór", "id": "Donor", "pt": "Doadores", "en": "Donors"},
     "Contact": {"tet": "Kontaktu", "id": "Kontak", "pt": "Contacto", "en": "Contact"},
@@ -67,7 +68,7 @@ STRINGS = {
     "Mission": {"tet": "Misaun", "id": "Misi", "pt": "Missão", "en": "Mission"},
     "Profile": {"tet": "Profile", "id": "Profil", "pt": "Perfil", "en": "Profile"},
     "Read more": {"tet": "Lee tan", "id": "Baca selengkapnya", "pt": "Ler mais", "en": "Read more"},
-    "What We Do (heading small)": {"tet": "Saida ne'ebé Ami Halo", "id": "Apa yang Kami Lakukan", "pt": "O Que Fazemos", "en": "What We Do"},
+    "What We Do (heading small)": {"tet": "Saida mak Ami Halo", "id": "Apa yang Kami Lakukan", "pt": "O Que Fazemos", "en": "What We Do"},
     "MDI's Core Activities": {"tet": "Atividade Xave MDI", "id": "Kegiatan Inti MDI", "pt": "Atividades Principais do MDI", "en": "MDI's Core Activities"},
     "Regular activities.": {"tet": "Atividade regulár.", "id": "Kegiatan rutin.", "pt": "Atividades regulares.", "en": "Regular activities."},
     "View All Activities": {"tet": "Haree Atividade Hotu", "id": "Lihat Semua Kegiatan", "pt": "Ver Todas as Atividades", "en": "View All Activities"},

@@ -11,6 +11,12 @@
     document.querySelectorAll("[data-aos]").forEach(function (el) { el.removeAttribute("data-aos"); });
   }
 
+  /* slider: tanpa gerak otomatis bila pengguna memilih "kurangi gerakan" */
+  var hero = document.getElementById("mdiHero");
+  if (hero && reduce && window.bootstrap) {
+    window.bootstrap.Carousel.getOrCreateInstance(hero, { ride: false, interval: false }).pause();
+  }
+
   /* 0b. Navbar: bayangan halus setelah scroll (respons atas aksi pengguna) */
   var nav = document.querySelector(".mdi-nav");
   if (nav) {

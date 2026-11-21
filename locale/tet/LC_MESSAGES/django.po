@@ -7,6 +7,9 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+msgid "MDI highlights"
+msgstr "Destaque MDI"
+
 msgid "Years of work"
 msgstr "Tinan servisu"
 
@@ -128,7 +131,7 @@ msgid "Vision and Mission"
 msgstr "Vizaun no Misaun"
 
 msgid "What We Do"
-msgstr "Saida ne'ebé Ami Halo"
+msgstr "Saida mak Ami Halo"
 
 msgid "Partners"
 msgstr "Parseiru"
@@ -173,7 +176,7 @@ msgid "Read more"
 msgstr "Lee tan"
 
 msgid "What We Do (heading small)"
-msgstr "Saida ne'ebé Ami Halo"
+msgstr "Saida mak Ami Halo"
 
 msgid "MDI's Core Activities"
 msgstr "Atividade Xave MDI"

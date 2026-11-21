@@ -443,3 +443,16 @@ class HomeV2Tests(TestCase):
         with override_settings(PUBLIC_DOCUMENTS=True):
             html = self.client.get(reverse("website:who_we_are")).content.decode()
         self.assertNotIn("/documents/doc-pnds/", html)
+
+
+class HomeV2SliderTests(TestCase):
+    def test_slides_render_as_carousel_and_menu_label(self):
+        from .models import Slide
+        for i in range(2):
+            Slide.objects.create(kicker="k", title=f"Slide {i}", text="t", image="website/slides/x.jpg", order=i)
+        html = self.client.get("/").content.decode()
+        self.assertIn('id="mdiHero"', html)
+        self.assertIn("Slide 1", html)
+        self.assertIn("carousel-control-next", html)
+        self.assertIn("Saida mak Ami Halo", html)
+        self.assertNotIn("Saida ne'ebé Ami Halo", html)

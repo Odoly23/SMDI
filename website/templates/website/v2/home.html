@@ -3,15 +3,65 @@
 {% block title %}{% trans "Home" %}{% endblock %}
 
 {% block content %}
-{% with s=slides.first %}
+{% if slides %}
+{# ============================ SLIDER ============================ #}
+<section class="mdi-slider" aria-label="{% trans 'MDI highlights' %}">
+  <div id="mdiHero" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="6500">
+    {% if slides|length > 1 %}
+    <div class="carousel-indicators">
+      {% for slide in slides %}<button type="button" data-bs-target="#mdiHero" data-bs-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}" aria-label="Slide {{ forloop.counter }}"{% if forloop.first %} aria-current="true"{% endif %}></button>{% endfor %}
+    </div>
+    {% endif %}
+    <div class="carousel-inner">
+      {% for slide in slides %}
+      <div class="carousel-item{% if forloop.first %} active{% endif %}">
+        <div class="mdi-slide" style="background-image:url('{{ slide.image.url }}');">
+          <div class="container">
+            <div class="mdi-slide__copy">
+              <p class="mdi-kicker mdi-kicker--light"><span class="mdi-kicker__ray" aria-hidden="true"></span><span data-i18n-multi="{{ slide|i18n_json:'kicker' }}">{{ slide.kicker }}</span></p>
+              {% if forloop.first %}<h1 class="mdi-hero__title mdi-slide__title" data-i18n-multi="{{ slide|i18n_json:'title' }}">{{ slide.title }}</h1>{% else %}<h2 class="mdi-hero__title mdi-slide__title" data-i18n-multi="{{ slide|i18n_json:'title' }}">{{ slide.title }}</h2>{% endif %}
+              <p class="mdi-slide__text" data-i18n-multi="{{ slide|i18n_json:'text' }}">{{ slide.text }}</p>
+              <div class="d-flex flex-wrap gap-3">
+                <a class="btn mdi-btn mdi-btn--red" href="{% url 'website:who_we_are' %}">{% trans "Get to Know Us" %}</a>
+                <a class="btn mdi-btn mdi-btn--light" href="{% url 'website:contact' %}">{% trans "Contact Us" %}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% if slides|length > 1 %}
+    <button class="carousel-control-prev" type="button" data-bs-target="#mdiHero" data-bs-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="visually-hidden">Previous</span></button>
+    <button class="carousel-control-next" type="button" data-bs-target="#mdiHero" data-bs-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="visually-hidden">Next</span></button>
+    {% endif %}
+  </div>
+  <div class="mdi-ledger" data-aos="fade-up" data-aos-offset="0" data-aos-delay="400">
+    <div class="container">
+      <dl class="mdi-ledger__grid mb-0">
+        <div class="mdi-ledger__item">
+          <dd><span data-years-since="2005">20+</span></dd>
+          <dt>{% trans "Years of work" %}</dt>
+        </div>
+        {% for st in impact_stats|slice:":3" %}
+        <div class="mdi-ledger__item">
+          <dd><span data-count="{{ st.value }}">{{ st.value }}</span>{{ st.suffix }}</dd>
+          <dt{% if st.obj %} data-i18n-multi="{{ st.obj|i18n_json:'label' }}"{% endif %}>{% if st.key == "activities" %}{% trans "Activities" %}{% elif st.key == "municipalities" %}{% trans "Municipalities reached" %}{% elif st.key == "news" %}{% trans "News" %}{% elif st.key == "partners" %}{% trans "Partners" %}{% else %}{{ st.label }}{% endif %}</dt>
+        </div>
+        {% endfor %}
+      </dl>
+    </div>
+  </div>
+</section>
+{% else %}
 {# ============================ HERO ============================ #}
 <section class="mdi-hero" aria-labelledby="hero-title">
   <div class="container">
     <div class="row align-items-center gx-0 gx-lg-5 gy-4">
       <div class="col-lg-7 mdi-hero__copy">
-        <p class="mdi-kicker" data-aos="fade"><span class="mdi-kicker__ray" aria-hidden="true"></span>{% if s %}<span data-i18n-multi="{{ s|i18n_json:'kicker' }}">{{ s.kicker }}</span>{% else %}{{ site_config.tagline }}{% endif %}</p>
-        <h1 id="hero-title" class="mdi-hero__title" data-aos="fade-up" data-aos-delay="100">{% if s %}<span data-i18n-multi="{{ s|i18n_json:'title' }}">{{ s.title }}</span>{% else %}{{ site_config.site_name }}{% endif %}</h1>
-        <p class="mdi-hero__lead" data-aos="fade-up" data-aos-delay="200">{% if s %}<span data-i18n-multi="{{ s|i18n_json:'text' }}">{{ s.text }}</span>{% else %}{{ site_config.about_text }}{% endif %}</p>
+        <p class="mdi-kicker" data-aos="fade"><span class="mdi-kicker__ray" aria-hidden="true"></span>{{ site_config.tagline }}</p>
+        <h1 id="hero-title" class="mdi-hero__title" data-aos="fade-up" data-aos-delay="100">{{ site_config.site_name }}</h1>
+        <p class="mdi-hero__lead" data-aos="fade-up" data-aos-delay="200">{{ site_config.about_text }}</p>
         <div class="d-flex flex-wrap gap-3" data-aos="fade-up" data-aos-delay="300">
           <a class="btn mdi-btn mdi-btn--red" href="{% url 'website:who_we_are' %}">{% trans "Get to Know Us" %}</a>
           <a class="btn mdi-btn mdi-btn--ghost" href="{% url 'website:contact' %}">{% trans "Contact Us" %}</a>
@@ -40,7 +90,9 @@
     </div>
   </div>
 </section>
-{% endwith %}
+
+
+{% endif %}
 
 {# ============================ ITA SÉ ============================ #}
 <section id="ita-se" class="mdi-section">
