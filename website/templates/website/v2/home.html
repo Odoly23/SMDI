@@ -1,0 +1,317 @@
+{% extends "website/v2/base.html" %}
+{% load static i18n i18n_extras media_extras %}
+{% block title %}{% trans "Home" %}{% endblock %}
+
+{% block content %}
+{% with s=slides.first %}
+{# ============================ HERO ============================ #}
+<section class="mdi-hero" aria-labelledby="hero-title">
+  <div class="container">
+    <div class="row align-items-center gx-0 gx-lg-5 gy-4">
+      <div class="col-lg-7 mdi-hero__copy">
+        <p class="mdi-kicker" data-aos="fade"><span class="mdi-kicker__ray" aria-hidden="true"></span>{% if s %}<span data-i18n-multi="{{ s|i18n_json:'kicker' }}">{{ s.kicker }}</span>{% else %}{{ site_config.tagline }}{% endif %}</p>
+        <h1 id="hero-title" class="mdi-hero__title" data-aos="fade-up" data-aos-delay="100">{% if s %}<span data-i18n-multi="{{ s|i18n_json:'title' }}">{{ s.title }}</span>{% else %}{{ site_config.site_name }}{% endif %}</h1>
+        <p class="mdi-hero__lead" data-aos="fade-up" data-aos-delay="200">{% if s %}<span data-i18n-multi="{{ s|i18n_json:'text' }}">{{ s.text }}</span>{% else %}{{ site_config.about_text }}{% endif %}</p>
+        <div class="d-flex flex-wrap gap-3" data-aos="fade-up" data-aos-delay="300">
+          <a class="btn mdi-btn mdi-btn--red" href="{% url 'website:who_we_are' %}">{% trans "Get to Know Us" %}</a>
+          <a class="btn mdi-btn mdi-btn--ghost" href="{% url 'website:contact' %}">{% trans "Contact Us" %}</a>
+        </div>
+      </div>
+      <div class="col-lg-5 d-none d-lg-block">
+        <div class="mdi-hero__art" data-aos="fade" data-aos-duration="1400" data-aos-delay="150">{% include "website/v2/_sunburst.html" %}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mdi-ledger" data-aos="fade-up" data-aos-offset="0" data-aos-delay="400">
+    <div class="container">
+      <dl class="mdi-ledger__grid mb-0">
+        <div class="mdi-ledger__item">
+          <dd><span data-years-since="2005">20+</span></dd>
+          <dt>{% trans "Years of work" %}</dt>
+        </div>
+        {% for st in impact_stats|slice:":3" %}
+        <div class="mdi-ledger__item">
+          <dd><span data-count="{{ st.value }}">{{ st.value }}</span>{{ st.suffix }}</dd>
+          <dt{% if st.obj %} data-i18n-multi="{{ st.obj|i18n_json:'label' }}"{% endif %}>{% if st.key == "activities" %}{% trans "Activities" %}{% elif st.key == "municipalities" %}{% trans "Municipalities reached" %}{% elif st.key == "news" %}{% trans "News" %}{% elif st.key == "partners" %}{% trans "Partners" %}{% else %}{{ st.label }}{% endif %}</dt>
+        </div>
+        {% endfor %}
+      </dl>
+    </div>
+  </div>
+</section>
+{% endwith %}
+
+{# ============================ ITA SÉ ============================ #}
+<section id="ita-se" class="mdi-section">
+  <div class="container">
+    <header data-aos="fade-up" class="mdi-head">
+      <h2 class="mdi-head__title">{% trans "Who We Are" %}</h2>
+      <p class="mdi-head__lead" data-i18n-multi="{{ who_we_are|i18n_json_words:'who_we_are_text:28' }}">{{ who_we_are.who_we_are_text|truncatewords:28 }}</p>
+    </header>
+
+    <div class="row g-0 mdi-about">
+      <article class="col-md-4 mdi-about__col mdi-about__col--red" data-aos="fade-up">
+        <h3><i class="bi bi-eye" aria-hidden="true"></i> {% trans "Vision" %}</h3>
+        <p data-i18n-multi="{{ vision_mission|i18n_json_words:'vision_text:30' }}">{{ vision_mission.vision_text|truncatewords:30 }}</p>
+        <a class="mdi-link mt-3" href="{% url 'website:vision_mission' %}">{% trans "Read more" %} <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+      </article>
+      <article class="col-md-4 mdi-about__col mdi-about__col--dark" data-aos="fade-up" data-aos-delay="120">
+        <h3><i class="bi bi-compass" aria-hidden="true"></i> {% trans "Mission" %}</h3>
+        <p data-i18n-multi="{{ vision_mission|i18n_json_words:'mission_text:30' }}">{{ vision_mission.mission_text|truncatewords:30 }}</p>
+        <a class="mdi-link mt-3" href="{% url 'website:vision_mission' %}">{% trans "Read more" %} <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+      </article>
+      <article class="col-md-4 mdi-about__col mdi-about__col--silver" data-aos="fade-up" data-aos-delay="240">
+        <h3><i class="bi bi-building" aria-hidden="true"></i> {% trans "Profile" %}</h3>
+        <p data-i18n-multi="{{ who_we_are|i18n_json_words:'profile_text:30' }}">{{ who_we_are.profile_text|truncatewords:30 }}</p>
+        <a class="mdi-link mt-3" href="{% url 'website:who_we_are' %}">{% trans "Read more" %} <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+      </article>
+    </div>
+  </div>
+</section>
+
+{# ============================ PROGRAM ============================ #}
+{% if nav_programs %}
+<section id="programa" class="mdi-section mdi-section--tint">
+  <div class="container">
+    <header data-aos="fade-up" class="mdi-head">
+      <h2 class="mdi-head__title">{% trans "Program" %}</h2>
+    </header>
+    <div class="row gx-0 gx-lg-5 gy-4">
+      <div class="col-lg-4">
+        <div data-aos="fade" class="nav flex-lg-column nav-pills mdi-pills" id="pillTabs" role="tablist" aria-orientation="vertical">
+          {% for p in nav_programs %}
+          <button class="nav-link text-start{% if forloop.first %} active{% endif %}" id="pill-{{ forloop.counter }}-tab" data-bs-toggle="pill" data-bs-target="#pill-{{ forloop.counter }}" type="button" role="tab" aria-controls="pill-{{ forloop.counter }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">
+            <span class="mdi-pills__n">{% blocktrans with n=forloop.counter %}Pillar {{ n }}{% endblocktrans %}</span>
+            <span class="mdi-pills__t" data-i18n-multi="{{ p|i18n_json:'title' }}">{{ p.title }}</span>
+          </button>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div data-aos="fade" data-aos-delay="150" class="tab-content mdi-pillpane" id="pillTabContent">
+          {% for p in nav_programs %}
+          <div class="tab-pane fade{% if forloop.first %} show active{% endif %}" id="pill-{{ forloop.counter }}" role="tabpanel" aria-labelledby="pill-{{ forloop.counter }}-tab" tabindex="0">
+            <h3 data-i18n-multi="{{ p|i18n_json:'heading' }}">{{ p.heading }}</h3>
+            <p class="mdi-pillpane__lead" data-i18n-multi="{{ p|i18n_json_words:'description:45' }}">{{ p.description|truncatewords:45 }}</p>
+            {% if p.children.all %}
+            <ul class="mdi-topics">
+              {% for c in p.children.all %}<li><a href="{{ c.get_absolute_url }}"><span data-i18n-multi="{{ c|i18n_json:'title' }}">{{ c.title }}</span></a></li>{% endfor %}
+            </ul>
+            {% endif %}
+            <a class="mdi-link" href="{{ p.get_absolute_url }}">{% trans "Read more" %} <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{# ============================ ATIVIDADE ============================ #}
+<section id="atividade" class="mdi-section">
+  <div class="container">
+    <header data-aos="fade-up" class="mdi-head d-flex flex-wrap align-items-end justify-content-between gap-3">
+      <h2 class="mdi-head__title">{% trans "MDI's Core Activities" %}</h2>
+      <a class="mdi-link" href="{% url 'website:what_we_do' %}">{% trans "View All Activities" %} <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+    </header>
+    <div class="row g-4">
+      {% for a in activities|slice:":3" %}
+      <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{% widthratio forloop.counter0 1 120 %}">
+        <a class="mdi-tile" href="{{ a.get_absolute_url }}">
+          <span class="mdi-tile__media">
+            {% if a.image %}<img src="{{ a.image|thumb:640 }}" alt="" loading="lazy" decoding="async" width="640" height="400">
+            {% else %}<span class="mdi-tile__ph" aria-hidden="true"><i class="bi bi-sun"></i></span>{% endif %}
+          </span>
+          <span class="mdi-tile__body">
+            <span class="mdi-tag">{{ a.tag }}</span>
+            <span class="mdi-tile__title">{{ a.title }}</span>
+            {% if a.municipality %}<span class="mdi-muted"><i class="bi bi-geo-alt" aria-hidden="true"></i> {{ a.municipality.name }}</span>{% endif %}
+          </span>
+        </a>
+      </div>
+      {% empty %}
+      <div class="col-12"><p class="mdi-empty">{% trans "No activities published yet." %}</p></div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{# ============================ NOTÍSIA ============================ #}
+<section id="notisia" class="mdi-section mdi-section--tint">
+  <div class="container">
+    <header data-aos="fade-up" class="mdi-head d-flex flex-wrap align-items-end justify-content-between gap-3">
+      <h2 class="mdi-head__title">{% trans "Latest News" %}</h2>
+      <a class="mdi-link" href="{% url 'website:news_list' %}">{% trans "News" %} <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+    </header>
+    <div class="row g-4 g-lg-5">
+      {% for post in news_list|slice:":4" %}
+        {% if forloop.first %}
+        <div class="col-lg-7" data-aos="fade-up">
+          <article class="mdi-lead-story">
+            <a class="mdi-lead-story__media" href="{% url 'website:news_detail' post.slug %}" tabindex="-1" aria-hidden="true">
+              {% if post.image %}<img src="{{ post.image|thumb:900 }}" alt="" loading="lazy" decoding="async" width="900" height="560">
+              {% else %}<span class="mdi-tile__ph"><i class="bi bi-newspaper"></i></span>{% endif %}
+            </a>
+            <time class="mdi-muted" datetime="{{ post.published_date|date:'Y-m-d' }}">{{ post.published_date|date:"d F Y" }}</time>
+            <h3><a href="{% url 'website:news_detail' post.slug %}">{{ post.title }}</a></h3>
+            <p>{{ post.excerpt }}</p>
+          </article>
+        </div>
+        <div class="col-lg-5" data-aos="fade-up" data-aos-delay="150"><ul class="mdi-feed list-unstyled mb-0">
+        {% else %}
+          <li class="mdi-feed__item">
+            <time class="mdi-muted" datetime="{{ post.published_date|date:'Y-m-d' }}">{{ post.published_date|date:"d F Y" }}</time>
+            <h3><a href="{% url 'website:news_detail' post.slug %}">{{ post.title }}</a></h3>
+          </li>
+        {% endif %}
+        {% if forloop.last %}{% if forloop.first %}<ul class="mdi-feed list-unstyled mb-0"></ul>{% else %}</ul>{% endif %}</div>{% endif %}
+      {% empty %}
+      <div class="col-12"><p class="mdi-empty">{% trans "No news yet." %}</p></div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{# ============================ ARTIGU ============================ #}
+{% if articles %}
+<section id="artigu" class="mdi-section">
+  <div class="container">
+    <header data-aos="fade-up" class="mdi-head d-flex flex-wrap align-items-end justify-content-between gap-3">
+      <h2 class="mdi-head__title">{% trans "Articles from the MDI Team" %}</h2>
+      <a class="mdi-link" href="{% url 'website:article_list' %}">{% trans "Articles" %} <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+    </header>
+    <div class="row g-4">
+      {% for art in articles|slice:":4" %}
+      <div class="col-md-6" data-aos="fade-up" data-aos-delay="{% widthratio forloop.counter0 1 100 %}">
+        <article class="mdi-article">
+          <h3><a href="{% url 'website:article_detail' art.slug %}">{{ art.title }}</a></h3>
+          <p>{{ art.excerpt }}</p>
+          <footer class="mdi-byline">
+            {% if art.author.profile.photo %}<img class="mdi-avatar" src="{{ art.author.profile.photo|thumb:160 }}" alt="" loading="lazy" decoding="async" width="40" height="40">
+            {% else %}<span class="mdi-avatar" aria-hidden="true">{{ art.author.get_full_name|default:art.author.username|slice:":1" }}</span>{% endif %}
+            <span><strong>{{ art.author.get_full_name|default:art.author.username }}</strong>{% if art.author.profile.position %}<span class="mdi-muted">, {{ art.author.profile.position }}</span>{% endif %}<br><time class="mdi-muted" datetime="{{ art.published_date|date:'Y-m-d' }}">{{ art.published_date|date:"d F Y" }}</time></span>
+          </footer>
+        </article>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{# ============================ ORGANIGRAMA ============================ #}
+{% if org_top %}
+<section id="organigrama" class="mdi-section mdi-section--tint">
+  <div class="container">
+    <header data-aos="fade-up" class="mdi-head">
+      <h2 class="mdi-head__title">{% trans "Mata Dalan Institute (MDI) Organizational Chart" %}</h2>
+      <p class="mdi-head__lead">{% trans "MDI's internal management and coordination structure." %}</p>
+    </header>
+    {% for top in org_top %}
+    <div class="mdi-org">
+      <div class="mdi-org__top">
+        <div class="mdi-node mdi-node--top" data-aos="fade">
+          {% if top.photo %}<img src="{{ top.photo|thumb:300 }}" alt="" class="mdi-node__photo" loading="lazy" decoding="async" width="72" height="72">
+          {% else %}<span class="mdi-avatar mdi-avatar--lg" aria-hidden="true">{{ top.name|slice:":1" }}</span>{% endif %}
+          <strong>{{ top.name }}</strong>
+          <span>{{ top.position }}</span>
+        </div>
+      </div>
+      {% if top.children.all %}
+      <ul class="mdi-org__row" data-aos="fade-up" data-aos-delay="150">
+        {% for mid in top.children.all %}
+        <li><div class="mdi-node">
+          {% if mid.photo %}<img src="{{ mid.photo|thumb:300 }}" alt="" class="mdi-node__photo" loading="lazy" decoding="async" width="72" height="72">
+          {% else %}<span class="mdi-avatar" aria-hidden="true">{{ mid.name|slice:":1" }}</span>{% endif %}
+          <strong>{{ mid.name }}</strong>
+          <span>{{ mid.position }}</span>
+          {% if mid.children.all %}
+          <ul class="mdi-sub">
+            {% for leaf in mid.children.all %}<li><strong>{{ leaf.name }}</strong>{{ leaf.position }}</li>{% endfor %}
+          </ul>
+          {% endif %}
+        </div></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{# ============================ PETA AREA KERJA ============================ #}
+{% if impact_points %}
+<section class="mdi-section">
+  <div class="container">
+    <header data-aos="fade-up" class="mdi-head">
+      <h2 class="mdi-head__title">{% trans "Our Areas of Work" %}</h2>
+      <p class="mdi-head__lead">{% trans "Click a circle to see activities in that municipality." %}</p>
+    </header>
+    <div class="mdi-map--leaflet" data-aos="fade-up"><div id="mdiImpactMap" data-points-id="impactPoints" data-more="{% trans 'View activities' %}" data-unit="{% trans 'activities' %}" role="img" aria-label="{% trans 'Map of municipalities where MDI works' %}"></div></div>
+    {{ impact_points|json_script:"impactPoints" }}
+    <ul class="mdi-impact-links">
+      {% for p in impact_points %}<li><a class="mdi-tag" href="{% url 'website:what_we_do' %}?mun={{ p.name|urlencode }}">{{ p.name }} · {{ p.count }}</a></li>{% endfor %}
+    </ul>
+  </div>
+</section>
+{% endif %}
+
+{# ============================ PARSEIRU ============================ #}
+{% if partners %}
+<section id="parseiru" class="mdi-section mdi-section--tint">
+  <div class="container">
+    <header data-aos="fade-up" class="mdi-head">
+      <h2 class="mdi-head__title">{% trans "Partners and Donors" %}</h2>
+      <p class="mdi-head__lead">{% trans "Thanks to our partners." %}</p>
+    </header>
+    <ul class="mdi-partners list-unstyled" data-aos="fade">
+      {% for p in partners %}
+      <li>{% if p.logo %}<img src="{{ p.logo|thumb:320 }}" alt="{{ p.name }}" loading="lazy" decoding="async" height="44">{% else %}<span class="mdi-partners__name">{{ p.name }}</span>{% endif %}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endif %}
+
+{# ============================ KONTAKTU + PETA ============================ #}
+<section id="kontaktu" class="mdi-section mdi-section--flush">
+  <div class="container">
+    <div class="row g-0 mdi-contact" data-aos="fade-up">
+      <div class="col-lg-5 mdi-contact__info">
+        <h2 class="mdi-head__title">{% trans "Our Location" %}</h2>
+        <address>
+          <strong>{{ site_config.site_name }}</strong><br>
+          {{ site_config.activity_location_name }}
+        </address>
+        <ul class="list-unstyled mdi-contact__list">
+          <li><i class="bi bi-envelope" aria-hidden="true"></i> <a href="mailto:{{ site_config.email }}">{{ site_config.email }}</a></li>
+          <li><i class="bi bi-telephone" aria-hidden="true"></i> <a href="tel:{{ site_config.phone }}">{{ site_config.phone }}</a></li>
+        </ul>
+        <div class="d-flex flex-wrap gap-3">
+          <button type="button" id="mdiRouteBtn" class="btn mdi-btn mdi-btn--red"><i class="bi bi-signpost-2" aria-hidden="true"></i><span>{% trans "Get Route From My Location" %}</span></button>
+          <a class="btn mdi-btn mdi-btn--outline" href="https://www.google.com/maps/dir/?api=1&destination={{ site_config.latitude }},{{ site_config.longitude }}" target="_blank" rel="noopener">{% trans "Open in Google Maps" %}</a>
+        </div>
+        <p id="mdiRouteStatus" class="small mt-3 mb-0" style="display:none;"></p>
+      </div>
+      <div class="col-lg-7">
+        <div class="mdi-map">
+          <div id="mdiLeafletMap" style="height:100%;min-height:22rem"
+               data-lat="{{ site_config.latitude }}" data-lng="{{ site_config.longitude }}"
+               data-name="{{ site_config.site_name }}" data-address="{{ site_config.activity_location_name }}"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block script_extra %}
+<script src="{% static 'website/js/impact.js' %}?v={{ ASSET_V }}" defer></script>
+<script src="{% static 'website/js/maps-loader.js' %}?v={{ ASSET_V }}" defer
+        data-leaflet="{% static 'website/vendor/leaflet/js/leaflet.js' %}"
+        data-routing="{% static 'website/vendor/leaflet-routing/js/leaflet-routing-machine.js' %}"
+        data-home-map="{% static 'website/js/home-map.js' %}?v={{ ASSET_V }}"></script>
+{% endblock %}

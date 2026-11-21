@@ -12,6 +12,11 @@ LOCALE_DIR = BASE_DIR / "locale"
 
 # msgid (English, as written in templates) -> {"tet": .., "id": .., "pt": .., "en": ..}
 STRINGS = {
+    "Years of work": {"tet": "Tinan servisu", "id": "Tahun berkarya", "pt": "Anos de trabalho", "en": "Years of work"},
+    "Pillar %(n)s": {"tet": "Pilar %(n)s", "id": "Pilar %(n)s", "pt": "Pilar %(n)s", "en": "Pillar %(n)s"},
+    "Main menu": {"tet": "Menu prinsipál", "id": "Menu utama", "pt": "Menu principal", "en": "Main menu"},
+    "No activities published yet.": {"tet": "Seidauk iha atividade ne'ebé publika.", "id": "Belum ada kegiatan yang dipublikasikan.", "pt": "Ainda não há atividades publicadas.", "en": "No activities published yet."},
+    "MDI symbol: an eye with eight sun rays": {"tet": "Símbolu MDI: matan ho sinar sol walu", "id": "Simbol MDI: mata dengan delapan sinar matahari", "pt": "Símbolo do MDI: um olho com oito raios de sol", "en": "MDI symbol: an eye with eight sun rays"},
     "Skip to content": {"tet": "Salta ba konteúdu", "id": "Lewati ke konten", "pt": "Saltar para o conteúdo", "en": "Skip to content"},
     "Page not found": {"tet": "Pájina la hetan", "id": "Halaman tidak ditemukan", "pt": "Página não encontrada", "en": "Page not found"},
     "The page you are looking for does not exist or has been moved.": {"tet": "Pájina ne'ebé ita buka la existe ka muda ona.", "id": "Halaman yang Anda cari tidak ada atau telah dipindahkan.", "pt": "A página que procura não existe ou foi movida.", "en": "The page you are looking for does not exist or has been moved."},

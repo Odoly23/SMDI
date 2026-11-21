@@ -1,0 +1,62 @@
+{% load static i18n i18n_extras %}{% get_current_language as LANGUAGE_CODE %}<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{% trans "Home" %}{% endblock %} | {{ site_config.site_name }}</title>
+<meta name="description" content="{% block description %}{{ site_config.about_text }}{% endblock %}">
+<meta name="author" content="{{ site_config.site_name }}">
+<meta name="theme-color" content="#E10000">
+<link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{{ site_config.site_name }}">
+<meta property="og:title" content="{% block og_title %}{{ site_config.site_name }}{% endblock %}">
+<meta property="og:description" content="{{ site_config.about_text|truncatechars:200 }}">
+<meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'website/img/logo-mdi.png' %}">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="{% static 'website/img/logo-mdi.png' %}">
+<link rel="apple-touch-icon" href="{% static 'website/img/logo-mdi.png' %}">
+
+<link rel="preload" href="{% static 'website/vendor/fonts/mdi/plus-jakarta-sans-latin-800-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{% static 'website/vendor/fonts/mdi/inter-latin-400-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
+{# Semua aset memakai salinan lokal (vendor/) supaya lolos CSP dan tidak bergantung CDN #}
+<link rel="stylesheet" href="{% static 'website/vendor/bootstrap/css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'website/vendor/bootstrap-icons/bootstrap-icons.min.css' %}">
+<link rel="stylesheet" href="{% static 'website/vendor/aos/aos.css' %}">
+<noscript><style>[data-aos]{opacity:1!important;transform:none!important;pointer-events:auto!important}</style></noscript>
+<link rel="stylesheet" href="{% static 'website/css/mdi-v2.css' %}?v={{ ASSET_V }}">
+{% if GA_MEASUREMENT_ID %}
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ GA_MEASUREMENT_ID }}"></script>
+<script nonce="{{ csp_nonce }}">window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','{{ GA_MEASUREMENT_ID }}');</script>
+{% endif %}
+{% block head_extra %}{% endblock %}
+</head>
+<body class="mdi-body">
+<a class="mdi-skip" href="#main">{% trans "Skip to content" %}</a>
+
+{% include "website/v2/_navbar.html" %}
+
+{% if messages %}
+<div class="container mt-3">
+  {% for message in messages %}
+  <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">{{ message }}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<main id="main" tabindex="-1">
+{% block content %}{% endblock %}
+</main>
+
+{% include "website/v2/_footer.html" %}
+
+<button class="back-to-top" type="button" aria-label="Back to top"><i class="bi bi-arrow-up" aria-hidden="true"></i></button>
+
+<script src="{% static 'website/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'website/vendor/aos/aos.js' %}"></script>
+<script src="{% static 'website/js/main.js' %}?v={{ ASSET_V }}" defer></script>
+<script src="{% static 'website/js/mdi-v2.js' %}?v={{ ASSET_V }}" defer></script>
+{% block script_extra %}{% endblock %}
+</body>
+</html>

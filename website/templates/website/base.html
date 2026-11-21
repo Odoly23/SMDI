@@ -141,19 +141,6 @@
           </ul>
         </li>
 
-        {% if PUBLIC_DOCUMENTS %}
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{% trans "Documents" %}</a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{% url 'website:documents_by_category' 'doc-pnds' %}">{% trans "Doc PNDS" %}</a></li>
-            <li><a class="dropdown-item" href="{% url 'website:documents_by_category' 'doc-oge' %}">{% trans "Doc OGE" %}</a></li>
-            <li><a class="dropdown-item" href="{% url 'website:documents_by_category' 'doc-petroleum' %}">{% trans "Petroleum Fund Doc" %}</a></li>
-            <li><a class="dropdown-item" href="{% url 'website:documents_by_category' 'doc-statistika' %}">{% trans "Statistics" %}</a></li>
-            <li><a class="dropdown-item" href="{% url 'website:documents_by_category' 'doc-outros' %}">{% trans "Other Documents" %}</a></li>
-          </ul>
-        </li>
-        {% endif %}
-
         <li class="nav-item"><a class="nav-link" href="{% url 'website:what_we_do' %}">{% trans "What We Do" %}</a></li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{% trans "Partnership" %}</a>

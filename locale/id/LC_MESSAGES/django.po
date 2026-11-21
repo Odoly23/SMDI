@@ -7,6 +7,21 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+msgid "Years of work"
+msgstr "Tahun berkarya"
+
+msgid "Pillar %(n)s"
+msgstr "Pilar %(n)s"
+
+msgid "Main menu"
+msgstr "Menu utama"
+
+msgid "No activities published yet."
+msgstr "Belum ada kegiatan yang dipublikasikan."
+
+msgid "MDI symbol: an eye with eight sun rays"
+msgstr "Simbol MDI: mata dengan delapan sinar matahari"
+
 msgid "Skip to content"
 msgstr "Lewati ke konten"
 

@@ -38,8 +38,8 @@ def impact_context():
     return {"impact_stats": stats, "impact_points": points}
 
 
-def home(request):
-    context = {
+def _home_context():
+    return {
         **impact_context(),
         "slides": Slide.objects.filter(is_active=True),
         "vision_mission": VisionMission.load(),
@@ -51,7 +51,16 @@ def home(request):
         "org_top": OrgMember.objects.filter(level=0).prefetch_related("children__children"),
         "partners": Partner.objects.all(),
     }
-    return render(request, "website/index.html", context)
+
+
+def home(request):
+    """Beranda. Desain baru (v2) aktif bila HOME_V2=1 di .env; /baru/ selalu menampilkan pratinjau v2."""
+    template = "website/v2/home.html" if getattr(settings, "HOME_V2", False) else "website/index.html"
+    return render(request, template, _home_context())
+
+
+def home_v2(request):
+    return render(request, "website/v2/home.html", _home_context())
 
 
 def who_we_are(request):

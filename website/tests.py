@@ -35,6 +35,7 @@ class PublicPagesTests(TestCase):
         self.assertIn("navbar-expand-xl", html)
         self.assertNotIn("navbar-expand-lg", html)
 
+    @override_settings(HOME_V2=False)
     def test_hero_carousel_has_accessible_controls(self):
         html = self.client.get(reverse("website:home")).content.decode()
         self.assertIn("carousel-control-prev", html)
@@ -204,7 +205,8 @@ class HiddenDocumentsTests(TestCase):
     @override_settings(PUBLIC_DOCUMENTS=True)
     def test_can_be_turned_on_again(self):
         self.assertEqual(self.client.get("/documents/doc-pnds/").status_code, 200)
-        self.assertIn("/documents/doc-pnds/", self.client.get("/").content.decode())
+        # menu Dokumen sudah dihapus dari navigasi; URL tetap bisa dibuka bila diaktifkan
+        self.assertNotIn("/documents/doc-pnds/", self.client.get("/").content.decode())
 
 
 class SharingAndSeoTests(TestCase):
@@ -233,6 +235,7 @@ class SharingAndSeoTests(TestCase):
 
 
 class ImpactTests(TestCase):
+    @override_settings(HOME_V2=False)
     def test_auto_stats_from_database_when_no_manual_entries(self):
         from custom.models import Municipality
         dili = Municipality.objects.create(name="Dili")
@@ -382,6 +385,7 @@ class PerformanceTests(TestCase):
         self.assertIn("maps-loader.js", html)
         self.assertIn("data-routing=", html)
 
+    @override_settings(HOME_V2=False)
     def test_assets_are_versioned_and_deferred(self):
         html = self.client.get("/").content.decode()
         self.assertRegex(html, r'theme\.css\?v=\w+')
@@ -413,3 +417,29 @@ class SecurityScanFixesTests(TestCase):
 
     def test_corp_header_present(self):
         self.assertEqual(self.client.get("/")["Cross-Origin-Resource-Policy"], "same-origin")
+
+
+class HomeV2Tests(TestCase):
+    """Beranda desain baru (warna logo, AOS) memakai data asli dan tanpa menu Dokumen."""
+
+    def test_v2_preview_renders_without_documents_menu(self):
+        Program.objects.create(title="Pilar 1", slug="p1", heading="Pilar 1", description="x " * 20)
+        r = self.client.get(reverse("website:home_v2"))
+        self.assertEqual(r.status_code, 200)
+        html = r.content.decode()
+        self.assertIn("mdi-v2.css", html)
+        self.assertIn("aos.js", html)
+        self.assertIn("data-aos", html)
+        self.assertNotIn("documents_by_category", html)
+        self.assertNotIn("/documents/", html)
+        self.assertIn("Pilar 1", html)
+
+    def test_home_uses_v2_by_default_and_can_roll_back(self):
+        self.assertIn("mdi-v2.css", self.client.get("/").content.decode())
+        with override_settings(HOME_V2=False):
+            self.assertNotIn("mdi-v2.css", self.client.get("/").content.decode())
+
+    def test_old_base_menu_has_no_documents(self):
+        with override_settings(PUBLIC_DOCUMENTS=True):
+            html = self.client.get(reverse("website:who_we_are")).content.decode()
+        self.assertNotIn("/documents/doc-pnds/", html)

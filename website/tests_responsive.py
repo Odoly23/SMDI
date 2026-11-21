@@ -1,3 +1,4 @@
+from django.test import override_settings
 """Tes responsif di browser nyata (Playwright/Chromium): HP, tablet, laptop, komputer.
 
 Verifika: la iha scroll horizontal, menu navbar la tabrakan ho logo, hamburger
@@ -134,6 +135,7 @@ class ResponsiveTests(StaticLiveServerTestCase):
         self.assertLessEqual(dd["x"] + dd["width"], w)
 
     # -- 3. slider next/prev ------------------------------------------------
+    @override_settings(HOME_V2=False)
     def test_carousel_controls_tidy(self):
         for key in VIEWPORTS:
             with self.subTest(viewport=key):
@@ -154,6 +156,7 @@ class ResponsiveTests(StaticLiveServerTestCase):
                         self.assertFalse(overlap(prev, tb), f"prev menutupi {sel}")
                         self.assertFalse(overlap(nxt, tb), f"next menutupi {sel}")
 
+    @override_settings(HOME_V2=False)
     def test_carousel_indicators_not_hidden_by_cards(self):
         for key in ("hp-360", "tablet-768", "laptop-1366"):
             with self.subTest(viewport=key):
@@ -163,6 +166,7 @@ class ResponsiveTests(StaticLiveServerTestCase):
                 self.assertLessEqual(ind["y"] + ind["height"], cards["y"] + 1,
                                      "indikator tertutup kartu")
 
+    @override_settings(HOME_V2=False)
     def test_carousel_next_button_changes_slide(self):
         pg, _ = self.page("hp-360", "/")
         # halaman tes tanpa slide: hanya pastikan klik tidak error & kontrol bisa diklik
@@ -276,6 +280,7 @@ class ResponsiveTests(StaticLiveServerTestCase):
                 events = pg.evaluate("window.__csp")
                 self.assertEqual(msgs + events, [], f"CSP violation on {path}")
 
+    @override_settings(HOME_V2=False)
     def test_homepage_impact_map_renders_circles_lazily(self):
         from custom.models import Municipality
         Activity.objects.filter(pk=self.activity.pk).update(municipality=Municipality.objects.create(name="Dili"))
@@ -303,3 +308,31 @@ class ResponsiveTests(StaticLiveServerTestCase):
         pg.wait_for_timeout(300)
         self.assertTrue(pg.locator(".share-status").inner_text().strip())
         self.assertIn(f"/what-we-do/activity/{self.activity.pk}/", pg.evaluate("navigator.clipboard.readText()"))
+
+    # -- 9. beranda desain baru (warna logo + AOS) ---------------------------
+    def test_home_v2_aos_reveals_and_no_overflow(self):
+        for key in ("hp-360", "tablet-768", "laptop-1366"):
+            with self.subTest(viewport=key):
+                pg, _ = self.page(key, "/")
+                errors = []
+                pg.on("pageerror", lambda e: errors.append(str(e)))
+                height = pg.evaluate("document.documentElement.scrollHeight")
+                for y in range(0, height, 500):
+                    pg.evaluate(f"window.scrollTo(0,{y})")
+                    pg.wait_for_timeout(60)
+                pg.wait_for_timeout(1200)
+                self.assertGreater(pg.locator("[data-aos]").count(), 5)
+                self.assertEqual(pg.locator("[data-aos]:not(.aos-animate)").count(), 0)
+                extra = pg.evaluate("document.documentElement.scrollWidth - document.documentElement.clientWidth")
+                self.assertLessEqual(extra, 0)
+                self.assertEqual(errors, [])
+                self.assertEqual(pg.locator("nav >> text=/Dokument|Document/").count(), 0)
+
+    def test_home_v2_respects_reduced_motion(self):
+        ctx = self.browser.new_context(viewport={"width": 1366, "height": 768}, reduced_motion="reduce")
+        self.addCleanup(ctx.close)
+        pg = ctx.new_page()
+        pg.goto(self.live_server_url + "/", wait_until="domcontentloaded")
+        pg.wait_for_timeout(600)
+        self.assertEqual(pg.locator("[data-aos]").count(), 0)  # AOS dimatikan, konten langsung tampil
+        self.assertTrue(pg.locator("h1").is_visible())

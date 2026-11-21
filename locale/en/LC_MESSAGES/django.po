@@ -7,6 +7,21 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+msgid "Years of work"
+msgstr "Years of work"
+
+msgid "Pillar %(n)s"
+msgstr "Pillar %(n)s"
+
+msgid "Main menu"
+msgstr "Main menu"
+
+msgid "No activities published yet."
+msgstr "No activities published yet."
+
+msgid "MDI symbol: an eye with eight sun rays"
+msgstr "MDI symbol: an eye with eight sun rays"
+
 msgid "Skip to content"
 msgstr "Skip to content"
 

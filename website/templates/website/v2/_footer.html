@@ -1,0 +1,47 @@
+{% load static i18n i18n_extras %}
+<footer class="mdi-footer">
+  <div class="container">
+    <div class="row gx-0 gx-lg-5 gy-5">
+      <div class="col-lg-4">
+        <a class="mdi-brand mdi-brand--light" href="{% url 'website:home' %}">
+          <img src="{% static 'website/img/logo-mdi.png' %}" alt="Logo {{ site_config.site_name }}" width="46" height="46" loading="lazy">
+          <span class="mdi-brand__text"><strong>{{ site_config.site_name }}</strong></span>
+        </a>
+        <p class="mdi-footer__about">{{ site_config.about_text }}</p>
+        <ul class="mdi-footer__social list-unstyled d-flex gap-2 mb-0">
+          {% if site_config.facebook_url %}<li><a href="{{ site_config.facebook_url }}" target="_blank" rel="noopener" aria-label="Facebook"><i class="bi bi-facebook" aria-hidden="true"></i></a></li>{% endif %}
+          {% if site_config.blog_url %}<li><a href="{{ site_config.blog_url }}" target="_blank" rel="noopener" aria-label="Blog"><i class="bi bi-globe" aria-hidden="true"></i></a></li>{% endif %}
+          <li><a href="mailto:{{ site_config.email }}" aria-label="Email"><i class="bi bi-envelope" aria-hidden="true"></i></a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h2 class="mdi-footer__title">{% trans "Quick Links" %}</h2>
+        <ul class="mdi-footer__list list-unstyled">
+          <li><a href="{% url 'website:who_we_are' %}">{% trans "Who We Are" %}</a></li>
+          <li><a href="{% url 'website:vision_mission' %}">{% trans "Vision and Mission" %}</a></li>
+          <li><a href="{% url 'website:what_we_do' %}">{% trans "What We Do" %}</a></li>
+          <li><a href="{% url 'website:partners_networks' %}">{% trans "Partners and Networks" %}</a></li>
+          <li><a href="{% url 'website:current_donors' %}">{% trans "Current Donors" %}</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-lg-3">
+        <h2 class="mdi-footer__title">{% trans "Program" %}</h2>
+        <ul class="mdi-footer__list list-unstyled">
+          {% for pillar in nav_programs %}<li><a href="{{ pillar.get_absolute_url }}"><span data-i18n-multi="{{ pillar|i18n_json:'title' }}">{{ pillar.title }}</span></a></li>{% endfor %}
+        </ul>
+      </div>
+      <div class="col-lg-3">
+        <h2 class="mdi-footer__title">{% trans "Contact" %}</h2>
+        <address class="mdi-footer__address">{{ site_config.address }}</address>
+        <ul class="mdi-footer__list list-unstyled">
+          <li><i class="bi bi-envelope" aria-hidden="true"></i><a href="mailto:{{ site_config.email }}">{{ site_config.email }}</a></li>
+          <li><i class="bi bi-telephone" aria-hidden="true"></i><a href="tel:{{ site_config.phone }}">{{ site_config.phone }}</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="mdi-footer__bottom">
+      <span>&copy; <span data-year></span> {{ site_config.site_name }}. {% trans "All rights reserved." %}</span>
+      <span>{{ site_config.footer_credit }}</span>
+    </div>
+  </div>
+</footer>

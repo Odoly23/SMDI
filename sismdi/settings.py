@@ -281,5 +281,6 @@ def _asset_version():
 ASSET_VERSION = _asset_version()
 SECURITY_CONTACT = os.environ.get("SECURITY_CONTACT", "mailto:info@mdi.tl")  # kontak untuk /.well-known/security.txt
 CSP_REPORT_ONLY = env_bool("DJANGO_CSP_REPORT_ONLY", False)  # True = CSP cuma relata, la bloke
+HOME_V2 = env_bool("DJANGO_HOME_V2", True)  # beranda desain baru (warna logo); isi 0 di .env untuk kembali ke desain lama
 PUBLIC_DOCUMENTS = env_bool("DJANGO_PUBLIC_DOCUMENTS", False)  # halaman Dokumen publik: mati secara default
 GA_MEASUREMENT_ID = os.environ.get("GA_MEASUREMENT_ID", "").strip()
